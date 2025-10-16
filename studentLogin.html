@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>School Login Site
+    </title>
+          <meta charset="UTF-8">
+  </head>
+  <style>
+    body{
+      background-color: rgb(0, 140, 255);
+    }
+    h1{
+      color: white;
+      font-size: xx-large;
+      text-align: center;
+    }
+    img{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    label{
+      color: white;
+      display: block;
+      text-align: center;
+    }
+
+    button{
+       margin: 0 auto;
+    }
+  </style>
+  <body>
+    <h1>
+      Student User
+    </h1>
+    <img src="concordiaEmblem.png" alt="Concordia's Logo">
+    <br/>
+    <form id="adminLoginIdentification">
+    <label>
+      Username:
+      <input type="text"  name="name" placeholder="Enter Username" required/>
+    </label>
+    <label>
+      Password:
+      <input type="password"  name="name" placeholder="Enter password" required/>
+            <button type="button" button onclick="redirectToAdminPage()" style="display: block;">Login</button>
+    </label>
+    </form>
+    <br/>
+    <label>
+      Which one applies to you?
+      <button type="button" button onclick="redirectToStudentLogin()">Student</button>
+      <button type="button" button onclick="redirectToAdminLogin()">Admin</button>
+    </label>
+    <script>
+      function redirectToAdminPage(){
+        location.href='studentPage.html';
+      }
+      function redirectToStudentLogin(){
+        location.href = 'studentLogin.html';
+      }
+      function redirectToAdminLogin(){
+        location.href = 'index.html';
+      }
+    </script>
+  </body>
+</html>

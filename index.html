@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>School Login Site
+    </title>
+          <meta charset="UTF-8">
+  </head>
+  <style>
+    body{
+      background-color: maroon;
+    }
+    h1{
+      color: white;
+      font-size: xx-large;
+      text-align: center;
+    }
+    img{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    label{
+      color: white;
+      display: block;
+      text-align: center;
+    }
+
+    button{
+       margin: 0 auto;
+    }
+  </style>
+  <body>
+    <h1>
+      Admin User
+    </h1>
+    <img src="concordiaEmblem.png" alt="Concordia's Logo">
+    <br/>
+    <label>
+      Username:
+      <input id="username" type="text"  name="name" placeholder="Enter Username" />
+    </label>
+    <label>
+      Password:
+      <input  id="password"  type="password"  name="name" placeholder="Enter password" />
+      <button  id="adminLoginBtn" type="button" style="display: block;">Login</button>
+    </label>
+    <br/>
+    <label>
+      Which one applies to you?
+      <button type="button" button onclick="redirectToStudentLogin()">Student</button>
+      <button type="button" button onclick="redirectToAdminLogin()">Admin</button>
+    </label>
+    <script>
+      document.getElementById("adminLoginBtn").addEventListener("click", function() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      if(username.trim()===""&&password.trim()===""){
+        alert("You must put a username and password");
+      }
+      else if(username.trim()===""){
+        alert("You must put a username");
+      }
+      else if(password.trim()===""){
+        alert("You must put a password");
+      }
+      else{
+
+      const users = [];
+      //create a for loop to see if the user exists, and if they do see if the password matches
+      users.push({
+        username: username,
+        password: password
+      })
+      localStorage.setItem("username", username);
+      location.href = 'adminPage.html';
+      }});
+      function redirectToStudentLogin(){
+        location.href = 'studentLogin.html';
+      }
+      function redirectToAdminLogin(){
+        location.href = 'index.html';
+      }
+    </script>
+  </body>
+</html>
