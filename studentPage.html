@@ -1,19 +1,54 @@
+<!DOCTYPE html>
 <html>
-   <head>
+  <head>
     <meta charset="UTF-8">
-    <title>Welcome Page</title>
+    <title>Student Home Page</title>
   </head>
   <body>
     <h1>Welcome, <span id="displayName"></span>!</h1>
 
-    <script>
-      // Get username saved earlier (e.g., from signup or login)
-      const username = localStorage.getItem("username");
+    <h2>Available Rooms </h2>
 
-      // Wait until the page fully loads, then display it
-      document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("displayName").textContent = username || "Student";
-      });
+    <ul>
+      <li>
+        <strong>Study Room A</strong>
+        <ul>
+          <li>2:00 PM-3:00 Pm <button onclick="book('Study Room A', '2:00 PM')">Book</button></li>
+          <li>3:00 PM-4:00PM <button onclick="book('Study Room A', '3:00 PM')">Book</button></li>
+          <li>5:00 PM-6:00PM <button onclick="book('Study Room A', '3:00 PM')">Book</button></li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Computer Lab B</strong>
+        <ul>
+          <li>1:00-3:30 PM PM <button onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
+          <li>4:00-6:30 PM PM <button onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
+          <li>6:30-8:00 PM <button onclick="book('Computer Lab B', '5:00 PM')">Book</button></li>
+
+        </ul>
+      </li>
+
+      <li>
+        <strong>Study Room B</strong>
+        <ul>
+          <li>12:00 PM-1:00 PM <button onclick="book('Study Room B', '1:00 PM')">Book</button></li>
+          <li>1:00 PM -2:00 PM<button onclick="book('Study Room B', '1:00 PM')">Book</button></li>
+          <li>2:00 PM - 3:00 PM<button onclick="book('Study Room B', '2:00 PM')">Book</button></li>
+        </ul>
+      </li>
+    </ul>
+
+    <script>
+      // Get saved username or use "Student"
+      const username = localStorage.getItem("username") || "Student";
+      document.getElementById("displayName").textContent = username;
+
+      // Simple booking message
+      function book(resource, time) {
+        alert("You booked " + resource + " at " + time + "!");
+        // Later we can link this to the manage bookings page
+      }
     </script>
   </body>
 </html>
