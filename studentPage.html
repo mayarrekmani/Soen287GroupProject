@@ -1,10 +1,19 @@
 <html>
+   <head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+  </head>
   <body>
     <h1>Welcome, <span id="displayName"></span>!</h1>
+
     <script>
-      //still have to fix this it isnt working
+      // Get username saved earlier (e.g., from signup or login)
       const username = localStorage.getItem("username");
-      document.getElementById("displayName").textContent = username;
+
+      // Wait until the page fully loads, then display it
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("displayName").textContent = username || "Student";
+      });
     </script>
   </body>
 </html>
