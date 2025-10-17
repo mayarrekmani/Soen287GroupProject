@@ -2,7 +2,7 @@
   <head>
     <title>School Login Site</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="projectStyle.css">
+    <link rel="stylesheet" href="projectStyle.css" />
   </head>
   <style>
     body {
@@ -49,17 +49,32 @@
         name="name"
         placeholder="Enter password"
       />
-      <button class = "primaryButton" type="button" style="display: block">
+      <button
+        id="studentLoginBtn"
+        class="primaryButton"
+        type="button"
+        style="display: block"
+      >
         Login
       </button>
     </label>
     <br />
     <label>
       Which one applies to you?
-      <button class = "primaryButton" type="button" button onclick="redirectToStudentLogin()">
+      <button
+        class="primaryButton"
+        type="button"
+        button
+        onclick="redirectToStudentLogin()"
+      >
         Student
       </button>
-      <button class = "primaryButton" type="button" button onclick="redirectToAdminLogin()">
+      <button
+        class="primaryButton"
+        type="button"
+        button
+        onclick="redirectToAdminLogin()"
+      >
         Admin
       </button>
     </label>
@@ -83,7 +98,7 @@
               password: password,
             });
             localStorage.setItem("username", username);
-            location.href = "adminPage.html";
+            location.href = "studentPage.html";
           }
         });
       function redirectToStudentLogin() {
