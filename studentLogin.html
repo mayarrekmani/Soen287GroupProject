@@ -2,6 +2,7 @@
   <head>
     <title>School Login Site</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="projectStyle.css">
   </head>
   <style>
     body {
@@ -48,17 +49,17 @@
         name="name"
         placeholder="Enter password"
       />
-      <button id="studentLoginBtn" type="button" style="display: block">
+      <button class = "primaryButton" type="button" style="display: block">
         Login
       </button>
     </label>
     <br />
     <label>
       Which one applies to you?
-      <button type="button" button onclick="redirectToStudentLogin()">
+      <button class = "primaryButton" type="button" button onclick="redirectToStudentLogin()">
         Student
       </button>
-      <button type="button" button onclick="redirectToAdminLogin()">
+      <button class = "primaryButton" type="button" button onclick="redirectToAdminLogin()">
         Admin
       </button>
     </label>

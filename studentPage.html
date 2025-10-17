@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Student Home Page</title>
+    <link rel="stylesheet" href="projectStyle.css">
   </head>
   <body>
     <h1>Welcome, <span id="displayName"></span>!</h1>
@@ -13,18 +14,18 @@
       <li>
         <strong>Study Room A</strong>
         <ul>
-          <li>2:00 PM-3:00 Pm <button onclick="book('Study Room A', '2:00 PM')">Book</button></li>
-          <li>3:00 PM-4:00PM <button onclick="book('Study Room A', '3:00 PM')">Book</button></li>
-          <li>5:00 PM-6:00PM <button onclick="book('Study Room A', '3:00 PM')">Book</button></li>
+          <li>2:00 PM-3:00 Pm <button class = "primaryButton" onclick="book('Study Room A', '2:00 PM')">Book</button></li>
+          <li>3:00 PM-4:00PM <button class = "primaryButton" onclick="book('Study Room A', '3:00 PM')">Book</button></li>
+          <li>5:00 PM-6:00PM <button class = "primaryButton" onclick="book('Study Room A', '3:00 PM')">Book</button></li>
         </ul>
       </li>
 
       <li>
         <strong>Computer Lab B</strong>
         <ul>
-          <li>1:00-3:30 PM PM <button onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
-          <li>4:00-6:30 PM PM <button onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
-          <li>6:30-8:00 PM <button onclick="book('Computer Lab B', '5:00 PM')">Book</button></li>
+          <li>1:00-3:30 PM PM <button class = "primaryButton" onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
+          <li>4:00-6:30 PM PM <button class = "primaryButton" onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
+          <li>6:30-8:00 PM <button class = "primaryButton" onclick="book('Computer Lab B', '5:00 PM')">Book</button></li>
 
         </ul>
       </li>
@@ -32,9 +33,9 @@
       <li>
         <strong>Study Room B</strong>
         <ul>
-          <li>12:00 PM-1:00 PM <button onclick="book('Study Room B', '1:00 PM')">Book</button></li>
-          <li>1:00 PM -2:00 PM<button onclick="book('Study Room B', '1:00 PM')">Book</button></li>
-          <li>2:00 PM - 3:00 PM<button onclick="book('Study Room B', '2:00 PM')">Book</button></li>
+          <li>12:00 PM-1:00 PM <button class = "primaryButton" onclick="book('Study Room B', '1:00 PM')">Book</button></li>
+          <li>1:00 PM -2:00 PM<button class = "primaryButton" onclick="book('Study Room B', '1:00 PM')">Book</button></li>
+          <li>2:00 PM - 3:00 PM<button class ="primaryButton" click="book('Study Room B', '2:00 PM')">Book</button></li>
         </ul>
       </li>
     </ul>
