@@ -9,6 +9,73 @@
             document.getElementById("displayName").textContent = username;
         </script>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    h1 { margin-bottom: 8px; }
+    p { color: #555; }
+    ul { list-style: none; padding: 0; display: grid; gap: 10px; max-width: 520px; }
+    a {
+      display: block; padding: 12px 14px; border: 1px solid #ddd; border-radius: 10px;
+      text-decoration: none; color: #111; background:#fafafa;
+    }
+    a:hover { background:#f0f0f0; }
+    small { color:#666; display:block; margin-top:4px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <p>Choose what you want to manage:</p>
+
+  <ul>
+    <li>
+      <a href="resources.html">
+        Create / Edit / Remove Resources
+        <small>Names, descriptions, locations, capacities, images</small>
+      </a>
+    </li>
+    <li>
+      <a href="schedules.html">
+        Set Availability Schedules
+        <small>Working hours, exceptions, blackout dates</small>
+      </a>
+    </li>
+    <li>
+      <a href="approvals.html">
+        Approve / Reject Booking Requests
+        <small>Review pending requests</small>
+      </a>
+    </li>
+    <li>
+      <a href="blocks.html">
+        Block / Unblock Resources
+        <small>Maintenance or temporary holds</small>
+      </a>
+    </li>
+    <li>
+      <a href="reports.html">
+        Statistics & Reports
+        <small>Popular resources, peak times</small>
+      </a>
+    </li>
+  </ul>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
 
     </body>
 </html>

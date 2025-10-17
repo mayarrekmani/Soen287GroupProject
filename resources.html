@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Resources</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    .back { margin-bottom: 16px; display:inline-block; }
+    form, .list { border:1px solid #ddd; padding:14px; border-radius:10px; max-width:640px; }
+    .row { display:grid; grid-template-columns: 140px 1fr; gap:10px; margin-bottom:10px; }
+    input, textarea { width:100%; padding:8px; }
+    .actions { display:flex; gap:8px; }
+    .card { border:1px solid #eee; padding:10px; border-radius:8px; margin:8px 0; }
+  </style>
+</head>
+<body>
+  <a class="back" href="adminPage.html">← Back to Dashboard</a>
+  <h1>Resources</h1>
+
+  <!-- Add / Edit Resource -->
+  <h2>Add / Edit Resource</h2>
+  <form>
+    <div class="row"><label>Name</label><input type="text" placeholder="e.g., Study Room A"></div>
+    <div class="row"><label>Description</label><textarea rows="3" placeholder="Short details"></textarea></div>
+    <div class="row"><label>Location</label><input type="text" placeholder="Building, Floor, Room"></div>
+    <div class="row"><label>Capacity</label><input type="number" min="1" placeholder="e.g., 6"></div>
+    <div class="actions">
+      <button type="button">Save</button>
+      <button type="reset">Clear</button>
+    </div>
+  </form>
+
+  <!-- Existing Resources List -->
+  <h2 style="margin-top:18px;">Existing Resources</h2>
+  <div class="list">
+    <div class="card">
+      <strong>Study Room A</strong> — Capacity 6 <br>
+      <em>H-9, Room 902</em><br>
+      <small>Description: Quiet study room with 6 seats.</small>
+      <div class="actions" style="margin-top:8px;">
+        <button>Edit</button>
+        <button>Remove</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <strong>Computer Lab B</strong> — Capacity 24 <br>
+      <em>JMSB, 3rd floor</em><br>
+      <small>Description: Computer lab equipped with PCs and projectors.</small>
+      <div class="actions" style="margin-top:8px;">
+        <button>Edit</button>
+        <button>Remove</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
