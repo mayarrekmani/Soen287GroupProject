@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in</title>
+  </head>
+  <body>
+    <form id="loginForm" method="get">
+    <label>Select Account Type </label>
+    <br/>
+    <button id="adminBtn" type="button">Faculty</button>
+    
+    <button id="studentBtn" type="button">Student</button>
+    <br/>
+    <label>
+        Username
+        <input id="username" type="text" name="name" placeholder="Enter Username" disabled />
+    </label>
+    <br/>
+    <label>
+        Password
+        <input id="password" type="text" name="name" placeholder="Enter Password" disabled />
+    </label>
+    <br/>
+    <input type="submit" id="SignIn" Sign In />
+    </form>
+<script>
+    function enableWritingAndDirectPage(page) {
+        document.getElementById("username").disabled=false;
+        document.getElementById("password").disabled=false;   
+        username.focus();
+        SignIn.formAction=page;
+        
+        }
+
+document.getElementById("studentBtn").addEventListener("click",
+    ()=>{
+        enableWritingAndDirectPage("studentPage.html");
+    }
+)
+
+document.getElementById("adminBtn").addEventListener("click",
+    ()=>{
+        enableWritingAndDirectPage("adminPage.html");
+    }
+)
+</script>
+  </body>
+
