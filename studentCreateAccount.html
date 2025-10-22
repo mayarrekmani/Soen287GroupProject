@@ -56,6 +56,10 @@
         name="name"
         placeholder="Re-enter password"
       />
+      <label>
+        E-mail:
+        <input id="email" type="email" name="name" placeholder="Enter E-mail" />
+      </label>
       <button id="createStudentAccount" type="button" style="display: block">
         Create Account
       </button>
@@ -67,16 +71,19 @@
         .addEventListener("click", function () {
           const username = document.getElementById("username").value;
           const password = document.getElementById("password").value;
+          const email = document.getElementById("email").value;
           const confirmedPassword =
             document.getElementById("confirmedPassword").value;
           if (username.trim() === "" && password.trim() === "") {
             alert("You must put a username and password");
           } else if (username.trim() === "") {
-            alert("You must put a username");
+            alert("You must put a usersame");
           } else if (password.trim() === "") {
             alert("You must put a password");
           } else if (password.trim() !== confirmedPassword.trim()) {
             alert("Your passwords must match");
+          } else if (email.trim() === "") {
+            alert("You must put an e-mail");
           } else {
             const users = [];
             //create a for loop to see if the user exists, and if they do see if the password matches

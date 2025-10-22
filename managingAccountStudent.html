@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    .center-button {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 150px;
+      height: 100px;
+    }
+    label {
+      text-align: center;
+      display: block;
+    }
+  </style>
+  <body>
+    <h1>
+      Welcome, <span id="displayName"></span> see which option pertains to you!
+    </h1>
+    <button id="changePassword" class="center-button" type="button">
+      Reset Password
+    </button>
+    <br />
+    <button id="changeUsername" class="center-button" type="button">
+      Reset Username
+    </button>
+    <br />
+    <button id="specialRequest" class="center-button" type="button">
+      Special Booking Requests
+    </button>
+    <br />
+    <button id="pastAppointments" class="center-button" type="button">
+      Past Appointments
+    </button>
+    <br />
+    <h2>Appointments Coming Up =</h2>
+
+    <label>
+      Time = 1:00 pm - 2 : 00 pm 2025-10-21 Room = Computer Lab B
+      <button class="reschedule" type="button">Reschedule</button>
+      <button class="cancel" type="button">Cancel</button>
+    </label>
+    <label>
+      Time = 2:00 pm - 3 : 00 pm 2025-10-21 Room = Computer Lab B
+      <button class="reschedule" type="button">Reschedule</button>
+      <button class="cancel" type="button">Cancel</button>
+    </label>
+    <label>
+      Time = 3:00 pm - 4 : 00 pm 2025-10-21 Room = Computer Lab B
+      <button class="reschedule" type="button">Reschedule</button>
+      <button class="cancel" type="button">Cancel</button>
+    </label>
+    <label>
+      Time = 4:00 pm - 5 : 00 pm 2025-10-21 Room = Computer Lab B
+      <button class="reschedule" type="button">Reschedule</button>
+      <button class="cancel" type="button">Cancel</button>
+    </label>
+    <label>
+      Time = 1:00 pm - 2 : 00 pm 2025-10-22 Room = Computer Lab B
+      <button class="reschedule" type="button">Reschedule</button>
+      <button class="cancel" type="button">Cancel</button>
+    </label>
+
+    <script>
+      //still have to fix this it isnt working
+      const username = localStorage.getItem("username");
+      document.getElementById("displayName").textContent = username;
+      document
+        .getElementById("changePassword")
+        .addEventListener("click", function () {
+          location.href = "forgotPassword.html";
+        });
+      document
+        .getElementById("changeUsername")
+        .addEventListener("click", function () {
+          location.href = "changeUsername.html";
+        });
+      document
+        .getElementById("specialRequest")
+        .addEventListener("click", function () {
+          location.href = "specialRequest.html";
+        });
+      document
+        .getElementById("pastAppointments")
+        .addEventListener("click", function () {
+          location.href = "pastAppointments.html";
+        });
+      const rescheduleBtn = document.querySelectorAll(".reschedule");
+      const cancelBtn = document.querySelectorAll(".cancel");
+      for (let i = 0; i < rescheduleBtn.length; i++) {
+        rescheduleBtn[i].addEventListener("click", function () {
+          location.href = "studentPage.html";
+          this.parentElement.remove();
+        });
+      }
+      for (let j = 0; j < cancelBtn.length; j++) {
+        cancelBtn[j].addEventListener("click", function () {
+          alert("Appointment has been canceled!");
+          this.parentElement.remove();
+        });
+      }
+    </script>
+  </body>
+</html>

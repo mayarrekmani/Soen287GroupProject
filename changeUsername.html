@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <title>Change Username</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <h1>Change Username</h1>
+    <label>
+      New Username =
+      <label style="display: inline">
+        <input type="text" id="newUsername" placeholder="Enter new username" />
+        <button id="submit" type="button">Submit</button>
+      </label>
+    </label>
+    <script>
+      document.getElementById("submit").addEventListener("click", function () {
+        alert("Username Has Been Changed");
+        location.href = "LoginPage.html";
+      });
+    </script>
+  </body>
+</html>

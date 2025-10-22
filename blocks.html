@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Resources =</h1>
+    <label>
+      Study Room A =
+      <button class="status" type="button">block</button>
+    </label>
+    <br />
+    <label>
+      Computer Lab 2 = <button class="status" type="button">unblock</button>
+    </label>
+    <br />
+    <label>
+      Meeting Room C =
+      <button class="status" type="button">unblock</button></label
+    >
+    <br />
+    <label>
+      Workshop Area D =
+      <button class="status" type="button">block</button></label
+    >
+    <br />
+    <button id="goBack" type="button">Go Back To Dashboard</button>
+    <script>
+      const statusResources = document.querySelectorAll(".status");
+      for (let i = 0; i < statusResources.length; i++) {
+        statusResources[i].addEventListener("click", function () {
+          if (statusResources[i].textContent === "block") {
+            alert("Resource Has been Unblocked!");
+            statusResources[i].textContent = "unblock";
+          } else if (statusResources[i].textContent === "unblock") {
+            alert("Resource Has been Blocked!");
+            statusResources[i].textContent = "block";
+          }
+        });
+      }
+      document.getElementById("goBack").addEventListener("click", function () {
+        location.href = "adminPage.html";
+      });
+    </script>
+  </body>
+</html>

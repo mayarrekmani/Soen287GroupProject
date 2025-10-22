@@ -49,7 +49,7 @@
       <label>
         Username:
         <input
-          id="username"
+          id="studentUsername"
           type="text"
           name="name"
           placeholder="Enter Username"
@@ -58,7 +58,7 @@
       <label>
         Password:
         <input
-          id="password"
+          id="studentPassword"
           type="password"
           name="name"
           placeholder="Enter password"
@@ -73,6 +73,17 @@
         </button>
       </label>
       <br />
+        <label>
+        Forgot Password?
+        <button
+          id="forgotPassword"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Reset Password
+        </button>
+      </label>
       <label>
         Don't have an account?
         <button
@@ -84,6 +95,7 @@
           Create Account
         </button>
       </label>
+    
     </div>
     <div id ="admin">
           <style>
@@ -108,7 +120,7 @@
     <label>
       Username:
       <input
-        id="username"
+        id="adminUsername"
         type="text"
         name="name"
         placeholder="Enter Username"
@@ -117,7 +129,7 @@
     <label>
       Password:
       <input
-        id="password"
+        id="adminPassword"
         type="password"
         name="name"
         placeholder="Enter password"
@@ -127,6 +139,17 @@
       </button>
     </label>
     <br />
+    <label>
+        Forgot Password?
+        <button
+          id="forgotPassword"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Reset Password
+        </button>
+      </label>
     <label>
         Don't have an account?
         <button
@@ -149,8 +172,8 @@
           document
             .getElementById("studentLogin")
             .addEventListener("click", function () {
-              const username = document.getElementById("username").value;
-              const password = document.getElementById("password").value;
+              const username = document.getElementById("studentUsername").value;
+              const password = document.getElementById("studentPassword").value;
               if (username.trim() === "" && password.trim() === "") {
                 alert("You must put a username and password");
               } else if (username.trim() === "") {
@@ -179,8 +202,8 @@
               document
         .getElementById("adminLogin")
         .addEventListener("click", function () {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
+          const username = document.getElementById("adminUsername").value;
+          const password = document.getElementById("adminPassword").value;
           if (username.trim() === "" && password.trim() === "") {
             alert("You must put a username and password");
           } else if (username.trim() === "") {
@@ -201,6 +224,9 @@
         });
           document.getElementById("adminCreateAccount").addEventListener("click", function(){
                 location.href = "adminCreateAccount.html";
+            });
+            document.getElementById("forgotPassword").addEventListener("click", function(){
+                location.href = "forgotPassword.html";
             });
         });
     </script>

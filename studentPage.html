@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Student Home Page</title>
-    <link rel="stylesheet" href="projectStyle.css">
+    <link rel="stylesheet" href="projectStyle.css" />
   </head>
   <body>
-    <h1>Welcome, <span id="displayName"></span>!</h1>
+    <h1>
+      Welcome, <span id="displayName"></span>
+      <button id="manageYourAccount" type="button">Manage Your Account</button>
+    </h1>
+    <h2>Rooms and Available Time Slots</h2>
+    <label for="dateInput">Date</label> <br />
+    <input id="dateInput" type="date" /> <br />
 
-    <h2>Rooms and Available Time Slots </h2>
-    <label for="dateInput">Date</label> <br/>
-    <input id="dateInput" type="date"> <br/>
-    
-    <label for="list1">Study Room A</label> <br/>
-    <select id="list1"></select><br/>
+    <label for="list1">Study Room A</label> <br />
+    <select id="list1"></select
+    ><br />
 
-    <label for="list2">Computer Lab B</label> <br/>
-    <select id="list2"></select><br/>
+    <label for="list2">Computer Lab B</label> <br />
+    <select id="list2"></select
+    ><br />
 
-    <label for="list3">Study Room B</label> <br/>
-    <select id="list3"></select><br/>
+    <label for="list3">Study Room B</label> <br />
+    <select id="list3"></select
+    ><br />
 
-    <input type="submit" id="Book" value=Book />
+    <input type="submit" id="Book" value="Book" />
 
-
-<!--
+    <!--
     <ul>
       <li>
         <strong>Study Room A</strong>
@@ -57,108 +61,107 @@
     
 -->
     <script>
-
-    class TimeSlot {
-        constructor(time,status) {
-            this.time=time;
-            this.status=status;
+      document
+        .getElementById("manageYourAccount")
+        .addEventListener("click", function () {
+          location.href = "managingAccountStudent.html";
+        });
+      class TimeSlot {
+        constructor(time, status) {
+          this.time = time;
+          this.status = status;
         }
-    }
+      }
 
-    class Room {
+      class Room {
         constructor(name) {
-            this.name=name;
-            this.slots=[]; // each room would have an array of TimeSlot objects
+          this.name = name;
+          this.slots = []; // each room would have an array of TimeSlot objects
         }
 
-        addTimeSlot(time,status){
-            this.slots.push(new TimeSlot(time,status));
+        addTimeSlot(time, status) {
+          this.slots.push(new TimeSlot(time, status));
         }
 
-        findAvailableStatus(){
-        return this.slots.filter(s => s.status === "available");
-            
+        findAvailableStatus() {
+          return this.slots.filter((s) => s.status === "available");
         }
-    }
+      }
 
-    class Day {
+      class Day {
         constructor(date) {
-            this.date=date;
-            this.rooms=[];
+          this.date = date;
+          this.rooms = [];
         }
-    
-        addRoom(room){
-            this.rooms.push(room);
+
+        addRoom(room) {
+          this.rooms.push(room);
         }
-        getRoom(name) { 
-           return this.rooms.find(r => r.name === name); 
+        getRoom(name) {
+          return this.rooms.find((r) => r.name === name);
         }
-    }
-    const days=new Map();
+      }
+      const days = new Map();
 
-    const oct_19_25= new Day("2025-10-19");
-    // Study Room A for october 19 2025
-    const oct_19_studyroomA=new Room("Study Room A");
-    oct_19_studyroomA.addTimeSlot("14h00-15h00", "available");
-    oct_19_studyroomA.addTimeSlot("15h00-16h00", "available");
-    oct_19_studyroomA.addTimeSlot("16h00-17h00", "available");
-    oct_19_25.addRoom(oct_19_studyroomA);
-    // Computer Lab B for october 19 2025
-    const oct_19_computerlabB=new Room("Computer Lab B");
-    oct_19_computerlabB.addTimeSlot("14h00-15h00", "available");
-    oct_19_computerlabB.addTimeSlot("15h00-16h00", "available");
-    oct_19_computerlabB.addTimeSlot("16h00-17h00", "available");
-    oct_19_25.addRoom( oct_19_computerlabB);
-    
-    // Study Room B for October 19th
-    const oct_19_studyroomB=new Room("Study Room B");
-    oct_19_studyroomB.addTimeSlot("14h00-15h00", "available");
-    oct_19_studyroomB.addTimeSlot("15h00-16h00", "available");
-    oct_19_studyroomB.addTimeSlot("16h00-17h00", "available");
-     oct_19_25.addRoom(oct_19_studyroomB);
-    
-     days.set(oct_19_25.date,oct_19_25);
+      const oct_19_25 = new Day("2025-10-19");
+      // Study Room A for october 19 2025
+      const oct_19_studyroomA = new Room("Study Room A");
+      oct_19_studyroomA.addTimeSlot("14h00-15h00", "available");
+      oct_19_studyroomA.addTimeSlot("15h00-16h00", "available");
+      oct_19_studyroomA.addTimeSlot("16h00-17h00", "available");
+      oct_19_25.addRoom(oct_19_studyroomA);
+      // Computer Lab B for october 19 2025
+      const oct_19_computerlabB = new Room("Computer Lab B");
+      oct_19_computerlabB.addTimeSlot("14h00-15h00", "available");
+      oct_19_computerlabB.addTimeSlot("15h00-16h00", "available");
+      oct_19_computerlabB.addTimeSlot("16h00-17h00", "available");
+      oct_19_25.addRoom(oct_19_computerlabB);
 
-    const daySelected= document.getElementById("dateInput")
-    const list1 = document.getElementById("list1"); // Study Room A
-  const list2 = document.getElementById("list2"); // Computer Lab B
-  const list3 = document.getElementById("list3"); // Study Room B
+      // Study Room B for October 19th
+      const oct_19_studyroomB = new Room("Study Room B");
+      oct_19_studyroomB.addTimeSlot("14h00-15h00", "available");
+      oct_19_studyroomB.addTimeSlot("15h00-16h00", "available");
+      oct_19_studyroomB.addTimeSlot("16h00-17h00", "available");
+      oct_19_25.addRoom(oct_19_studyroomB);
 
-    daySelected.addEventListener("change",()=> {
-        const daySelectedString=daySelected.value;
-        const d=days.get(daySelectedString);
+      days.set(oct_19_25.date, oct_19_25);
 
-        const roomA=d.getRoom("Study Room A").findAvailableStatus();
-        for(let i=0;i<roomA.length;i++){
-            const op1=document.createElement("option");
-            op1.value = roomA[i].time;       // machine value
-            op1.textContent = roomA[i].time; // what user sees
-            list1.appendChild(op1);
+      const daySelected = document.getElementById("dateInput");
+      const list1 = document.getElementById("list1"); // Study Room A
+      const list2 = document.getElementById("list2"); // Computer Lab B
+      const list3 = document.getElementById("list3"); // Study Room B
+
+      daySelected.addEventListener("change", () => {
+        const daySelectedString = daySelected.value;
+        const d = days.get(daySelectedString);
+
+        const roomA = d.getRoom("Study Room A").findAvailableStatus();
+        for (let i = 0; i < roomA.length; i++) {
+          const op1 = document.createElement("option");
+          op1.value = roomA[i].time; // machine value
+          op1.textContent = roomA[i].time; // what user sees
+          list1.appendChild(op1);
         }
-        list1.size=roomA.length
-        const labB=d.getRoom("Computer Lab B").findAvailableStatus();
-        for(let i=0;i<labB.length;i++){
-             const op2=document.createElement("option");
-            op2.value = labB[i].time;       // machine value
-            op2.textContent = labB[i].time; // what user sees
-            list2.appendChild(op2);
+        list1.size = roomA.length;
+        const labB = d.getRoom("Computer Lab B").findAvailableStatus();
+        for (let i = 0; i < labB.length; i++) {
+          const op2 = document.createElement("option");
+          op2.value = labB[i].time; // machine value
+          op2.textContent = labB[i].time; // what user sees
+          list2.appendChild(op2);
         }
-        list2.size=labB.length
-        const roomB=d.getRoom("Study Room B").findAvailableStatus();
-         for(let i=0;i<roomB.length;i++){
-             const op3=document.createElement("option");
-            op3.value = roomB[i].time;       // machine value
-            op3.textContent = roomB[i].time; // what user sees
-            list3.appendChild(op3);
+        list2.size = labB.length;
+        const roomB = d.getRoom("Study Room B").findAvailableStatus();
+        for (let i = 0; i < roomB.length; i++) {
+          const op3 = document.createElement("option");
+          op3.value = roomB[i].time; // machine value
+          op3.textContent = roomB[i].time; // what user sees
+          list3.appendChild(op3);
         }
-        list3.size=labB.length
+        list3.size = labB.length;
+      });
 
-
-    }
-)
-    
-    
-    /*
+      /*
         const date=document.getElementById(dateInput);
     date.addEventListener("change",)
       // Get saved username or use "Student"
@@ -170,8 +173,6 @@
         alert("You booked " + resource + " at " + time + "!");}
         // Later we can link this to the manage bookings page
     */
-    
-    
     </script>
   </body>
 </html>

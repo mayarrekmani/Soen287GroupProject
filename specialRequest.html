@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <title>Change Username</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <h1>Special Request For Appointments</h1>
+    <label>
+      Username of admin you wish to contact =
+      <label style="display: inline">
+        <input type="text" id="newUsername" placeholder="ex. John Doe" />
+      </label>
+    </label>
+    <label>
+      <textarea
+        id="userText"
+        rows="5"
+        cols="40"
+        placeholder="Explain Your Request"
+      ></textarea>
+    </label>
+    <label>
+      Specific Hours Wanted =
+      <label style="display: inline">
+        <input
+          type="text"
+          id="newUsername"
+          placeholder="ex. 10:00 am - 11:00 am"
+        />
+      </label>
+      <button id="submit" type="button">Submit</button>
+    </label>
+    <script>
+      document.getElementById("submit").addEventListener("click", function () {
+        alert("Special Request Has Been Sent To Admin");
+        location.href = "studentPage.html";
+      });
+    </script>
+  </body>
+</html>

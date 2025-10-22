@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Pending Booking Requests</h1>
+    <label>
+      Student = John Doe Request = 5:00 pm - 6:00 pm 2025-10-22 Reason = I want
+      to meet with my team for my Soen287 project
+      <button class="approve" type="button">Approve</button>
+      <button class="deny" type="button">Deny</button>
+    </label>
+    <br />
+    <label>
+      Student = Alice Nguyen Request = 9:30 am - 10:30 am 2025-10-23 Reason =
+      Need help reviewing my COMP248 assignment
+      <button class="approve" type="button">Approve</button>
+      <button class="deny" type="button">Deny</button>
+    </label>
+    <br />
+    <label>
+      Student = Mark Thompson Request = 2:00 pm - 3:00 pm 2025-10-25 Reason =
+      Discuss upcoming midterm project proposal
+      <button class="approve" type="button">Approve</button>
+      <button class="deny" type="button">Deny</button>
+    </label>
+    <br />
+    <label>
+      Student = Sophia Martinez Request = 11:15 am - 12:00 pm 2025-10-27 Reason
+      = Clarify doubts about JavaScript DOM manipulation
+      <button class="approve" type="button">Approve</button>
+      <button class="deny" type="button">Deny</button>
+    </label>
+    <br />
+    <label>
+      Student = Liam Patel Request = 4:45 pm - 5:30 pm 2025-10-29 Reason =
+      Schedule feedback session for my co-op resume
+      <button class="approve" type="button">Approve</button>
+      <button class="deny" type="button">Deny</button>
+    </label>
+    <br />
+    <button id="goBack" type="button">Go Back To Dashboard</button>
+    <script>
+      const approveRequests = document.querySelectorAll(".approve");
+      for (let i = 0; i < approveRequests.length; i++) {
+        approveRequests[i].addEventListener("click", function () {
+          alert("Request has been approved!");
+          this.parentElement.remove();
+        });
+      }
+      const denyRequests = document.querySelectorAll(".deny");
+      for (let j = 0; j < denyRequests.length; j++) {
+        denyRequests[j].addEventListener("click", function () {
+          alert("Request has been denied!");
+          this.parentElement.remove();
+        });
+      }
+      document.getElementById("goBack").addEventListener("click", function () {
+        location.href = "adminPage.html";
+      });
+    </script>
+  </body>
+</html>

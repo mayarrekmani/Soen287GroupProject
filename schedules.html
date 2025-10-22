@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <br>
+    <h1>Set Availability Schedule <span id="displayName"></span></h1>
+    <label>
+      Working hours =
+      <input type="text" placeholder="ex. 9:00 am - 5:00 pm" />
+      <button id="workingHours" type="button">Submit</button>
+    </label>
+</br>
+</br>
+    <label>
+      Exceptions =
+      <input type="text" placeholder="ex. 4:00 pm - 5:00 pm" />
+       <textarea
+        id="exceptionText"
+        rows="5"
+        cols="40"
+        placeholder="Explain Your Exception"
+      ></textarea>
+      <button id="exception" type="button">Submit</button>
+    </label>
+    </br>
+</br>
+    <label>
+      Blackout Date =
+      <input id="dateInput" type="date" /> <br />
+      <textarea
+        id="blackoutText"
+        rows="5"
+        cols="40"
+        placeholder="Explain Your Exception"
+      ></textarea>
+      <button id="blackoutDate" type="button">Submit</button>
+    </label>
+</br>
+</br>
+<button id="goBack" type="button">
+    Go Back To Dashboard
+</button>
+    <script>
+      //still have to fix this it isnt working
+      const username = localStorage.getItem("username");
+      document.getElementById("displayName").textContent = username;
+      document.getElementById("workingHours").addEventListener("click",function(){
+        alert("Office Hours Have Been Changed!")
+      });
+      document.getElementById("exception").addEventListener("click",function(){
+        alert("Exception has been added!")
+      });
+      document.getElementById("blackoutDate").addEventListener("click",function(){
+        alert("This day has been blacked out!")
+      });
+      document.getElementById("goBack").addEventListener("click",function(){
+        location.href = "adminPage.html"
+      });
+    </script>
+  </body>
+</html>
