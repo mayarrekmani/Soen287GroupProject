@@ -19,6 +19,12 @@ h3{
     color:#c88f99;
 }
 
+p{
+    font-weight:normal;
+    color:black;
+    text-align:center;
+}
+
 .primaryButton{
     background-color: #c4a0a7;
     text-transform: uppercase;
@@ -56,4 +62,25 @@ h3{
 .secondaryButton.active{
     background-color:#084263;
     font-weight:bold;
+}
+
+.site-footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background-colour:#912338;
+    
+}
+
+.site-header{
+    background-color:white;
+    width:100%;
+    text-align:center;
+    padding:10px 0;
+}
+
+.site-header img{
+    display:block;
+    margin:0 auto;
 }

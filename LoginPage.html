@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Concordia Login Website</title>
+    <link rel="stylesheet" href="projectStyle.css" />
   </head>
   <body>
     <style>
@@ -21,12 +22,21 @@
         margin-right: auto;
       }
     </style>
-    <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
+
     <h1>
-      Welcome to Concordia's Login Page, Select which one applies to you:
-      <button id="studentLoginBtn" type="button">Student</button>
-      <button id="adminLoginBtn" type="button">Admin</button>
+      Concordia Room & Resource Booking Service Login Page
     </h1>
+
+    <p>
+      Are you a student or an admin? Please select:
+      <button id="studentLoginBtn" class="primaryButton" type="button">Student</button>
+      <button id="adminLoginBtn" class="primaryButton" type="button">Admin</button>
+    </p>
+
     <div id="student">
       <style>
         h2 {
@@ -230,5 +240,7 @@
             });
         });
     </script>
+    <footer class="site-footer"></footer>
+    
   </body>
 </html>
