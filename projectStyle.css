@@ -112,3 +112,29 @@ p{
     border-radius:6px;
     padding:10px;
 }
+
+.approveButton{
+    text-transform:uppercase;
+    color:black;
+    background-color:lightgreen;
+    border-radius:6px;
+}
+
+.approveButton:hover{
+    color:white;
+    font-weight:bold;
+    background-color:green;
+}
+
+.denyButton{
+    color:black;
+    text-transform:uppercase;
+    background-color:lightcoral;
+    border-radius:6px;
+}
+
+.denyButton:hover{
+    color:white;
+    font-weight:bold;
+    background-color:red;
+}

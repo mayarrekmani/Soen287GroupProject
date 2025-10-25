@@ -3,6 +3,7 @@
   <head>
     <title>Admin Create Account</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="projectStyle.css">
   </head>
   <style>
     body {
@@ -29,7 +30,10 @@
     }
   </style>
   <body>
-    <h1>To create your admin account follow the steps below.</h1>
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
+    <h1>To create your admin account, follow the steps below:</h1>
     <label>
       Username:
       <input
@@ -39,6 +43,9 @@
         placeholder="Enter Username"
       />
     </label>
+
+    <p></p>
+
     <label>
       Password:
       <input
@@ -48,6 +55,9 @@
         placeholder="Enter password"
       />
     </label>
+
+    <p></p>
+
     <label>
       Re-enter Password:
       <input
@@ -55,12 +65,15 @@
         type="password"
         name="name"
         placeholder="Re-enter password"
-      />
+      >
+      <p></p>
       <label>
         E-mail:
         <input id="email" type="email" name="name" placeholder="Enter E-mail" />
       </label>
-      <button id="createAdminAccount" type="button" style="display: block">
+      <p></p>
+      <label>
+      <button id="createAdminAccount" class = "primaryButton" type="button" style="display: block">
         Create Account
       </button>
     </label>

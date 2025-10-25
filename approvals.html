@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Booking Requests</title>
+    <link rel="stylesheet" href="projectStyle.css">
+  </head>
   <body>
     <h1>Pending Booking Requests</h1>
-    <label>
-      Student = John Doe Request = 5:00 pm - 6:00 pm 2025-10-22 Reason = I want
-      to meet with my team for my Soen287 project
-      <button class="approve" type="button">Approve</button>
-      <button class="deny" type="button">Deny</button>
-    </label>
+    <div class="redBlock">
+      Student: John Doe 
+      <p></p>Request: 5:00 pm - 6:00 pm 2025-10-22 
+      <p></p>Reason: I want to meet with my team for my Soen287 project<p></p>
+      <button class="approveButton"type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
     <br />
-    <label>
-      Student = Alice Nguyen Request = 9:30 am - 10:30 am 2025-10-23 Reason =
-      Need help reviewing my COMP248 assignment
-      <button class="approve" type="button">Approve</button>
-      <button class="deny" type="button">Deny</button>
-    </label>
+    <div class="redBlock">
+      Student: Alice Nguyen <p></p>
+      Request: 9:30 am - 10:30 am 2025-10-23 <p></p>
+      Reason: Need help reviewing my COMP248 assignment<p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
     <br />
-    <label>
-      Student = Mark Thompson Request = 2:00 pm - 3:00 pm 2025-10-25 Reason =
-      Discuss upcoming midterm project proposal
-      <button class="approve" type="button">Approve</button>
-      <button class="deny" type="button">Deny</button>
-    </label>
+    <div class="redBlock">
+      Student: Mark Thompson <p></p>
+      Request: 2:00 pm - 3:00 pm 2025-10-25 <p></p>
+      Reason: Discuss upcoming midterm project proposal<p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
     <br />
-    <label>
-      Student = Sophia Martinez Request = 11:15 am - 12:00 pm 2025-10-27 Reason
-      = Clarify doubts about JavaScript DOM manipulation
-      <button class="approve" type="button">Approve</button>
-      <button class="deny" type="button">Deny</button>
-    </label>
+    <div class="redBlock">
+      Student: Sophia Martinez <p></p>
+      Request: 11:15 am - 12:00 pm 2025-10-27 <p></p>
+      Reason: Clarify doubts about JavaScript DOM manipulation<p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
     <br />
-    <label>
-      Student = Liam Patel Request = 4:45 pm - 5:30 pm 2025-10-29 Reason =
-      Schedule feedback session for my co-op resume
-      <button class="approve" type="button">Approve</button>
-      <button class="deny" type="button">Deny</button>
-    </label>
+    <div class="redBlock">
+      Student: Liam Patel <p></p>
+      Request: 4:45 pm - 5:30 pm 2025-10-29 <p></p>
+      Reason: Schedule feedback session for my co-op resume<p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
     <br />
-    <button id="goBack" type="button">Go Back To Dashboard</button>
+    <button id="goBack" class="primaryButton" type="button">Go Back To Dashboard</button>
     <script>
       const approveRequests = document.querySelectorAll(".approve");
       for (let i = 0; i < approveRequests.length; i++) {
