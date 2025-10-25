@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Account Management Page</title>
+    <link rel="stylesheet" href="projectStyle.css" />
+  </head>
   <style>
     .center-button {
       display: block;
@@ -14,26 +19,29 @@
     }
   </style>
   <body>
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
     <h1>
-      Welcome, <span id="displayName"></span> see which option pertains to you!
+      Welcome, <span id="displayName"></span> please choose which option pertains to you.
     </h1>
-    <button id="changePassword" class="center-button" type="button">
+    <button id="changePassword" class="largeButton" type="button">
       Reset Password
     </button>
     <br />
-    <button id="changeUsername" class="center-button" type="button">
+    <button id="changeUsername" class="largeButton" type="button">
       Reset Username
     </button>
     <br />
-    <button id="specialRequest" class="center-button" type="button">
+    <button id="specialRequest" class="largeButton" type="button">
       Special Booking Requests
     </button>
     <br />
-    <button id="pastAppointments" class="center-button" type="button">
+    <button id="pastAppointments" class="largeButton" type="button">
       Past Appointments
     </button>
     <br />
-    <h2>Appointments Coming Up =</h2>
+    <h2>Upcoming Appointments:</h2>
 
     <label>
       Time = 1:00 pm - 2 : 00 pm 2025-10-21 Room = Computer Lab B

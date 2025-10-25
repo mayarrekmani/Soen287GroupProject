@@ -25,6 +25,7 @@ p{
     text-align:center;
 }
 
+
 .primaryButton{
     background-color: #c4a0a7;
     text-transform: uppercase;
@@ -64,6 +65,26 @@ p{
     font-weight:bold;
 }
 
+.largeButton{
+    display:block;
+    margin:0 auto;
+    text-transform:uppercase;
+    color:black;
+    background-color:#c4a0a7;
+    border-radius:6px;
+    padding:20px 30px;
+    text-align:center;
+    width:210px;
+}
+
+.largeButton:hover{
+    background-color:#912338;
+    color:white;
+    font-weight:bold;
+}
+
+
+
 .site-footer{
     position:fixed;
     bottom:0;
@@ -83,4 +104,11 @@ p{
 .site-header img{
     display:block;
     margin:0 auto;
+}
+
+.redBlock{
+    background-color:#c4a0a7;
+    color:black;
+    border-radius:6px;
+    padding:10px;
 }

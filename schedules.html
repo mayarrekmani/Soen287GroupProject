@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Set Schedule</title>
+    <link rel="stylesheet" href="projectStyle.css">
+  </head>
     <body>
+      <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
         <br>
     <h1>Set Availability Schedule <span id="displayName"></span></h1>
     <label>
       Working hours =
       <input type="text" placeholder="ex. 9:00 am - 5:00 pm" />
-      <button id="workingHours" type="button">Submit</button>
+      <button id="workingHours" class="secondaryButton" type="button">Submit</button>
     </label>
 </br>
 </br>
@@ -19,7 +26,7 @@
         cols="40"
         placeholder="Explain Your Exception"
       ></textarea>
-      <button id="exception" type="button">Submit</button>
+      <button id="exception" class="secondaryButton" type="button">Submit</button>
     </label>
     </br>
 </br>
@@ -32,11 +39,11 @@
         cols="40"
         placeholder="Explain Your Exception"
       ></textarea>
-      <button id="blackoutDate" type="button">Submit</button>
+      <button id="blackoutDate" class="secondaryButton" type="button">Submit</button>
     </label>
 </br>
 </br>
-<button id="goBack" type="button">
+<button id="goBack" class="primaryButton" type="button">
     Go Back To Dashboard
 </button>
     <script>
