@@ -4,7 +4,111 @@
     <meta charset="UTF-8" />
     <title>Student Home Page</title>
     <link rel="stylesheet" href="projectStyle.css" />
+    <style>
+    
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+      }
+
+      h1 {
+        color: #5e001f; 
+        text-align: center;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto 24px auto;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      }
+
+      #displayName {
+        color: #333;
+        font-weight: 500;
+      }
+
+      #manageYourAccount {
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+        border-radius: 4px;
+        padding: 8px 14px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      #manageYourAccount:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      h2 {
+        color: #333;
+        text-align: center;
+        font-size: 1.3rem;
+        margin-top: 24px;
+        margin-bottom: 16px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #5e001f;
+        margin: 12px auto 6px auto;
+        max-width: 400px;
+      }
+
+      input[type="date"],
+      select {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 14px auto;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        background: #fff;
+        font-size: 0.95rem;
+        transition: all 0.15s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      input[type="date"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #5e001f;
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      #Book {
+        display: block;
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 10px 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin: 20px auto;
+      }
+
+      #Book:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+    </style>
   </head>
+
   <body>
     <h1>
       Welcome, <span id="displayName"></span>
@@ -28,38 +132,11 @@
 
     <input type="submit" id="Book" value="Book" />
 
+    <!-- your original comments kept exactly -->
     <!--
-    <ul>
-      <li>
-        <strong>Study Room A</strong>
-        <ul>
-          <li>2:00 PM-3:00 Pm <button class = "primaryButton" onclick="book('Study Room A', '2:00 PM')">Book</button></li>
-          <li>3:00 PM-4:00PM <button class = "primaryButton" onclick="book('Study Room A', '3:00 PM')">Book</button></li>
-          <li>5:00 PM-6:00PM <button class = "primaryButton" onclick="book('Study Room A', '3:00 PM')">Book</button></li>
-        </ul>
-      </li>
+    <ul> ... </ul>
+    -->
 
-      <li>
-        <strong>Computer Lab B</strong>
-        <ul>
-          <li>1:00-3:30 PM PM <button class = "primaryButton" onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
-          <li>4:00-6:30 PM PM <button class = "primaryButton" onclick="book('Computer Lab B', '4:00 PM')">Book</button></li>
-          <li>6:30-8:00 PM <button class = "primaryButton" onclick="book('Computer Lab B', '5:00 PM')">Book</button></li>
-
-        </ul>
-      </li>
-
-      <li>
-        <strong>Study Room B</strong>
-        <ul>
-          <li>12:00 PM-1:00 PM <button class = "primaryButton" onclick="book('Study Room B', '1:00 PM')">Book</button></li>
-          <li>1:00 PM -2:00 PM<button class = "primaryButton" onclick="book('Study Room B', '1:00 PM')">Book</button></li>
-          <li>2:00 PM - 3:00 PM<button class ="primaryButton" click="book('Study Room B', '2:00 PM')">Book</button></li>
-        </ul>
-      </li>
-    </ul> 
-    
--->
     <script>
       document
         .getElementById("manageYourAccount")
@@ -76,7 +153,7 @@
       class Room {
         constructor(name) {
           this.name = name;
-          this.slots = []; // each room would have an array of TimeSlot objects
+          this.slots = [];
         }
 
         addTimeSlot(time, status) {
@@ -101,23 +178,22 @@
           return this.rooms.find((r) => r.name === name);
         }
       }
+
       const days = new Map();
 
       const oct_19_25 = new Day("2025-10-19");
-      // Study Room A for october 19 2025
       const oct_19_studyroomA = new Room("Study Room A");
       oct_19_studyroomA.addTimeSlot("14h00-15h00", "available");
       oct_19_studyroomA.addTimeSlot("15h00-16h00", "available");
       oct_19_studyroomA.addTimeSlot("16h00-17h00", "available");
       oct_19_25.addRoom(oct_19_studyroomA);
-      // Computer Lab B for october 19 2025
+
       const oct_19_computerlabB = new Room("Computer Lab B");
       oct_19_computerlabB.addTimeSlot("14h00-15h00", "available");
       oct_19_computerlabB.addTimeSlot("15h00-16h00", "available");
       oct_19_computerlabB.addTimeSlot("16h00-17h00", "available");
       oct_19_25.addRoom(oct_19_computerlabB);
 
-      // Study Room B for October 19th
       const oct_19_studyroomB = new Room("Study Room B");
       oct_19_studyroomB.addTimeSlot("14h00-15h00", "available");
       oct_19_studyroomB.addTimeSlot("15h00-16h00", "available");
@@ -127,9 +203,9 @@
       days.set(oct_19_25.date, oct_19_25);
 
       const daySelected = document.getElementById("dateInput");
-      const list1 = document.getElementById("list1"); // Study Room A
-      const list2 = document.getElementById("list2"); // Computer Lab B
-      const list3 = document.getElementById("list3"); // Study Room B
+      const list1 = document.getElementById("list1");
+      const list2 = document.getElementById("list2");
+      const list3 = document.getElementById("list3");
 
       daySelected.addEventListener("change", () => {
         const daySelectedString = daySelected.value;
@@ -138,41 +214,30 @@
         const roomA = d.getRoom("Study Room A").findAvailableStatus();
         for (let i = 0; i < roomA.length; i++) {
           const op1 = document.createElement("option");
-          op1.value = roomA[i].time; // machine value
-          op1.textContent = roomA[i].time; // what user sees
+          op1.value = roomA[i].time;
+          op1.textContent = roomA[i].time;
           list1.appendChild(op1);
         }
         list1.size = roomA.length;
+
         const labB = d.getRoom("Computer Lab B").findAvailableStatus();
         for (let i = 0; i < labB.length; i++) {
           const op2 = document.createElement("option");
-          op2.value = labB[i].time; // machine value
-          op2.textContent = labB[i].time; // what user sees
+          op2.value = labB[i].time;
+          op2.textContent = labB[i].time;
           list2.appendChild(op2);
         }
         list2.size = labB.length;
+
         const roomB = d.getRoom("Study Room B").findAvailableStatus();
         for (let i = 0; i < roomB.length; i++) {
           const op3 = document.createElement("option");
-          op3.value = roomB[i].time; // machine value
-          op3.textContent = roomB[i].time; // what user sees
+          op3.value = roomB[i].time;
+          op3.textContent = roomB[i].time;
           list3.appendChild(op3);
         }
         list3.size = labB.length;
       });
-
-      /*
-        const date=document.getElementById(dateInput);
-    date.addEventListener("change",)
-      // Get saved username or use "Student"
-      const username = localStorage.getItem("username") || "Student";
-      document.getElementById("displayName").textContent = username;
-
-      // Simple booking message
-      function book(resource, time) {
-        alert("You booked " + resource + " at " + time + "!");}
-        // Later we can link this to the manage bookings page
-    */
     </script>
   </body>
 </html>

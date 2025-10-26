@@ -1,67 +1,220 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>Set Schedule</title>
-    <link rel="stylesheet" href="projectStyle.css">
+
+    <style>
+      
+      * {
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .site-header {
+        background-color: #5e001f; /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid #c9a646; /* gold stripe */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+        margin-right: 12px;
+      }
+
+      h1 {
+        color: #5e001f;
+        margin-top: 24px;
+        margin-bottom: 16px;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin: 16px 0;
+        font-weight: 600;
+        color: #333;
+      }
+
+      input,
+      textarea {
+        display: block;
+        margin-top: 6px;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        background-color: #fff;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #5e001f;
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      button {
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 10px 16px;
+        margin-top: 6px;
+        transition: all 0.15s ease;
+      }
+
+      .primaryButton {
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+      }
+
+      .primaryButton:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      .secondaryButton {
+        background-color: #fff;
+        color: #5e001f;
+        border: 1px solid #5e001f;
+      }
+
+      .secondaryButton:hover {
+        background-color: #5e001f;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+      }
+
+      main {
+        max-width: 700px;
+        margin: 30px auto;
+        background: #fff;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+      }
+
+      footer {
+        background-color: #fafafa;
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        padding: 16px;
+        margin-top: auto;
+      }
+
+      #displayName {
+        color: #333;
+        font-weight: 400;
+      }
+    </style>
   </head>
-    <body>
-      <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+
+  <body>
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Resource Management</h2>
     </header>
-        <br>
-    <h1>Set Availability Schedule <span id="displayName"></span></h1>
-    <label>
-      Working hours =
-      <input type="text" placeholder="ex. 9:00 am - 5:00 pm" />
-      <button id="workingHours" class="secondaryButton" type="button">Submit</button>
-    </label>
-</br>
-</br>
-    <label>
-      Exceptions =
-      <input type="text" placeholder="ex. 4:00 pm - 5:00 pm" />
-       <textarea
-        id="exceptionText"
-        rows="5"
-        cols="40"
-        placeholder="Explain Your Exception"
-      ></textarea>
-      <button id="exception" class="secondaryButton" type="button">Submit</button>
-    </label>
-    </br>
-</br>
-    <label>
-      Blackout Date =
-      <input id="dateInput" type="date" /> <br />
-      <textarea
-        id="blackoutText"
-        rows="5"
-        cols="40"
-        placeholder="Explain Your Exception"
-      ></textarea>
-      <button id="blackoutDate" class="secondaryButton" type="button">Submit</button>
-    </label>
-</br>
-</br>
-<button id="goBack" class="primaryButton" type="button">
-    Go Back To Dashboard
-</button>
+
+    <main>
+      <h1>Set Availability Schedule <span id="displayName"></span></h1>
+
+      <label>
+        Working hours =
+        <input type="text" placeholder="ex. 9:00 am - 5:00 pm" />
+        <button id="workingHours" class="secondaryButton" type="button">
+          Submit
+        </button>
+      </label>
+
+      <label>
+        Exceptions =
+        <input type="text" placeholder="ex. 4:00 pm - 5:00 pm" />
+        <textarea
+          id="exceptionText"
+          rows="5"
+          cols="40"
+          placeholder="Explain Your Exception"
+        ></textarea>
+        <button id="exception" class="secondaryButton" type="button">
+          Submit
+        </button>
+      </label>
+
+      <label>
+        Blackout Date =
+        <input id="dateInput" type="date" />
+        <textarea
+          id="blackoutText"
+          rows="5"
+          cols="40"
+          placeholder="Explain Your Exception"
+        ></textarea>
+        <button id="blackoutDate" class="secondaryButton" type="button">
+          Submit
+        </button>
+      </label>
+
+      <button id="goBack" class="primaryButton" type="button">
+        Go Back To Dashboard
+      </button>
+    </main>
+
+    <footer>© Concordia University · All rights reserved</footer>
+
     <script>
-      //still have to fix this it isnt working
       const username = localStorage.getItem("username");
       document.getElementById("displayName").textContent = username;
-      document.getElementById("workingHours").addEventListener("click",function(){
-        alert("Office Hours Have Been Changed!")
-      });
-      document.getElementById("exception").addEventListener("click",function(){
-        alert("Exception has been added!")
-      });
-      document.getElementById("blackoutDate").addEventListener("click",function(){
-        alert("This day has been blacked out!")
-      });
-      document.getElementById("goBack").addEventListener("click",function(){
-        location.href = "adminPage.html"
-      });
+
+      document
+        .getElementById("workingHours")
+        .addEventListener("click", function () {
+          alert("Office Hours Have Been Changed!");
+        });
+
+      document
+        .getElementById("exception")
+        .addEventListener("click", function () {
+          alert("Exception has been added!");
+        });
+
+      document
+        .getElementById("blackoutDate")
+        .addEventListener("click", function () {
+          alert("This day has been blacked out!");
+        });
+
+      document
+        .getElementById("goBack")
+        .addEventListener("click", function () {
+          location.href = "adminPage.html";
+        });
     </script>
   </body>
 </html>

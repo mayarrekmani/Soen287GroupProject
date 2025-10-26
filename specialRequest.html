@@ -1,42 +1,173 @@
 <!DOCTYPE html>
-<html>
-  <title>Change Username</title>
-  <style>
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      text-align: center;
-    }
-  </style>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Special Request for Appointments</title>
+
+    <style>
+    
+      * {
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      header {
+        background-color: #5e001f; /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid #c9a646; /* gold accent */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+      }
+
+      header img {
+        height: 48px;
+        width: auto;
+        margin-right: 12px;
+      }
+
+      header h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* Main content */
+      main {
+        max-width: 650px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+      }
+
+      h1 {
+        color: #5e001f;
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 1.5rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      input,
+      textarea {
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        background-color: #fff;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #5e001f;
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      button {
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 10px 16px;
+        margin-top: 8px;
+        transition: all 0.15s ease;
+      }
+
+      .primaryButton {
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+      }
+
+      .primaryButton:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      /* Footer */
+      footer {
+        background-color: #fafafa;
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        padding: 16px;
+        margin-top: auto;
+      }
+    </style>
+  </head>
+
   <body>
-    <h1>Special Request For Appointments</h1>
-    <label>
-      Username of admin you wish to contact =
-      <label style="display: inline">
-        <input type="text" id="newUsername" placeholder="ex. John Doe" />
+    <!-- Header -->
+    <header>
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Appointment Request</h2>
+    </header>
+
+    <!-- Main Section -->
+    <main>
+      <h1>Special Request for Appointments</h1>
+
+      <label for="adminName">
+        Username of Admin You Wish to Contact:
       </label>
-    </label>
-    <label>
+      <input
+        type="text"
+        id="adminName"
+        placeholder="ex. John Doe"
+        required
+      />
+
+      <label for="userText">Explain Your Request:</label>
       <textarea
         id="userText"
         rows="5"
         cols="40"
-        placeholder="Explain Your Request"
+        placeholder="Describe your request in detail"
       ></textarea>
-    </label>
-    <label>
-      Specific Hours Wanted =
-      <label style="display: inline">
-        <input
-          type="text"
-          id="newUsername"
-          placeholder="ex. 10:00 am - 11:00 am"
-        />
-      </label>
-      <button id="submit" type="button">Submit</button>
-    </label>
+
+      <label for="hoursWanted">Specific Hours Wanted:</label>
+      <input
+        type="text"
+        id="hoursWanted"
+        placeholder="ex. 10:00 am - 11:00 am"
+      />
+
+      <button id="submit" class="primaryButton" type="button">Submit</button>
+    </main>
+
+    <!-- Footer -->
+    <footer>© Concordia University · All rights reserved</footer>
+
+    <!-- Script -->
     <script>
       document.getElementById("submit").addEventListener("click", function () {
         alert("Special Request Has Been Sent To Admin");
