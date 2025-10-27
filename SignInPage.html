@@ -4,27 +4,35 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in</title>
+  <link rel="stylesheet" href="projectStyle.css">
   </head>
   <body>
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
+    <div class="centerText">
     <form id="loginForm" method="get">
-    <label>Select Account Type </label>
+    <h2 class="centerText">Select Account Type </label>
     <br/>
-    <button id="adminBtn" type="button">Faculty</button>
+    <button class="primaryButton" id="adminBtn" type="button">Faculty</button>
     
-    <button id="studentBtn" type="button">Student</button>
+    <button class="primaryButton" id="studentBtn" type="button">Student</button>
     <br/>
-    <label>
+    
+    <h3 class="centerText">
         Username
         <input id="username" type="text" name="name" placeholder="Enter Username" disabled />
-    </label>
-    <br/>
-    <label>
+    </h3>
+    
+    
+    <h3 class="centerText">
         Password
         <input id="password" type="text" name="name" placeholder="Enter Password" disabled />
-    </label>
+    </h3>
     <br/>
-    <input type="submit" id="SignIn" Sign In />
-    </form>
+    <input class="secondaryButton" type="submit" id="SignIn" Sign In />
+</form>
+</div>
 <script>
     function enableWritingAndDirectPage(page) {
         document.getElementById("username").disabled=false;
