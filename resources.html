@@ -5,8 +5,6 @@
   <title>Manage Resources</title>
   <link rel="stylesheet" href="projectStyle.css">
   <style>
-   
-
     body {
       background-color: #f5f5f5;
       color: #222;
@@ -25,12 +23,21 @@
       padding: 12px 24px;
       display: flex;
       align-items: center;
+      justify-content: flex-start;         /* <-- keeps writing on the left */
+      gap: 12px;
       margin: -32px -32px 24px -32px;      /* stretch full width since body is padded */
     }
 
     .site-header img {
       height: 48px;
       width: auto;
+    }
+
+    .site-header h2 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0;
+      text-align: left;                    /* <-- ensures it’s left-aligned */
     }
 
     /* "Back to Dashboard" link */
@@ -80,7 +87,6 @@
       padding: 16px 20px;
     }
 
-    /* the rows inside the form */
     .row {
       display: grid;
       grid-template-columns: 140px 1fr;
@@ -119,7 +125,6 @@
       box-shadow: 0 0 0 3px rgba(94,0,31,0.15);
     }
 
-    /* action buttons ("Save", "Clear", "Edit", "Remove") */
     .actions {
       display: flex;
       gap: 8px;
@@ -145,7 +150,6 @@
       box-shadow: 0 4px 10px rgba(94,0,31,0.3);
     }
 
-    /* cards in Existing Resources */
     .list {
       padding: 16px 20px;
     }
@@ -185,8 +189,10 @@
 </head>
 <body>
   <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
-    </header>
+    <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    <h2>Concordia University — Manage Resources</h2>
+  </header>
+
   <a class="back" href="adminPage.html">← Back to Dashboard</a>
   <h1>Resources</h1>
 
