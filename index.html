@@ -1,96 +1,373 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>School Login Site</title>
     <meta charset="UTF-8" />
-  </head>
-  <style>
-    body {
-      background-color: maroon;
-    }
-    h1 {
-      color: white;
-      font-size: xx-large;
-      text-align: center;
-    }
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    label {
-      color: white;
-      display: block;
-      text-align: center;
-    }
+    <title>Concordia Login Website</title>
+    <link rel="stylesheet" href="projectStyle.css" />
+    <style>
+      :root {
+        --concordia-burgundy: #5e001f;
+        --concordia-burgundy-dark: #440017;
+        --concordia-gold: #c9a646;
+        --text-main: #222;
+        --card-bg: #fff;
+        --card-border: #ddd;
+      }
 
-    button {
-      margin: 0 auto;
-    }
-  </style>
+      
+      body {
+        position: relative;
+        min-height: 100vh;
+        margin: 0;
+        padding: 32px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.4;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        color: var(--text-main);
+        background: url("concordiacampus.jpg") no-repeat center 70% fixed;
+        background-size: cover;
+      }
+
+     
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: -1;
+      }
+
+      .site-header {
+        background-color: var(--concordia-burgundy);
+        border-bottom: 4px solid var(--concordia-gold);
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: -32px 0 24px 0;
+        box-sizing: border-box;
+        color: #fff;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      h1 {
+        color: #fff;
+        text-align: center;
+        margin: 0 0 20px 0;
+        font-weight: 600;
+        font-size: 1.3rem;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+
+      p {
+        text-align: center;
+        font-size: 0.95rem;
+        margin: 0 0 24px 0;
+        color: #fff;
+        text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+      }
+
+      .primaryButton {
+        background-color: #fff;
+        color: var(--concordia-burgundy);
+        border: 2px solid var(--concordia-burgundy);
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 10px 16px;
+        cursor: pointer;
+        margin: 0 8px;
+        transition: all 0.2s ease;
+        box-shadow: 0 8px 16px rgba(94, 0, 31, 0.4);
+      }
+
+      .primaryButton:hover {
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+      }
+
+      #student,
+      #admin {
+        display: none;
+        width: 100%;
+        max-width: 420px;
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 28px 32px;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+        margin-top: 16px;
+        text-align: left;
+      }
+
+      #student h2,
+      #admin h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: var(--concordia-burgundy);
+      }
+
+      .inputGroup {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+      }
+
+      .inputGroup .groupLabel {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+        color: var(--text-main);
+      }
+
+      .inputGroup input {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        transition: all 0.15s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        font-family: inherit;
+      }
+
+      .inputGroup input:focus {
+        outline: none;
+        border-color: var(--concordia-burgundy);
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.2);
+      }
+
+      .formButton {
+        width: 100%;
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+        border: 1px solid var(--concordia-burgundy);
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 10px 14px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.18s ease;
+        box-shadow: 0 12px 24px rgba(94, 0, 31, 0.5);
+        margin-top: 10px;
+      }
+
+      .formButton:hover {
+        background-color: var(--concordia-burgundy-dark);
+        border-color: var(--concordia-burgundy-dark);
+        box-shadow: 0 16px 28px rgba(68, 0, 23, 0.6);
+      }
+
+      .actionBlock {
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--text-main);
+      }
+    </style>
+  </head>
+
   <body>
-    <h1>Admin User</h1>
-    <img src="concordiaEmblem.png" alt="Concordia's Logo" />
-    <br />
-    <label>
-      Username:
-      <input
-        id="username"
-        type="text"
-        name="name"
-        placeholder="Enter Username"
-      />
-    </label>
-    <label>
-      Password:
-      <input
-        id="password"
-        type="password"
-        name="name"
-        placeholder="Enter password"
-      />
-      <button id="adminLoginBtn" type="button" style="display: block">
-        Login
-      </button>
-    </label>
-    <br />
-    <label>
-      Which one applies to you?
-      <button type="button" button onclick="redirectToStudentLogin()">
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+    </header>
+
+    <h1>Concordia Room & Resource Booking Service Login Page</h1>
+
+    <p>
+      Are you a student or an admin? Please select:
+      <button id="studentLoginBtn" class="primaryButton" type="button">
         Student
       </button>
-      <button type="button" button onclick="redirectToAdminLogin()">
+      <button id="adminLoginBtn" class="primaryButton" type="button">
         Admin
       </button>
-    </label>
+    </p>
+
+    <!-- STUDENT LOGIN -->
+    <div id="student">
+      <h2>Student User</h2>
+
+      <div class="inputGroup">
+        <div class="groupLabel">Username:</div>
+        <input
+          id="studentUsername"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </div>
+
+      <div class="inputGroup">
+        <div class="groupLabel">Password:</div>
+        <input
+          id="studentPassword"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+      </div>
+
+      <button id="studentLogin" class="formButton" type="button">
+        Login
+      </button>
+
+      <div class="actionBlock">
+        Forgot Password?
+        <button id="forgotPassword" class="formButton" type="button">
+          Reset Password
+        </button>
+      </div>
+
+      <div class="actionBlock">
+        Don't have an account?
+        <button id="studentCreateAccount" class="formButton" type="button">
+          Create Account
+        </button>
+      </div>
+    </div>
+
+    <!-- ADMIN LOGIN -->
+    <div id="admin">
+      <h2>Admin User</h2>
+
+      <div class="inputGroup">
+        <div class="groupLabel">Username:</div>
+        <input
+          id="adminUsername"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </div>
+
+      <div class="inputGroup">
+        <div class="groupLabel">Password:</div>
+        <input
+          id="adminPassword"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+      </div>
+
+      <button id="adminLogin" class="formButton" type="button">
+        Login
+      </button>
+
+      <div class="actionBlock">
+        Forgot Password?
+        <button id="forgotPasswordAdmin" class="formButton" type="button">
+          Reset Password
+        </button>
+      </div>
+
+      <div class="actionBlock">
+        Don't have an account?
+        <button id="adminCreateAccount" class="formButton" type="button">
+          Create Account
+        </button>
+      </div>
+    </div>
+
     <script>
+      // Show STUDENT form
+      document
+        .getElementById("studentLoginBtn")
+        .addEventListener("click", function () {
+          document.getElementById("student").style.display = "block";
+          document.getElementById("admin").style.display = "none";
+
+          document
+            .getElementById("studentLogin")
+            .addEventListener("click", function () {
+              const username =
+                document.getElementById("studentUsername").value;
+              const password =
+                document.getElementById("studentPassword").value;
+              if (username.trim() === "" && password.trim() === "") {
+                alert("You must put a username and password");
+              } else if (username.trim() === "") {
+                alert("You must put a username");
+              } else if (password.trim() === "") {
+                alert("You must put a password");
+              } else {
+                const users = [];
+                users.push({
+                  username: username,
+                  password: password,
+                });
+                localStorage.setItem("username", username);
+                location.href = "studentPage.html";
+              }
+            });
+
+          document
+            .getElementById("studentCreateAccount")
+            .addEventListener("click", function () {
+              location.href = "studentCreateAccount.html";
+            });
+
+          document
+            .getElementById("forgotPassword")
+            .addEventListener("click", function () {
+              location.href = "forgotPassword.html";
+            });
+        });
+
+      // Show ADMIN form
       document
         .getElementById("adminLoginBtn")
         .addEventListener("click", function () {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
-          if (username.trim() === "" && password.trim() === "") {
-            alert("You must put a username and password");
-          } else if (username.trim() === "") {
-            alert("You must put a username");
-          } else if (password.trim() === "") {
-            alert("You must put a password");
-          } else {
-            const users = [];
-            //create a for loop to see if the user exists, and if they do see if the password matches
-            users.push({
-              username: username,
-              password: password,
+          document.getElementById("admin").style.display = "block";
+          document.getElementById("student").style.display = "none";
+
+          document
+            .getElementById("adminLogin")
+            .addEventListener("click", function () {
+              const username = document.getElementById("adminUsername").value;
+              const password = document.getElementById("adminPassword").value;
+              if (username.trim() === "" && password.trim() === "") {
+                alert("You must put a username and password");
+              } else if (username.trim() === "") {
+                alert("You must put a username");
+              } else if (password.trim() === "") {
+                alert("You must put a password");
+              } else {
+                const users = [];
+                users.push({
+                  username: username,
+                  password: password,
+                });
+                localStorage.setItem("username", username);
+                location.href = "adminPage.html";
+              }
             });
-            localStorage.setItem("username", username);
-            location.href = "adminPage.html";
-          }
+
+          document
+            .getElementById("adminCreateAccount")
+            .addEventListener("click", function () {
+              location.href = "adminCreateAccount.html";
+            });
+
+          document
+            .getElementById("forgotPasswordAdmin")
+            .addEventListener("click", function () {
+              location.href = "forgotPassword.html";
+            });
         });
-      function redirectToStudentLogin() {
-        location.href = "studentLogin.html";
-      }
-      function redirectToAdminLogin() {
-        location.href = "index.html";
-      }
     </script>
+
+    <footer class="site-footer"></footer>
   </body>
 </html>
