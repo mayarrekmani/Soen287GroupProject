@@ -4,16 +4,74 @@
     <meta charset="UTF-8" />
     <title>Past Appointments</title>
     <link rel="stylesheet" href="projectStyle.css" />
+    <style>
+      /* === Concordia Header === */
+      .site-header {
+        background-color: #5e001f; /* Burgundy */
+        color: #fff;
+        border-bottom: 4px solid #c9a646; /* Gold accent */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        margin: -8px -8px 24px -8px;
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 32px;
+        line-height: 1.4;
+      }
+
+      h1 {
+        color: #5e001f;
+        font-size: 1.6rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      /* === Appointment Cards === */
+      .redBlock {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px 20px;
+        max-width: 700px;
+        margin: 12px auto;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+        font-size: 1rem;
+        color: #333;
+        text-align: center;
+      }
+
+      .redBlock:hover {
+        border-color: #5e001f;
+        box-shadow: 0 6px 14px rgba(94, 0, 31, 0.15);
+      }
+    </style>
   </head>
+
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Past Appointments</h2>
     </header>
+
     <h1>Your past appointments:</h1>
-    <div class="redBlock"> 10:00 am - 11: 00 am 2025-10-19 room = Study Room A </div>
-    <br />
-    <div class="redBlock"> 09:00 am - 10: 00 am 2025-10-19 room = Study Room A </div>
-    <br />
-    <div class="redBlock"> 1:00 pm - 2 : 00 pm 2025-10-09 room = Computer Lab B </label>
+
+    <div class="redBlock">10:00 am - 11:00 am 2025-10-19 — Room: Study Room A</div>
+    <div class="redBlock">09:00 am - 10:00 am 2025-10-19 — Room: Study Room A</div>
+    <div class="redBlock">1:00 pm - 2:00 pm 2025-10-09 — Room: Computer Lab B</div>
   </body>
 </html>

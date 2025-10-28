@@ -14,7 +14,6 @@
       --card-bg: #fff;
       --card-border: #ddd;
       --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
-
       --border-soft: rgba(0,0,0,0.07);
       --bg-soft: #faf9fa;
     }
@@ -43,7 +42,6 @@
       margin: 0;
       padding: 30px;
     }
-    /* top part */
 
     .topRow {
       display: flex;
@@ -59,7 +57,6 @@
       padding: 16px 20px;
       min-width: 220px;
       flex: 1 1 220px;
-
       display: flex;
       flex-direction: column;
       row-gap: 6px;
@@ -98,7 +95,6 @@
       padding: 20px 24px;
       flex: 1 1 360px;
       min-width: 300px;
-
       display: flex;
       flex-direction: column;
       row-gap: 16px;
@@ -132,7 +128,6 @@
       border-radius: 12px;
       padding: 12px;
       min-height: 200px;
-
       display: flex;
       align-items: center;
       justify-content: center;
@@ -145,6 +140,26 @@
       border-radius: 8px;
     }
 
+    /* --- Go Back Button --- */
+    .goBackButton {
+      display: block;
+      background-color: var(--brand-dark);
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 40px auto 0;
+      box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .goBackButton:hover {
+      background-color: #440017;
+      box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -187,7 +202,7 @@
         </div>
 
         <div class="chartImageWrapper">
-          <img src="StudyRoom_Bookings.png" alt="Bookings for Each Room">
+          <img src="StudyRoom_Bookings.jpg" alt="Bookings for Each Room">
         </div>
       </section>
 
@@ -204,7 +219,17 @@
 
     </div>
 
+    <!-- Go Back Button -->
+    <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
+
   </main>
+
+  <script>
+    document.getElementById("goBackBtn").addEventListener("click", function() {
+      location.href = "adminPage.html";
+    });
+  </script>
 
 </body>
 </html>
+ß
