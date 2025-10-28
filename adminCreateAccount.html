@@ -4,80 +4,178 @@
     <title>Admin Create Account</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="projectStyle.css">
-  </head>
-  <style>
-    body {
-      background-color: maroon;
-    }
-    h1 {
-      color: black;
-      font-size: xx-large;
-      text-align: center;
-    }
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    label {
-      color: black;
-      display: block;
-      text-align: center;
-    }
+    <style>
+      :root {
+        --concordia-burgundy: #5e001f;
+        --concordia-burgundy-dark: #440017;
+        --concordia-gold: #c9a646;
+        --bg-page: #f5f5f5;
+        --card-bg: #ffffff;
+        --text-main: #222;
+        --text-dim: #555;
+      }
 
-    button {
-      margin: 0 auto;
-    }
-  </style>
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Header */
+      .site-header {
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+        border-bottom: 4px solid var(--concordia-gold);
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 32px;
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      .site-header h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--concordia-burgundy);
+        font-size: 1.4rem;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      /* Form card container */
+      .form-card {
+        background-color: var(--card-bg);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+        padding: 30px 40px;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 12px;
+      }
+
+      /* Input alignment fix */
+      input {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 6px;
+        margin-bottom: 18px;
+        font-size: 0.95rem;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: #fff;
+        transition: all 0.15s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--concordia-burgundy);
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      /* Button */
+      .primaryButton {
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+        border: 1px solid var(--concordia-burgundy);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+      }
+
+      .primaryButton:hover {
+        background-color: var(--concordia-burgundy-dark);
+        box-shadow: 0 6px 14px rgba(94, 0, 31, 0.3);
+      }
+    </style>
+  </head>
+
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Account Setup</h2>
     </header>
+
     <h1>To create your admin account, follow the steps below:</h1>
-    <label>
-      Username:
-      <input
-        id="username"
-        type="text"
-        name="name"
-        placeholder="Enter Username"
-      />
-    </label>
 
-    <p></p>
+    <div class="form-card">
+      <label>
+        Username:
+        <input
+          id="username"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </label>
 
-    <label>
-      Password:
-      <input
-        id="password"
-        type="password"
-        name="name"
-        placeholder="Enter password"
-      />
-    </label>
+      <label>
+        Password:
+        <input
+          id="password"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+      </label>
 
-    <p></p>
+      <label>
+        Re-enter Password:
+        <input
+          id="confirmedPassword"
+          type="password"
+          name="name"
+          placeholder="Re-enter password"
+        />
+      </label>
 
-    <label>
-      Re-enter Password:
-      <input
-        id="confirmedPassword"
-        type="password"
-        name="name"
-        placeholder="Re-enter password"
-      >
-      <p></p>
       <label>
         E-mail:
         <input id="email" type="email" name="name" placeholder="Enter E-mail" />
       </label>
-      <p></p>
-      <label>
-      <button id="createAdminAccount" class = "primaryButton" type="button" style="display: block">
+
+      <button
+        id="createAdminAccount"
+        class="primaryButton"
+        type="button"
+      >
         Create Account
       </button>
-    </label>
-    <br />
+    </div>
+
     <script>
       document
         .getElementById("createAdminAccount")
@@ -99,7 +197,6 @@
             alert("You must put an e-mail");
           } else {
             const users = [];
-            //create a for loop to see if the user exists, and if they do see if the password matches
             users.push({
               username: username,
               password: password,

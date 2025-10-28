@@ -7,6 +7,8 @@
   <style>
   :root {
     --brand-dark: #5e001f;
+    --brand-dark-hover: #440017;
+    --brand-gold: #c9a646;
     --text-main: #222;
     --text-dim: #6b6b6b;
     --bg-page: #f5f5f5;
@@ -24,40 +26,78 @@
     padding: 30px;
   }
 
-  /* --- WELCOME SECTION--- */
+  /* --- UPDATED WELCOME / HEADER SECTION TO MATCH CONCORDIA STYLE --- */
   .firstsection {
-    max-width: 1200px;
-    margin: 0 auto 24px auto;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
+    width: calc(100% + 60px);            /* bleed full width past page padding */
+    margin: -30px 0 24px -30px;          /* pull it up and left to act like a page header */
+    padding: 16px 24px;
 
-    padding: 24px 28px;
-  display: flex;
+    background-color: var(--brand-dark); /* burgundy bar */
+    color: #fff;
+    border-bottom: 4px solid var(--brand-gold); /* gold accent */
+
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
-    row-gap: 16px;
+    row-gap: 12px;
     column-gap: 16px;
+
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }
 
   .firstsectionleft h1 {
     font-weight: 600;
-    color: var(--brand-dark);
-    
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin: 0 0 6px 0;
   }
 
-  .firstsectionleft p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    line-height: 1.4;
+  .welcomeText {
+    display: inline-block;
+    margin-right: 6px;
   }
 
   #displayName {
-    color: #333;
-    font-weight: 500;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .firstsectionleft p,
+  .dateBlock,
+  .scheduleLabel {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #fff;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .dateBlock {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .scheduleLabel {
+    font-weight: 600;
+  }
+
+  /* make the date look like a pill in header */
+  .dateInput {
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    color: #222;
+    min-width: 135px;
+    cursor: pointer; /* changed from not-allowed so user can interact */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
   .firstsectionright {
@@ -66,6 +106,193 @@
   }
 
   .manageButton {
+    background-color: #fff;
+    color: var(--brand-dark);
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    line-height: 1.2;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .manageButton:hover {
+    background-color: var(--brand-gold);
+    color: #1e1e1e;
+    border-color: var(--brand-gold);
+    box-shadow: 0 20px 36px rgba(0,0,0,0.55);
+  }
+
+  .manageButton:active {
+    transform: scale(0.98);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  }
+
+  /* --- EXISTING BOOKING TABLE STYLES (UNCHANGED) --- */
+  .roomsection {
+    max-width: 1200px;                 
+    margin: 0 auto 32px auto;          
+    background: var(--card-bg);        
+    border: 1px solid var(--card-border);  
+    border-radius: 16px;              
+    box-shadow: var(--card-shadow);    
+    padding: 24px 28px;                
+    font-family: inherit;             
+    color: var(--text-main);           
+  }
+
+  .sectionheader {
+    margin-bottom: 20px;               
+  }
+
+  .tableTitle {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .description {
+    margin: 0;
+    font-size: 14;
+    color: var(--text-dim);
+    text-align: left; 
+  }
+
+  .booking {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+  }
+
+  .bookingtable {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    min-width: 800px;
+    font-size: 0.8rem;
+    color: var(--text-main);
+  }
+
+  .bookingtable thead th {
+    background: radial-gradient(
+      circle at 0% 0%,
+      #ffffff 0%,
+      #dbdada 100%
+    );
+    color: #2b2b2b;
+    font-weight: 600;
+    text-align: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    font-size: 0.7rem;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+  }
+
+  .bookingtable tbody td {
+    position: relative;
+    vertical-align: middle;
+    min-width: 80px;
+    height: 56px;
+    padding: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,0.07);
+    text-align: center;
+  }
+
+  .roomName {
+    background: radial-gradient(circle at 0% 0%, #faf9fa 0%, #ffffff 70%);
+    color: #2b2b2b;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 900;
+    line-height: 1.3;
+    white-space: nowrap;
+    height: auto;
+  }
+
+  .slotcheckbox {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    width: auto;
+    height: auto;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .slotcheckbox:disabled {
+    cursor: not-allowed;
+  }
+
+  .slotvisual {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    display: block;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.15s;
+    z-index: 1;
+  }
+
+  .slotvisual_available {
+    background: #86c99c;
+    border-color: #27ae60;
+    box-shadow: 0 12px 24px rgba(98, 189, 136, 0.3);
+  }
+
+  .slotvisual_unavailable {
+    background: repeating-linear-gradient(
+      135deg,
+      #bcbcbc 0px,
+      #bcbcbc 6px,
+      #9a9a9a 6px,
+      #9a9a9a 12px
+    );
+    border: 2px solid #7a7a7a;
+    opacity: 0.7;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  }
+
+  .dateInput {
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    color: #222;
+    min-width: 135px;
+    cursor: pointer; /* also updated here to match */
+  }
+
+  .bookButtonSpace {
+    justify-content: center;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .bookButtonSpace .manageButton {
     background-color: var(--brand-dark);
     color: #fff;
     border: 1px solid var(--brand-dark);
@@ -81,199 +308,16 @@
     white-space: nowrap;
   }
 
-  .manageButton:hover {
-    background-color: #440017;
-    border-color: #440017;
+  .bookButtonSpace .manageButton:hover {
+    background-color: var(--brand-dark-hover);
+    border-color: var(--brand-dark-hover);
     box-shadow: 0 20px 36px rgba(68, 0, 23, 0.5);
   }
 
-  .manageButton:active {
+  .bookButtonSpace .manageButton:active {
     transform: scale(0.98);
     box-shadow: 0 8px 16px rgba(94, 0, 31, 0.4);
   }
-/*Booking Table Styling */
-.roomsection {
-  max-width: 1200px;                 
-  margin: 0 auto 32px auto;          
-  background: var(--card-bg);        
-  border: 1px solid var(--card-border);  
-  border-radius: 16px;              
-  box-shadow: var(--card-shadow);    
-  padding: 24px 28px;                
-  font-family: inherit;             
-  color: var(--text-main);           
-}
-
-.sectionheader {
-  margin-bottom: 20px;               
-}
-
-.tableTitle {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-.description {
-  margin: 0;
-  font-size: 14;
-  color: var(--text-dim);
-  text-align: left; 
-}
-
-.booking {
-  width: 100%;
-  overflow-x: auto;                       /* if screen is narrow, let table scroll sideways */
-  border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.07);  /* subtle border around whole table */
-  background: #ffffff;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); /* soft outer shadow */
-}
-
-.bookingtable {
-  border-collapse: separate;              /* we want cells separated so we can control spacing */
-  border-spacing: 0;                      /* but we still start with no gaps between cells */
-  width: 100%;
-  min-width: 800px;                       /* don't let columns get squished too hard */
-  font-size: 0.8rem;
-  color: var(--text-main);
-}
-
-/* Header row cells */
-.bookingtable thead th {
-background: radial-gradient(
-    circle at 0% 0%,
-    #ffffff 0%,
-    #dbdada 100%
-  );
-  color: #2b2b2b;
-  font-weight: 600;
-  text-align: center;
-  padding: 12px 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-  font-size: 0.7rem;
-  white-space: nowrap;   /* "10:00" stays on one line */
-  letter-spacing: -0.02em;
-}
-
-.bookingtable tbody td {
-  position: relative;                      /* so we can absolutely-position stuff inside later */
-  vertical-align: middle;
-  min-width: 80px;
-  height: 56px;
-  padding: 6px;                            /* small padding inside cells */
-  font-size: 0.75rem;
-  font-weight: 500;
-  background: #fff;
-  border-top: 1px solid rgba(0,0,0,0.07);  /* row separator line */
-  text-align: center;
-}
-
-.roomName {
-  background: radial-gradient(circle at 0% 0%, #faf9fa 0%, #ffffff 70%);
-  color: #2b2b2b;
-  text-align: left;
-  font-size: 0.8rem;
-  font-weight: 900;
-  line-height: 1.3;
-  white-space: nowrap;
-  height: auto;
-}
-
-.slotcheckbox {
-  position: absolute;
-  /* fill inside the cell, but leave a 6px border gap that matches the cell padding */
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-
-  width: auto;
-  height: auto;
-  margin: 0;
-
-  opacity: 0;         
-  cursor: pointer;
-  z-index: 2;          
-}
-
-.slotcheckbox:disabled {
-  cursor: not-allowed;
-}
-.slotcheckbox {
-  position: absolute;
-
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-
-  width: auto;
-  height: auto;
-  margin: 0;
-
-  opacity: 0;          
-  cursor: pointer;
-  z-index: 2;        
-}
-
-.slotcheckbox:disabled {
-  cursor: not-allowed;
-}
-.slotvisual {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-
-  border-radius: 8px;
-  border: 2px solid transparent;
-  display: block;
-
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  transition: all 0.15s;
-  z-index: 1;           /* under the checkbox */
-}
-
-.slotvisual_available {
-  background: #86c99c;
-  border-color: #27ae60;
-  box-shadow: 0 12px 24px rgba(98, 189, 136, 0.3);
-}
-
-.slotvisual_unavailable {
-  background: repeating-linear-gradient(
-    135deg,
-    #bcbcbc 0px,
-    #bcbcbc 6px,
-    #9a9a9a 6px,
-    #9a9a9a 12px
-  );
-  border: 2px solid #7a7a7a;
-  opacity: 0.7;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-.dateInput {
-  background: #fff;
-  border: 1px solid #999;
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 0.8rem;
-  line-height: 1.2;
-  color: #222;
-
-  min-width: 135px;
-  cursor: not-allowed;
-}
-
-.bookButtonSpace {
-  justify-content: center;   
-  margin-top: 24px;        
-  margin-bottom: 8px;        
-}
 
 </style>
 
@@ -290,13 +334,12 @@ background: radial-gradient(
     <div class="dateBlock">
       <label class="scheduleLabel"><strong>Booking Schedule for:</strong></label>
 
+      <!-- UPDATED: now editable, has id="dateInput", no readonly/min/max lock -->
       <input
         type="date"
         class="dateInput"
+        id="dateInput"
         value="2025-10-19"
-        min="2025-10-19"
-        max="2025-10-19"
-        readonly
       />
     </div>
   </div>

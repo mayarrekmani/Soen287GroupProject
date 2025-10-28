@@ -4,7 +4,7 @@
     <title>Booking Requests</title>
     <link rel="stylesheet" href="projectStyle.css">
     <style>
-      /* --- Concordia Header Only --- */
+      /* --- Concordia Header --- */
       .site-header {
         background-color: #5e001f; /* Concordia burgundy */
         color: #fff;
@@ -12,15 +12,104 @@
         padding: 12px 24px;
         display: flex;
         align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
       }
 
       .site-header img {
         height: 48px;
         width: auto;
-        margin-right: 12px;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 32px;
+      }
+
+      h1 {
+        color: #5e001f;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .redBlock {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px 20px;
+        max-width: 700px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+
+      .redBlock p {
+        margin: 4px 0;
+      }
+
+      /* --- Matching Button Styles (Approve / Deny / Go Back) --- */
+
+      .approveButton,
+      .denyButton,
+      .primaryButton {
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 8px 14px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        margin-right: 8px;
+      }
+
+      /* Approve = Concordia Burgundy */
+      .approveButton {
+        background-color: #5e001f;
+        color: #fff;
+        border-color: #5e001f;
+      }
+
+      .approveButton:hover {
+        background-color: #7a0b2b;
+        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+      }
+
+      /* Deny = Light border with red text */
+      .denyButton {
+        background-color: #fff;
+        color: #5e001f;
+        border-color: #5e001f;
+      }
+
+      .denyButton:hover {
+        background-color: #5e001f;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+      }
+
+      /* Go Back button (same Concordia style) */
+      .primaryButton {
+        background-color: #fff;
+        color: #5e001f;
+        border: 1px solid #5e001f;
+        display: block;
+        margin-top: 24px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .primaryButton:hover {
+        background-color: #5e001f;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
       }
     </style>
   </head>
+
   <body>
     <!-- Concordia Header -->
     <header class="site-header">
@@ -29,62 +118,66 @@
     </header>
 
     <h1>Pending Booking Requests</h1>
+
     <div class="redBlock">
       Student: John Doe 
       <p></p>Request: 5:00 pm - 6:00 pm 2025-10-22 
       <p></p>Reason: I want to meet with my team for my Soen287 project<p></p>
-      <button class="approveButton"type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-    <br />
-    <div class="redBlock">
-      Student: Alice Nguyen <p></p>
-      Request: 9:30 am - 10:30 am 2025-10-23 <p></p>
-      Reason: Need help reviewing my COMP248 assignment<p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
-    <br />
+
     <div class="redBlock">
-      Student: Mark Thompson <p></p>
-      Request: 2:00 pm - 3:00 pm 2025-10-25 <p></p>
-      Reason: Discuss upcoming midterm project proposal<p></p>
+      Student: Alice Nguyen 
+      <p></p>Request: 9:30 am - 10:30 am 2025-10-23 
+      <p></p>Reason: Need help reviewing my COMP248 assignment<p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
-    <br />
+
     <div class="redBlock">
-      Student: Sophia Martinez <p></p>
-      Request: 11:15 am - 12:00 pm 2025-10-27 <p></p>
-      Reason: Clarify doubts about JavaScript DOM manipulation<p></p>
+      Student: Mark Thompson 
+      <p></p>Request: 2:00 pm - 3:00 pm 2025-10-25 
+      <p></p>Reason: Discuss upcoming midterm project proposal<p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
-    <br />
+
     <div class="redBlock">
-      Student: Liam Patel <p></p>
-      Request: 4:45 pm - 5:30 pm 2025-10-29 <p></p>
-      Reason: Schedule feedback session for my co-op resume<p></p>
+      Student: Sophia Martinez 
+      <p></p>Request: 11:15 am - 12:00 pm 2025-10-27 
+      <p></p>Reason: Clarify doubts about JavaScript DOM manipulation<p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
-    <br />
+
+    <div class="redBlock">
+      Student: Liam Patel 
+      <p></p>Request: 4:45 pm - 5:30 pm 2025-10-29 
+      <p></p>Reason: Schedule feedback session for my co-op resume<p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
+
     <button id="goBack" class="primaryButton" type="button">Go Back To Dashboard</button>
+
     <script>
-      const approveRequests = document.querySelectorAll(".approve");
+      const approveRequests = document.querySelectorAll(".approveButton");
       for (let i = 0; i < approveRequests.length; i++) {
         approveRequests[i].addEventListener("click", function () {
           alert("Request has been approved!");
           this.parentElement.remove();
         });
       }
-      const denyRequests = document.querySelectorAll(".deny");
+
+      const denyRequests = document.querySelectorAll(".denyButton");
       for (let j = 0; j < denyRequests.length; j++) {
         denyRequests[j].addEventListener("click", function () {
           alert("Request has been denied!");
           this.parentElement.remove();
         });
       }
+
       document.getElementById("goBack").addEventListener("click", function () {
         location.href = "adminPage.html";
       });
