@@ -1,235 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Reports</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Reports</title>
 
-  <style>
-    :root {
-      --brand-dark: #5e001f;
-      --text-main: #222;
-      --text-dim: #6b6b6b;
-      --bg-page: #f5f5f5;
-      --card-bg: #fff;
-      --card-border: #ddd;
-      --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
-      --border-soft: rgba(0,0,0,0.07);
-      --bg-soft: #faf9fa;
-    }
+    <style>
+      :root {
+        --brand-dark: #5e001f;
+        --text-main: #222;
+        --text-dim: #6b6b6b;
+        --bg-page: #f5f5f5;
+        --card-bg: #fff;
+        --card-border: #ddd;
+        --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+        --border-soft: rgba(0, 0, 0, 0.07);
+        --bg-soft: #faf9fa;
+      }
 
-    /* --- Concordia Header --- */
-    .site-header {
-      background-color: #5e001f; /* Concordia burgundy */
-      color: #fff;
-      border-bottom: 4px solid #c9a646; /* gold accent stripe */
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-    }
+      /* --- Concordia Header --- */
+      .site-header {
+        background-color: #5e001f; /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid #c9a646; /* gold accent stripe */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+      }
 
-    .site-header img {
-      height: 48px;
-      width: auto;
-      margin-right: 12px;
-    }
+      .site-header img {
+        height: 48px;
+        width: auto;
+        margin-right: 12px;
+      }
 
-    body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, "Helvetica Neue", Arial, sans-serif;
-      margin: 0;
-      padding: 30px;
-    }
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+      }
 
-    .topRow {
-      display: flex;
-      flex-wrap: wrap;         
-      gap: 16px;
-    }
+      .topRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
 
-    .sectionup {
-      background: var(--card-bg);
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-      padding: 16px 20px;
-      min-width: 220px;
-      flex: 1 1 220px;
-      display: flex;
-      flex-direction: column;
-      row-gap: 6px;
-    }
+      .sectionup {
+        background: var(--card-bg);
+        border: 1px solid var(--border-soft);
+        border-radius: 14px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+        padding: 16px 20px;
+        min-width: 220px;
+        flex: 1 1 220px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+      }
 
-    .sectionup h2 {
-      margin: 0;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-dim);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
+      .sectionup h2 {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-dim);
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
 
-    .sectionup h1 {
-      margin: 0;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-    }
+      .sectionup h1 {
+        margin: 0;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-main);
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+      }
 
-    .bottomRow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
+      .bottomRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
 
-    .sectiondown {
-      background: var(--card-bg);
-      border: 1px solid var(--border-soft);
-      border-radius: 16px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-      padding: 20px 24px;
-      flex: 1 1 360px;
-      min-width: 300px;
-      display: flex;
-      flex-direction: column;
-      row-gap: 16px;
-    }
+      .sectiondown {
+        background: var(--card-bg);
+        border: 1px solid var(--border-soft);
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+        padding: 20px 24px;
+        flex: 1 1 360px;
+        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+      }
 
-    .typeOfReport {
-      display: flex;
-      flex-direction: column;
-      row-gap: 4px;
-    }
+      .typeOfReport {
+        display: flex;
+        flex-direction: column;
+        row-gap: 4px;
+      }
 
-    .typeOfReport h3 {
-      margin: 0;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-    }
+      .typeOfReport h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-main);
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+      }
 
-    .reportSubtext {
-      margin: 0;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      line-height: 1.4;
-    }
+      .reportSubtext {
+        margin: 0;
+        font-size: 0.75rem;
+        color: var(--text-dim);
+        line-height: 1.4;
+      }
 
-    .chartImageWrapper {
-      background: var(--bg-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 12px;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+      .chartImageWrapper {
+        background: var(--bg-soft);
+        border: 1px solid var(--border-soft);
+        border-radius: 12px;
+        padding: 12px;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-    .chartImageWrapper img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-    }
+      .chartImageWrapper img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
 
-    /* --- Go Back Button --- */
-    .goBackButton {
-      display: block;
-      background-color: var(--brand-dark);
-      color: #fff;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      padding: 12px 24px;
-      font-size: 1rem;
-      cursor: pointer;
-      margin: 40px auto 0;
-      box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
-      transition: all 0.2s ease;
-    }
+      /* --- Go Back Button --- */
+      .goBackButton {
+        display: block;
+        background-color: var(--brand-dark);
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 40px auto 0;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+        transition: all 0.2s ease;
+      }
 
-    .goBackButton:hover {
-      background-color: #440017;
-      box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
-    }
-  </style>
-</head>
-<body>
+      .goBackButton:hover {
+        background-color: #440017;
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Concordia Header -->
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Reports</h2>
+    </header>
 
-  <!-- Concordia Header -->
-  <header class="site-header">
-    <img src="concordiaEmblem.png" alt="Concordia Emblem">
-    <h2>Concordia University — Admin Reports</h2>
-  </header>
+    <main class="pageWrap">
+      <!-- TOP: quick stats -->
+      <div class="topRow">
+        <section class="sectionup">
+          <h2>Total Bookings for the Day</h2>
+          <h1>35</h1>
+        </section>
 
-  <main class="pageWrap">
+        <section class="sectionup">
+          <h2>Most Used Resource</h2>
+          <h1>Study Room D</h1>
+        </section>
 
-    <!-- TOP: quick stats -->
-    <div class="topRow">
+        <section class="sectionup">
+          <h2>Peak Time</h2>
+          <h1>18:00-19:00</h1>
+        </section>
+      </div>
 
-      <section class="sectionup">
-        <h2>Total Bookings for the Day</h2>
-        <h1>35</h1>
-      </section>
+      <!-- BOTTOM: charts / images -->
+      <div class="bottomRow">
+        <section class="sectiondown">
+          <div class="typeOfReport">
+            <h3>Bookings for Each Room</h3>
+            <p class="reportSubtext">How many bookings each room got today</p>
+          </div>
 
-      <section class="sectionup">
-        <h2>Most Used Resource</h2>
-        <h1>Study Room D</h1>
-      </section>
+          <div class="chartImageWrapper">
+            <img src="StudyRoom_Bookings.png" alt="Bookings for Each Room" />
+          </div>
+        </section>
 
-      <section class="sectionup">
-        <h2>Peak Time</h2>
-        <h1>18:00-19:00</h1>
-      </section>
+        <section class="sectiondown">
+          <div class="typeOfReport">
+            <h3>Time Blocks: Popularity in Booking</h3>
+            <p class="reportSubtext">Which hours were the busiest</p>
+          </div>
 
-    </div>
+          <div class="chartImageWrapper">
+            <img
+              src="timeSlots_Bookings.png"
+              alt="Popularity in each Time Block"
+            />
+          </div>
+        </section>
+      </div>
 
-    <!-- BOTTOM: charts / images -->
-    <div class="bottomRow">
+      <!-- Go Back Button -->
+      <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
+    </main>
 
-      <section class="sectiondown">
-        <div class="typeOfReport">
-          <h3>Bookings for Each Room</h3>
-          <p class="reportSubtext">How many bookings each room got today</p>
-        </div>
-
-        <div class="chartImageWrapper">
-          <img src="StudyRoom_Bookings.jpg" alt="Bookings for Each Room">
-        </div>
-      </section>
-
-      <section class="sectiondown">
-        <div class="typeOfReport">
-          <h3>Time Blocks: Popularity in Booking</h3>
-          <p class="reportSubtext">Which hours were the busiest</p>
-        </div>
-
-        <div class="chartImageWrapper">
-          <img src="timeSlots_Bookings.png" alt="Popularity in each Time Block">
-        </div>
-      </section>
-
-    </div>
-
-    <!-- Go Back Button -->
-    <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
-
-  </main>
-
-  <script>
-    document.getElementById("goBackBtn").addEventListener("click", function() {
-      location.href = "adminPage.html";
-    });
-  </script>
-
-</body>
+    <script>
+      document
+        .getElementById("goBackBtn")
+        .addEventListener("click", function () {
+          location.href = "adminPage.html";
+        });
+    </script>
+  </body>
 </html>
 ß
