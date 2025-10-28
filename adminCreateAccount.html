@@ -2,14 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-<<<<<<< HEAD
     <title>Admin Create Account</title>
-
-    <style>
-      * {
-        box-sizing: border-box;
-=======
-    <link rel="stylesheet" href="projectStyle.css">
+    <link rel="stylesheet" href="projectStyle.css" />
     <style>
       :root {
         --concordia-burgundy: #5e001f;
@@ -21,73 +15,29 @@
         --text-dim: #555;
       }
 
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         background-color: var(--bg-page);
         color: var(--text-main);
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           Roboto, "Helvetica Neue", Arial, sans-serif;
         margin: 0;
         padding: 0;
         line-height: 1.4;
-<<<<<<< HEAD
-      }
-
-      body {
-        background-color: #f5f5f5;
-        color: #222;
         display: flex;
         flex-direction: column;
+        align-items: center;
         min-height: 100vh;
       }
 
       /* Header */
-      header {
-        background-color: #5e001f; /* Concordia burgundy */
-        color: #fff;
-        border-bottom: 4px solid #c9a646; /* gold accent stripe */
-        padding: 12px 24px;
-        display: flex;
-        align-items: center;
-      }
-
-      header img {
-        height: 48px;
-        width: auto;
-        margin-right: 12px;
-      }
-
-      header h2 {
-        font-size: 1.1rem;
-        font-weight: 600;
-      }
-
-      /* Main content card */
-      main {
-        max-width: 650px;
-        margin: 40px auto;
-        background: #fff;
-        border-radius: 8px;
-        padding: 24px 32px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
-      }
-
-      h1 {
-        color: #5e001f;
-        text-align: center;
-        margin-bottom: 24px;
-        font-size: 1.5rem;
-=======
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      /* Header */
       .site-header {
-        background-color: var(--concordia-burgundy);
+        background-color: var(--concordia-burgundy); /* Concordia burgundy */
         color: #fff;
-        border-bottom: 4px solid var(--concordia-gold);
+        border-bottom: 4px solid var(--concordia-gold); /* gold accent stripe */
         padding: 12px 24px;
         display: flex;
         align-items: center;
@@ -95,7 +45,7 @@
         gap: 12px;
         width: 100%;
         box-sizing: border-box;
-        margin-bottom: 32px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       }
 
       .site-header img {
@@ -109,11 +59,13 @@
         margin: 0;
       }
 
+      /* Page title */
       h1 {
         color: var(--concordia-burgundy);
         font-size: 1.4rem;
         text-align: center;
-        margin-bottom: 24px;
+        margin: 32px 16px 24px;
+        font-weight: 600;
       }
 
       /* Form card container */
@@ -125,29 +77,12 @@
         padding: 30px 40px;
         width: 100%;
         max-width: 420px;
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
+        margin-bottom: 40px;
       }
 
       label {
         display: block;
         font-weight: 600;
-<<<<<<< HEAD
-        color: #333;
-        margin-bottom: 10px;
-        text-align: left;
-      }
-
-      input {
-        display: block;
-        width: 100%;
-        margin-top: 6px;
-        margin-bottom: 16px;
-        padding: 10px;
-        border: 1px solid #bbb;
-        border-radius: 4px;
-        font-size: 0.95rem;
-        background-color: #fff;
-=======
         color: var(--text-main);
         margin-bottom: 12px;
       }
@@ -165,49 +100,11 @@
         box-sizing: border-box;
         background-color: #fff;
         transition: all 0.15s ease;
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
+        font-family: inherit;
       }
 
       input:focus {
         outline: none;
-<<<<<<< HEAD
-        border-color: #5e001f;
-        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
-      }
-
-      button {
-        cursor: pointer;
-        font-size: 0.95rem;
-        border-radius: 4px;
-        font-weight: 600;
-        border: none;
-        padding: 10px 16px;
-        transition: all 0.15s ease;
-        background-color: #5e001f;
-        color: #fff;
-        border: 1px solid #5e001f;
-        display: block;
-        margin: 12px auto 0;
-      }
-
-      button:hover {
-        background-color: #440017;
-        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
-      }
-
-      footer {
-        background-color: #fafafa;
-        color: #777;
-        font-size: 0.75rem;
-        text-align: center;
-        border-top: 1px solid #ddd;
-        padding: 16px;
-        margin-top: auto;
-      }
-
-      .input-section {
-        margin-bottom: 12px;
-=======
         border-color: var(--concordia-burgundy);
         box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
       }
@@ -226,60 +123,27 @@
         width: 100%;
         text-align: center;
         margin-top: 8px;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
       }
 
       .primaryButton:hover {
         background-color: var(--concordia-burgundy-dark);
-        box-shadow: 0 6px 14px rgba(94, 0, 31, 0.3);
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
       }
+
+      /* optional tiny footer vibe if you want to add later
+      footer {
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        padding: 16px;
+        margin-top: auto;
+      }
+      */
     </style>
   </head>
 
   <body>
-<<<<<<< HEAD
-    <!-- Header -->
-    <header>
-      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
-      <h2>Concordia University — Admin Portal</h2>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-      <h1>To Create Your Admin Account</h1>
-
-      <div class="input-section">
-        <label for="username">Username:</label>
-        <input id="username" type="text" placeholder="Enter Username" />
-      </div>
-
-      <div class="input-section">
-        <label for="password">Password:</label>
-        <input id="password" type="password" placeholder="Enter Password" />
-      </div>
-
-      <div class="input-section">
-        <label for="confirmedPassword">Re-enter Password:</label>
-        <input
-          id="confirmedPassword"
-          type="password"
-          placeholder="Re-enter Password"
-        />
-      </div>
-
-      <div class="input-section">
-        <label for="email">E-mail:</label>
-        <input id="email" type="email" placeholder="Enter E-mail" />
-      </div>
-
-      <button id="createStudentAccount" type="button">Create Account</button>
-    </main>
-
-    <!-- Footer -->
-    <footer>© Concordia University · All rights reserved</footer>
-
-    <!-- Script -->
-=======
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
       <h2>Concordia University — Admin Account Setup</h2>
@@ -332,10 +196,9 @@
       </button>
     </div>
 
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
     <script>
       document
-        .getElementById("createStudentAccount")
+        .getElementById("createAdminAccount")
         .addEventListener("click", function () {
           const username = document.getElementById("username").value.trim();
           const password = document.getElementById("password").value.trim();
@@ -355,15 +218,13 @@
           } else if (!email) {
             alert("You must put an e-mail");
           } else {
-<<<<<<< HEAD
-            // Save user and redirect
-=======
+            // You can store whatever you need in localStorage
             const users = [];
             users.push({
               username: username,
               password: password,
             });
->>>>>>> 3d586ce7b44e14e310e139fc041696f809bdb56a
+
             localStorage.setItem("username", username);
             alert("Account created successfully!");
             location.href = "index.html";
