@@ -1,111 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Admin Create Account</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="projectStyle.css">
+    <title>Admin Create Account</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      header {
+        background-color: #5e001f; /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid #c9a646; /* gold accent stripe */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+      }
+
+      header img {
+        height: 48px;
+        width: auto;
+        margin-right: 12px;
+      }
+
+      header h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* Main content card */
+      main {
+        max-width: 650px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 8px;
+        padding: 24px 32px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+      }
+
+      h1 {
+        color: #5e001f;
+        text-align: center;
+        margin-bottom: 24px;
+        font-size: 1.5rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      input {
+        display: block;
+        width: 100%;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        background-color: #fff;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #5e001f;
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      button {
+        cursor: pointer;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 10px 16px;
+        transition: all 0.15s ease;
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+        display: block;
+        margin: 12px auto 0;
+      }
+
+      button:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      footer {
+        background-color: #fafafa;
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        border-top: 1px solid #ddd;
+        padding: 16px;
+        margin-top: auto;
+      }
+
+      .input-section {
+        margin-bottom: 12px;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      background-color: maroon;
-    }
-    h1 {
-      color: black;
-      font-size: xx-large;
-      text-align: center;
-    }
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    label {
-      color: black;
-      display: block;
-      text-align: center;
-    }
 
-    button {
-      margin: 0 auto;
-    }
-  </style>
   <body>
-    <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    <!-- Header -->
+    <header>
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Portal</h2>
     </header>
-    <h1>To create your admin account, follow the steps below:</h1>
-    <label>
-      Username:
-      <input
-        id="username"
-        type="text"
-        name="name"
-        placeholder="Enter Username"
-      />
-    </label>
 
-    <p></p>
+    <!-- Main Content -->
+    <main>
+      <h1>To Create Your Admin Account</h1>
 
-    <label>
-      Password:
-      <input
-        id="password"
-        type="password"
-        name="name"
-        placeholder="Enter password"
-      />
-    </label>
+      <div class="input-section">
+        <label for="username">Username:</label>
+        <input id="username" type="text" placeholder="Enter Username" />
+      </div>
 
-    <p></p>
+      <div class="input-section">
+        <label for="password">Password:</label>
+        <input id="password" type="password" placeholder="Enter Password" />
+      </div>
 
-    <label>
-      Re-enter Password:
-      <input
-        id="confirmedPassword"
-        type="password"
-        name="name"
-        placeholder="Re-enter password"
-      >
-      <p></p>
-      <label>
-        E-mail:
-        <input id="email" type="email" name="name" placeholder="Enter E-mail" />
-      </label>
-      <p></p>
-      <label>
-      <button id="createAdminAccount" class = "primaryButton" type="button" style="display: block">
-        Create Account
-      </button>
-    </label>
-    <br />
+      <div class="input-section">
+        <label for="confirmedPassword">Re-enter Password:</label>
+        <input
+          id="confirmedPassword"
+          type="password"
+          placeholder="Re-enter Password"
+        />
+      </div>
+
+      <div class="input-section">
+        <label for="email">E-mail:</label>
+        <input id="email" type="email" placeholder="Enter E-mail" />
+      </div>
+
+      <button id="createStudentAccount" type="button">Create Account</button>
+    </main>
+
+    <!-- Footer -->
+    <footer>© Concordia University · All rights reserved</footer>
+
+    <!-- Script -->
     <script>
       document
-        .getElementById("createAdminAccount")
+        .getElementById("createStudentAccount")
         .addEventListener("click", function () {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
-          const email = document.getElementById("email").value;
-          const confirmedPassword =
-            document.getElementById("confirmedPassword").value;
-          if (username.trim() === "" && password.trim() === "") {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const confirmedPassword = document
+            .getElementById("confirmedPassword")
+            .value.trim();
+          const email = document.getElementById("email").value.trim();
+
+          if (!username && !password) {
             alert("You must put a username and password");
-          } else if (username.trim() === "") {
+          } else if (!username) {
             alert("You must put a username");
-          } else if (password.trim() === "") {
+          } else if (!password) {
             alert("You must put a password");
-          } else if (password.trim() !== confirmedPassword.trim()) {
+          } else if (password !== confirmedPassword) {
             alert("Your passwords must match");
-          } else if (email.trim() === "") {
+          } else if (!email) {
             alert("You must put an e-mail");
           } else {
-            const users = [];
-            //create a for loop to see if the user exists, and if they do see if the password matches
-            users.push({
-              username: username,
-              password: password,
-            });
+            // Save user and redirect
             localStorage.setItem("username", username);
-            location.href = "LoginPage.html";
+            alert("Account created successfully!");
+            location.href = "index.html";
           }
         });
     </script>

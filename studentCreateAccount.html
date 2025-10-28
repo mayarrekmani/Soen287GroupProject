@@ -5,7 +5,6 @@
     <title>Student Create Account</title>
 
     <style>
-      
       * {
         box-sizing: border-box;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -158,9 +157,7 @@
         <input id="email" type="email" placeholder="Enter E-mail" />
       </div>
 
-      <button id="createStudentAccount" type="button">
-        Create Account
-      </button>
+      <button id="createStudentAccount" type="button">Create Account</button>
     </main>
 
     <!-- Footer -->
@@ -192,7 +189,7 @@
             // Save user and redirect
             localStorage.setItem("username", username);
             alert("Account created successfully!");
-            location.href = "LoginPage.html";
+            location.href = "index.html";
           }
         });
     </script>

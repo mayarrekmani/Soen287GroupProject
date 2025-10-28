@@ -1,21 +1,139 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>School Login Site</title>
     <meta charset="UTF-8" />
+    <title>Concordia Login Website</title>
+    <link rel="stylesheet" href="projectStyle.css" />
   </head>
-  <style>
-    body {
-      background-color: maroon;
-    }
-    h1 {
+  <body>
+    <style>
+
+      
+    style>
+  :root {
+    --brand-dark: #5e001f;
+    --text-main: #222;
+    --text-dim: #6b6b6b;
+    --bg-page: #f5f5f5;
+    --card-bg: #fff;
+    --card-border: #ddd;
+    --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 30px;
+  }
+      #student,
+      #admin {
+        display: none;
+      }
+      h1 {
+        color: black;
+        display: block;
+        text-align: center;
+      }
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+    </header>
+
+    <h1>
+      Concordia Room & Resource Booking Service Login Page
+    </h1>
+
+    <p>
+      Are you a student or an admin? Please select:
+      <button id="studentLoginBtn" class="primaryButton" type="button">Student</button>
+      <button id="adminLoginBtn" class="primaryButton" type="button">Admin</button>
+    </p>
+
+    <div id="student">
+      <style>
+        h2 {
+          color: black;
+          font-size: xx-large;
+          text-align: center;
+        }
+        label {
+          color: black;
+          display: block;
+          text-align: center;
+        }
+
+        button {
+          margin: 0 auto;
+        }
+      </style>
+      <h2>Student User</h2>
+      <br />
+      <label>
+        Username:
+        <input
+          id="studentUsername"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          id="studentPassword"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+        <button
+          id="studentLogin"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Login
+        </button>
+      </label>
+      <br />
+        <label>
+        Forgot Password?
+        <button
+          id="forgotPassword"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Reset Password
+        </button>
+      </label>
+      <label>
+        Don't have an account?
+        <button
+          id="studentCreateAccount"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Create Account
+        </button>
+      </label>
+    
+    </div>
+    <div id ="admin">
+          <style>
+    h2 {
       color: white;
       font-size: xx-large;
       text-align: center;
-    }
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
     }
     label {
       color: white;
@@ -28,13 +146,12 @@
     }
   </style>
   <body>
-    <h1>Admin User</h1>
-    <img src="concordiaEmblem.png" alt="Concordia's Logo" />
+    <h2>Admin User</h2>
     <br />
     <label>
       Username:
       <input
-        id="username"
+        id="adminUsername"
         type="text"
         name="name"
         placeholder="Enter Username"
@@ -43,31 +160,81 @@
     <label>
       Password:
       <input
-        id="password"
+        id="adminPassword"
         type="password"
         name="name"
         placeholder="Enter password"
       />
-      <button id="adminLoginBtn" type="button" style="display: block">
+      <button id="adminLogin" type="button" style="display: block">
         Login
       </button>
     </label>
     <br />
     <label>
-      Which one applies to you?
-      <button type="button" button onclick="redirectToStudentLogin()">
-        Student
-      </button>
-      <button type="button" button onclick="redirectToAdminLogin()">
-        Admin
-      </button>
-    </label>
+        Forgot Password?
+        <button
+          id="forgotPassword"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Reset Password
+        </button>
+      </label>
+    <label>
+        Don't have an account?
+        <button
+          id="adminCreateAccount"
+          class="primaryButton"
+          type="button"
+          style="display: block"
+        >
+          Create Account
+        </button>
+      </label>
+    </div>
     <script>
       document
-        .getElementById("adminLoginBtn")
+        .getElementById("studentLoginBtn")
         .addEventListener("click", function () {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
+          document.body.style.background = "lightblue";
+          document.getElementById("student").style.display = "block";
+          document.getElementById("admin").style.display = "none";
+          document
+            .getElementById("studentLogin")
+            .addEventListener("click", function () {
+              const username = document.getElementById("studentUsername").value;
+              const password = document.getElementById("studentPassword").value;
+              if (username.trim() === "" && password.trim() === "") {
+                alert("You must put a username and password");
+              } else if (username.trim() === "") {
+                alert("You must put a username");
+              } else if (password.trim() === "") {
+                alert("You must put a password");
+              } else {
+                const users = [];
+                users.push({
+              username: username,
+              password: password,
+            });
+                localStorage.setItem("username", username);
+                location.href = "studentPage.html";
+              }
+            });
+             document.getElementById("studentCreateAccount").addEventListener("click", function(){
+                location.href = "studentCreateAccount.html";
+            });
+            
+        });
+        document.getElementById("adminLoginBtn").addEventListener("click", function(){
+            document.body.style.background = "maroon";
+            document.getElementById("admin").style.display = "block";
+            document.getElementById("student").style.display = "none";
+              document
+        .getElementById("adminLogin")
+        .addEventListener("click", function () {
+          const username = document.getElementById("adminUsername").value;
+          const password = document.getElementById("adminPassword").value;
           if (username.trim() === "" && password.trim() === "") {
             alert("You must put a username and password");
           } else if (username.trim() === "") {
@@ -84,13 +251,17 @@
             localStorage.setItem("username", username);
             location.href = "adminPage.html";
           }
+        
         });
-      function redirectToStudentLogin() {
-        location.href = "studentLogin.html";
-      }
-      function redirectToAdminLogin() {
-        location.href = "index.html";
-      }
+          document.getElementById("adminCreateAccount").addEventListener("click", function(){
+                location.href = "adminCreateAccount.html";
+            });
+            document.getElementById("forgotPassword").addEventListener("click", function(){
+                location.href = "forgotPassword.html";
+            });
+        });
     </script>
+    <footer class="site-footer"></footer>
+    
   </body>
 </html>

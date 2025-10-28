@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Booking Requests</title>
-    <link rel="stylesheet" href="projectStyle.css">
+    <link rel="stylesheet" href="projectStyle.css" />
     <style>
       /* --- Concordia Header Only --- */
       .site-header {
@@ -24,61 +24,78 @@
   <body>
     <!-- Concordia Header -->
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt="Concordia Emblem">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
       <h2>Concordia University — Booking Requests</h2>
     </header>
 
     <h1>Pending Booking Requests</h1>
     <div class="redBlock">
-      Student: John Doe 
-      <p></p>Request: 5:00 pm - 6:00 pm 2025-10-22 
-      <p></p>Reason: I want to meet with my team for my Soen287 project<p></p>
-      <button class="approveButton"type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-    <br />
-    <div class="redBlock">
-      Student: Alice Nguyen <p></p>
-      Request: 9:30 am - 10:30 am 2025-10-23 <p></p>
-      Reason: Need help reviewing my COMP248 assignment<p></p>
+      Student: John Doe
+      <p></p>
+      Request: 5:00 pm - 6:00 pm 2025-10-22
+      <p></p>
+      Reason: I want to meet with my team for my Soen287 project
+      <p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
     <br />
     <div class="redBlock">
-      Student: Mark Thompson <p></p>
-      Request: 2:00 pm - 3:00 pm 2025-10-25 <p></p>
-      Reason: Discuss upcoming midterm project proposal<p></p>
+      Student: Alice Nguyen
+      <p></p>
+      Request: 9:30 am - 10:30 am 2025-10-23
+      <p></p>
+      Reason: Need help reviewing my COMP248 assignment
+      <p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
     <br />
     <div class="redBlock">
-      Student: Sophia Martinez <p></p>
-      Request: 11:15 am - 12:00 pm 2025-10-27 <p></p>
-      Reason: Clarify doubts about JavaScript DOM manipulation<p></p>
+      Student: Mark Thompson
+      <p></p>
+      Request: 2:00 pm - 3:00 pm 2025-10-25
+      <p></p>
+      Reason: Discuss upcoming midterm project proposal
+      <p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
     <br />
     <div class="redBlock">
-      Student: Liam Patel <p></p>
-      Request: 4:45 pm - 5:30 pm 2025-10-29 <p></p>
-      Reason: Schedule feedback session for my co-op resume<p></p>
+      Student: Sophia Martinez
+      <p></p>
+      Request: 11:15 am - 12:00 pm 2025-10-27
+      <p></p>
+      Reason: Clarify doubts about JavaScript DOM manipulation
+      <p></p>
       <button class="approveButton" type="button">Approve</button>
       <button class="denyButton" type="button">Deny</button>
     </div>
     <br />
-    <button id="goBack" class="primaryButton" type="button">Go Back To Dashboard</button>
+    <div class="redBlock">
+      Student: Liam Patel
+      <p></p>
+      Request: 4:45 pm - 5:30 pm 2025-10-29
+      <p></p>
+      Reason: Schedule feedback session for my co-op resume
+      <p></p>
+      <button class="approveButton" type="button">Approve</button>
+      <button class="denyButton" type="button">Deny</button>
+    </div>
+    <br />
+    <button id="goBack" class="primaryButton" type="button">
+      Go Back To Dashboard
+    </button>
     <script>
-      const approveRequests = document.querySelectorAll(".approve");
+      const approveRequests = document.querySelectorAll(".approveButton");
       for (let i = 0; i < approveRequests.length; i++) {
         approveRequests[i].addEventListener("click", function () {
           alert("Request has been approved!");
           this.parentElement.remove();
         });
       }
-      const denyRequests = document.querySelectorAll(".deny");
+      const denyRequests = document.querySelectorAll(".denyButton");
       for (let j = 0; j < denyRequests.length; j++) {
         denyRequests[j].addEventListener("click", function () {
           alert("Request has been denied!");
