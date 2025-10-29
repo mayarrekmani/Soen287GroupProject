@@ -326,10 +326,12 @@
  <header class="firstsection">
   <!-- LEFT SIDE -->
   <div class="firstsectionleft">
-    <h1 class="welcomeRow">
-      <span class="welcomeText">Welcome!</span>
-      <span id="displayName">Student Name</span>
-    </h1>
+   <h1>Welcome, <span id="displayName"></span>!</h1>
+    <script>
+      //still have to fix this it isnt working
+      const username = localStorage.getItem("username");
+      document.getElementById("displayName").textContent = username;
+    </script>
 
     <div class="dateBlock">
       <label class="scheduleLabel"><strong>Booking Schedule for:</strong></label>

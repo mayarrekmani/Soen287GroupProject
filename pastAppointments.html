@@ -17,6 +17,28 @@
         gap: 12px;
         margin: -8px -8px 24px -8px;
       }
+      button {
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 10px 16px;
+        margin-top: 8px;
+        transition: all 0.15s ease;
+      }
+
+      .primaryButton {
+        background-color: #5e001f;
+        color: #fff;
+        border: 1px solid #5e001f;
+      }
+
+      .primaryButton:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
 
       .site-header img {
         height: 48px;
@@ -70,8 +92,22 @@
 
     <h1>Your past appointments:</h1>
 
-    <div class="redBlock">10:00 am - 11:00 am 2025-10-19 — Room: Study Room A</div>
-    <div class="redBlock">09:00 am - 10:00 am 2025-10-19 — Room: Study Room A</div>
-    <div class="redBlock">1:00 pm - 2:00 pm 2025-10-09 — Room: Computer Lab B</div>
+    <div class="redBlock">
+      10:00 am - 11:00 am 2025-10-19 — Room: Study Room A
+    </div>
+    <div class="redBlock">
+      09:00 am - 10:00 am 2025-10-19 — Room: Study Room A
+    </div>
+    <div class="redBlock">
+      1:00 pm - 2:00 pm 2025-10-09 — Room: Computer Lab B
+    </div>
+    <button id="goBack" class="primaryButton" type="button">
+      Go Back To Dashboard
+    </button>
+    <script>
+      document.getElementById("goBack").addEventListener("click", function () {
+        location.href = "studentPage.html";
+      });
+    </script>
   </body>
 </html>
