@@ -294,11 +294,6 @@
               } else if (password.trim() === "") {
                 alert("You must put a password");
               } else {
-                const users = [];
-                users.push({
-                  username: username,
-                  password: password,
-                });
                 localStorage.setItem("username", username);
                 location.href = "studentPage.html";
               }
@@ -336,11 +331,6 @@
               } else if (password.trim() === "") {
                 alert("You must put a password");
               } else {
-                const users = [];
-                users.push({
-                  username: username,
-                  password: password,
-                });
                 localStorage.setItem("username", username);
                 location.href = "adminPage.html";
               }
