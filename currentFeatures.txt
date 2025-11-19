@@ -1,0 +1,65 @@
+Current features of the website: Deliverable 1 
+
+Pages: 
+
+    index.html: Main login page to determine whether the user is a student or an admin
+        studentCreateAccount.html: 
+            Accepts account details for a student to create their new account
+            Accessed once the user has selected student (through the student login page)
+        adminCreateAccount.html: 
+            Accepts account details for an admin to create their own account 
+            Accessed once the user has selected admin (through the admin login page)    
+    Both student and admin reset password pages (listed below) are accessible through their respective 
+    login pages as well as the account management pages. 
+
+    Student Login: within main login page, prompts the student for their credentials 
+
+        studentPage.html: Student Home Page - appears once the student enters their credentials 
+        Features: 
+            Allows student to select the date they wish to book for 
+            Allows selection of a room by time and shows available slots 
+        managingStudentAccount.html: Account Management Page
+        Features: 
+            Password reset
+            Username reset
+            Submission of special booking requests (outside of regular schedule)  
+            Viewing of past appointments 
+            Viewing of upcoming bookings, option to cancel or reschedule them
+                Cancelling - clicking cancel removes the booking 
+            Displays student's username as part of the page header
+        forgotPassword.html: Student Password reset page  
+            Accessed via the student managing account page 
+            Student can enter their email and submit it for a password reset
+        changeUsername.html: Student can enter a new username 
+        specialRequest.html: Student can submit a special booking request
+            Accepts the name of the admin they wish to submit the request to 
+            Accepts the reason for their request 
+            Accepts the hours they want to book 
+        pastAppointments.html: Past appointments page for students 
+            Displays a list of past appointments 
+            Currently, this is fixed data - in the next deliverable, it will be dynamic based on the user's own data     
+
+    Admin Login: within main login page, prompts the admin for their credentials 
+        adminPage.html: Admin home page
+            Accessed via the login page, displays each option available to an admin user 
+            1: Create/Edit/Remove Resources - clicking this takes you to resources.html, 
+            where you can add and edit rooms/resources available to book (accepts input to detail the resource to be added)
+            It also displays existing bookings with the option to remove them 
+            Has a back to dashboard button to bring the admin back to their main menu 
+            2: schedules.html 
+            Accepts schedule input to be used to update scheduling information - working hours, blackout dates, and exceptions
+            This data will be used in deliverable 2 to update the schedules of resources that can be booked 
+            Also allows return to dashboard via a button
+            3: Approvals.html: Pending Booking requests
+            This is where an admin will see requests that have been submitted to them for special bookings. 
+            They will see the entered data of the request and options to approve or deny it. 
+            4: blocks.html - Block/Unblock Resources
+            Admins see a list of resources and have buttons to block or ublock them - the button shows 'block'
+            if it has not been blocked, and upon clicking it will change to 'unblock' (clicking again will show block once again)
+            Also has a return to dashboard button 
+            5: statistic.html: Admin reports
+            Shows the admin key data about the booking system (peak hours, most used resource, bookings per room)
+            Currently, this is fixed data for display - in the next deliverable, it will be dynamic
+            Also includes a functional back to dashboard button 
+
+Style: The website has been consistently styled to have a cohesive and professional appearance.  
