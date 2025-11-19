@@ -14,6 +14,7 @@
         --card-border: #ddd;
       }
 
+      
       body {
         position: relative;
         min-height: 100vh;
@@ -30,6 +31,7 @@
         background-size: cover;
       }
 
+     
       body::before {
         content: "";
         position: fixed;
@@ -216,7 +218,9 @@
         />
       </div>
 
-      <button id="studentLogin" class="formButton" type="button">Login</button>
+      <button id="studentLogin" class="formButton" type="button">
+        Login
+      </button>
 
       <div class="actionBlock">
         Forgot Password?
@@ -257,7 +261,9 @@
         />
       </div>
 
-      <button id="adminLogin" class="formButton" type="button">Login</button>
+      <button id="adminLogin" class="formButton" type="button">
+        Login
+      </button>
 
       <div class="actionBlock">
         Forgot Password?
@@ -285,8 +291,10 @@
           document
             .getElementById("studentLogin")
             .addEventListener("click", function () {
-              const username = document.getElementById("studentUsername").value;
-              const password = document.getElementById("studentPassword").value;
+              const username =
+                document.getElementById("studentUsername").value;
+              const password =
+                document.getElementById("studentPassword").value;
               if (username.trim() === "" && password.trim() === "") {
                 alert("You must put a username and password");
               } else if (username.trim() === "") {

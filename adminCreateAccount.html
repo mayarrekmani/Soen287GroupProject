@@ -1,111 +1,233 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Admin Create Account</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="projectStyle.css">
-  </head>
-  <style>
-    body {
-      background-color: maroon;
-    }
-    h1 {
-      color: black;
-      font-size: xx-large;
-      text-align: center;
-    }
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    label {
-      color: black;
-      display: block;
-      text-align: center;
-    }
+    <title>Admin Create Account</title>
+    <link rel="stylesheet" href="projectStyle.css" />
+    <style>
+      :root {
+        --concordia-burgundy: #5e001f;
+        --concordia-burgundy-dark: #440017;
+        --concordia-gold: #c9a646;
+        --bg-page: #f5f5f5;
+        --card-bg: #ffffff;
+        --text-main: #222;
+        --text-dim: #555;
+      }
 
-    button {
-      margin: 0 auto;
-    }
-  </style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .site-header {
+        background-color: var(--concordia-burgundy); /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid var(--concordia-gold); /* gold accent stripe */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      .site-header h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      /* Page title */
+      h1 {
+        color: var(--concordia-burgundy);
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 32px 16px 24px;
+        font-weight: 600;
+      }
+
+      /* Form card container */
+      .form-card {
+        background-color: var(--card-bg);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+        padding: 30px 40px;
+        width: 100%;
+        max-width: 420px;
+        margin-bottom: 40px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 12px;
+      }
+
+      /* Input alignment fix */
+      input {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 6px;
+        margin-bottom: 18px;
+        font-size: 0.95rem;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: #fff;
+        transition: all 0.15s ease;
+        font-family: inherit;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--concordia-burgundy);
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      /* Button */
+      .primaryButton {
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+        border: 1px solid var(--concordia-burgundy);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+      }
+
+      .primaryButton:hover {
+        background-color: var(--concordia-burgundy-dark);
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      }
+
+      /* optional tiny footer vibe if you want to add later
+      footer {
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        padding: 16px;
+        margin-top: auto;
+      }
+      */
+    </style>
+  </head>
+
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt ="Concordia Emblem">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Account Setup</h2>
     </header>
+
     <h1>To create your admin account, follow the steps below:</h1>
-    <label>
-      Username:
-      <input
-        id="username"
-        type="text"
-        name="name"
-        placeholder="Enter Username"
-      />
-    </label>
 
-    <p></p>
+    <div class="form-card">
+      <label>
+        Username:
+        <input
+          id="username"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </label>
 
-    <label>
-      Password:
-      <input
-        id="password"
-        type="password"
-        name="name"
-        placeholder="Enter password"
-      />
-    </label>
+      <label>
+        Password:
+        <input
+          id="password"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+      </label>
 
-    <p></p>
+      <label>
+        Re-enter Password:
+        <input
+          id="confirmedPassword"
+          type="password"
+          name="name"
+          placeholder="Re-enter password"
+        />
+      </label>
 
-    <label>
-      Re-enter Password:
-      <input
-        id="confirmedPassword"
-        type="password"
-        name="name"
-        placeholder="Re-enter password"
-      >
-      <p></p>
       <label>
         E-mail:
         <input id="email" type="email" name="name" placeholder="Enter E-mail" />
       </label>
-      <p></p>
-      <label>
-      <button id="createAdminAccount" class = "primaryButton" type="button" style="display: block">
+
+      <button
+        id="createAdminAccount"
+        class="primaryButton"
+        type="button"
+      >
         Create Account
       </button>
-    </label>
-    <br />
+    </div>
+
     <script>
       document
         .getElementById("createAdminAccount")
         .addEventListener("click", function () {
-          const username = document.getElementById("username").value;
-          const password = document.getElementById("password").value;
-          const email = document.getElementById("email").value;
-          const confirmedPassword =
-            document.getElementById("confirmedPassword").value;
-          if (username.trim() === "" && password.trim() === "") {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const confirmedPassword = document
+            .getElementById("confirmedPassword")
+            .value.trim();
+          const email = document.getElementById("email").value.trim();
+
+          if (!username && !password) {
             alert("You must put a username and password");
-          } else if (username.trim() === "") {
+          } else if (!username) {
             alert("You must put a username");
-          } else if (password.trim() === "") {
+          } else if (!password) {
             alert("You must put a password");
-          } else if (password.trim() !== confirmedPassword.trim()) {
+          } else if (password !== confirmedPassword) {
             alert("Your passwords must match");
-          } else if (email.trim() === "") {
+          } else if (!email) {
             alert("You must put an e-mail");
           } else {
+            // You can store whatever you need in localStorage
             const users = [];
-            //create a for loop to see if the user exists, and if they do see if the password matches
             users.push({
               username: username,
               password: password,
             });
+
             localStorage.setItem("username", username);
-            location.href = "LoginPage.html";
+            alert("Account created successfully!");
+            location.href = "index.html";
           }
         });
     </script>
