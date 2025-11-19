@@ -164,59 +164,70 @@
     <footer>© Concordia University · All rights reserved</footer>
 
     <!-- Script -->
+        <!-- Script -->
     <script>
-  document
-    .getElementById("createStudentAccount")
-    .addEventListener("click", function () {
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const confirmedPassword = document
-        .getElementById("confirmedPassword")
-        .value.trim();
-      const email = document.getElementById("email").value.trim();
+      document
+        .getElementById("createStudentAccount")
+        .addEventListener("click", function () {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const confirmedPassword = document
+            .getElementById("confirmedPassword")
+            .value.trim();
+          const email = document.getElementById("email").value.trim();
 
-      if (!username && !password) {
-        alert("You must put a username and password");
-      } else if (!username) {
-        alert("You must put a username");
-      } else if (!password) {
-        alert("You must put a password");
-      } else if (password !== confirmedPassword) {
-        alert("Your passwords must match");
-      } else if (!email) {
-        alert("You must put an e-mail");
-      } else {
-        // ---- TALK TO BACKEND HERE ----
-        fetch("/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-            email: email,
-            role: "student", 
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (!data.success) {
-              alert(data.message || "Error creating account");
-            } else {
-              // store username for welcome message etc.
-              localStorage.setItem("username", username);
-              alert("Account created successfully!");
-              location.href = "index.html";
-            }
+          // ---- FRONT-END VALIDATION ----
+          if (!username && !password) {
+            alert("You must put a username and password");
+            return;
+          } else if (!username) {
+            alert("You must put a username");
+            return;
+          } else if (!password) {
+            alert("You must put a password");
+            return;
+          } else if (password !== confirmedPassword) {
+            alert("Your passwords must match");
+            return;
+          } else if (!email) {
+            alert("You must put an e-mail");
+            return;
+          }
+
+          // ---- TALK TO BACKEND /api/register ----
+          fetch("/api/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              password: password,
+              email: email,
+              role: "student",
+            }),
           })
-          .catch((err) => {
-            console.error(err);
-            alert("Server error, please try again.");
-          });
-      }
-    });
-</script>
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.success) {
+                // Backend validation error (e.g. username taken)
+                alert(data.message || "Error creating account");
+              } else {
+                // Save username for later pages
+                localStorage.setItem("username", username);
+                alert("Student account created successfully!");
+                location.href = "index.html";
+              }
+            })
+            .catch((err) => {
+              console.error("Create student account error:", err);
+              alert(
+                "Server error. Check that Node is running (node server.js) and that /api/register exists."
+              );
+            });
+        });
+    </script>
+
 
   </body>
 </html>
