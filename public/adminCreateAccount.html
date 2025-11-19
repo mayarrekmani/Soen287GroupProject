@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Create Account</title>
+    <link rel="stylesheet" href="projectStyle.css" />
+    <style>
+      :root {
+        --concordia-burgundy: #5e001f;
+        --concordia-burgundy-dark: #440017;
+        --concordia-gold: #c9a646;
+        --bg-page: #f5f5f5;
+        --card-bg: #ffffff;
+        --text-main: #222;
+        --text-dim: #555;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .site-header {
+        background-color: var(--concordia-burgundy); /* Concordia burgundy */
+        color: #fff;
+        border-bottom: 4px solid var(--concordia-gold); /* gold accent stripe */
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      .site-header h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      /* Page title */
+      h1 {
+        color: var(--concordia-burgundy);
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 32px 16px 24px;
+        font-weight: 600;
+      }
+
+      /* Form card container */
+      .form-card {
+        background-color: var(--card-bg);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+        padding: 30px 40px;
+        width: 100%;
+        max-width: 420px;
+        margin-bottom: 40px;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 12px;
+      }
+
+      /* Input alignment fix */
+      input {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 6px;
+        margin-bottom: 18px;
+        font-size: 0.95rem;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: #fff;
+        transition: all 0.15s ease;
+        font-family: inherit;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: var(--concordia-burgundy);
+        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      }
+
+      /* Button */
+      .primaryButton {
+        background-color: var(--concordia-burgundy);
+        color: #fff;
+        border: 1px solid var(--concordia-burgundy);
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 100%;
+        text-align: center;
+        margin-top: 8px;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+      }
+
+      .primaryButton:hover {
+        background-color: var(--concordia-burgundy-dark);
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      }
+
+      /* optional tiny footer vibe if you want to add later
+      footer {
+        color: #777;
+        font-size: 0.75rem;
+        text-align: center;
+        padding: 16px;
+        margin-top: auto;
+      }
+      */
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Account Setup</h2>
+    </header>
+
+    <h1>To create your admin account, follow the steps below:</h1>
+
+    <div class="form-card">
+      <label>
+        Username:
+        <input
+          id="username"
+          type="text"
+          name="name"
+          placeholder="Enter Username"
+        />
+      </label>
+
+      <label>
+        Password:
+        <input
+          id="password"
+          type="password"
+          name="name"
+          placeholder="Enter password"
+        />
+      </label>
+
+      <label>
+        Re-enter Password:
+        <input
+          id="confirmedPassword"
+          type="password"
+          name="name"
+          placeholder="Re-enter password"
+        />
+      </label>
+
+      <label>
+        E-mail:
+        <input id="email" type="email" name="name" placeholder="Enter E-mail" />
+      </label>
+
+      <button id="createAdminAccount" class="primaryButton" type="button">
+        Create Account
+      </button>
+    </div>
+
+<script>
+      document
+        .getElementById("createAdminAccount")
+        .addEventListener("click", function () {
+          const username = document.getElementById("username").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const confirmedPassword = document
+            .getElementById("confirmedPassword")
+            .value.trim();
+          const email = document.getElementById("email").value.trim();
+
+          // ---- FRONT-END VALIDATION ----
+          if (!username && !password) {
+            alert("You must put a username and password");
+            return;
+          } else if (!username) {
+            alert("You must put a username");
+            return;
+          } else if (!password) {
+            alert("You must put a password");
+            return;
+          } else if (password !== confirmedPassword) {
+            alert("Your passwords must match");
+            return;
+          } else if (!email) {
+            alert("You must put an e-mail");
+            return;
+          }
+
+          // ---- SEND DATA TO BACKEND ----
+          fetch("/api/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              password: password,
+              email: email,
+              role: "admin",
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.success) {
+                alert(data.message || "Error creating admin account");
+              } else {
+                localStorage.setItem("username", username);
+                alert("Admin account created successfully!");
+                // back to login page
+                location.href = "index.html";
+              }
+            })
+            .catch((err) => {
+              console.error("Create admin account error:", err);
+              alert(
+                "Server error. Make sure node server.js is running and /api/register exists."
+              );
+            });
+        });
+    </script>
+
+  </body>
+</html>
