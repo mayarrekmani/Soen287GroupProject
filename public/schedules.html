@@ -2,89 +2,81 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Set Schedule</title>
-
+    <title>Set Availability Schedule</title>
+    <link rel="stylesheet" href="projectStyle.css" />
     <style>
-      
-      * {
-        box-sizing: border-box;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        line-height: 1.4;
-      }
-
       body {
         background-color: #f5f5f5;
         color: #222;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 32px;
+        line-height: 1.4;
       }
 
-      /* Header */
       .site-header {
-        background-color: #5e001f; /* Concordia burgundy */
+        background-color: #5e001f;
         color: #fff;
-        border-bottom: 4px solid #c9a646; /* gold stripe */
+        border-bottom: 4px solid #c9a646;
         padding: 12px 24px;
         display: flex;
-        align-items: center;
+        gap: 12px;
+        margin: -32px -32px 24px -32px;
       }
 
       .site-header img {
         height: 48px;
-        width: auto;
-        margin-right: 12px;
       }
 
       h1 {
         color: #5e001f;
-        margin-top: 24px;
-        margin-bottom: 16px;
-        text-align: center;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        margin-bottom: 20px;
       }
 
-      label {
-        display: block;
-        margin: 16px 0;
-        font-weight: 600;
+      h3 {
+        margin-top: 0;
         color: #333;
       }
 
-      input,
-      textarea {
-        display: block;
-        margin-top: 6px;
-        margin-bottom: 10px;
-        width: 100%;
-        max-width: 400px;
-        padding: 10px;
-        border: 1px solid #bbb;
-        border-radius: 4px;
-        font-size: 0.95rem;
-        background-color: #fff;
+      .card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        max-width: 640px;
+        padding: 16px 20px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
+        margin-bottom: 20px;
       }
 
-      input:focus,
-      textarea:focus {
-        outline: none;
-        border-color: #5e001f;
-        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
+      label {
+        font-weight: 600;
+        color: #5e001f;
+        display: block;
+        margin-top: 12px;
+      }
+
+      select,
+      input[type="date"],
+      input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        margin-top: 6px;
       }
 
       button {
         cursor: pointer;
-        font-size: 0.9rem;
-        line-height: 1.2;
+        font-size: 0.95rem;
+        padding: 10px 16px;
         border-radius: 4px;
         font-weight: 600;
+        margin-top: 12px;
+        display: inline-block;
         border: none;
-        padding: 10px 16px;
-        margin-top: 6px;
-        transition: all 0.15s ease;
       }
 
       .primaryButton {
@@ -95,7 +87,6 @@
 
       .primaryButton:hover {
         background-color: #440017;
-        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
       }
 
       .secondaryButton {
@@ -107,31 +98,41 @@
       .secondaryButton:hover {
         background-color: #5e001f;
         color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
       }
 
-      main {
-        max-width: 700px;
-        margin: 30px auto;
-        background: #fff;
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+      .info {
+        font-size: 0.85rem;
+        color: #444;
+        margin-top: 6px;
       }
 
-      footer {
-        background-color: #fafafa;
-        color: #777;
-        font-size: 0.75rem;
-        text-align: center;
-        border-top: 1px solid #ddd;
-        padding: 16px;
-        margin-top: auto;
+      #goBack {
+        margin-top: 20px;
       }
 
-      #displayName {
-        color: #333;
-        font-weight: 400;
+      .blackout-item {
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin: 6px 0;
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      button,
+      .primaryButton,
+      .secondaryButton {
+        transform: none !important;
+      }
+
+      button:hover,
+      .primaryButton:hover,
+      .secondaryButton:hover {
+        transform: none !important;
+        scale: 1 !important;
+        box-shadow: none !important;
       }
     </style>
   </head>
@@ -139,82 +140,214 @@
   <body>
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
-      <h2>Concordia University — Resource Management</h2>
+      <h2>Concordia University — Set Availability</h2>
     </header>
 
-    <main>
-      <h1>Set Availability Schedule <span id="displayName"></span></h1>
+    <h1>Availability Schedule</h1>
 
-      <label>
-        Working hours =
-        <input type="text" placeholder="ex. 9:00 am - 5:00 pm" />
-        <button id="workingHours" class="secondaryButton" type="button">
-          Submit
-        </button>
-      </label>
+    <div class="card">
+      <h3>Weekly Working Hours</h3>
 
-      <label>
-        Exceptions =
-        <input type="text" placeholder="ex. 4:00 pm - 5:00 pm" />
-        <textarea
-          id="exceptionText"
-          rows="5"
-          cols="40"
-          placeholder="Explain Your Exception"
-        ></textarea>
-        <button id="exception" class="secondaryButton" type="button">
-          Submit
-        </button>
-      </label>
+      <label for="roomSelect">Select Resource (Room)</label>
+      <select id="roomSelect"></select>
 
-      <label>
-        Blackout Date =
-        <input id="dateInput" type="date" />
-        <textarea
-          id="blackoutText"
-          rows="5"
-          cols="40"
-          placeholder="Explain Your Exception"
-        ></textarea>
-        <button id="blackoutDate" class="secondaryButton" type="button">
-          Submit
-        </button>
-      </label>
+      <label for="weekStart">Week starting date</label>
+      <input type="date" id="weekStart" />
 
-      <button id="goBack" class="primaryButton" type="button">
-        Go Back To Dashboard
+      <p class="info">
+        When you click <b>"Create Default Week"</b>, the system creates 1-hour
+        slots from <b>08:00–19:00</b> for 5 consecutive days (Mon–Fri).
+      </p>
+
+      <button id="defaultWeekBtn" class="primaryButton" type="button">
+        Create Default Week (08:00–19:00, 1h, 5 days)
       </button>
-    </main>
 
-    <footer>© Concordia University · All rights reserved</footer>
+      <label>Working hours =</label>
+      <input
+        id="workingHours"
+        type="text"
+        placeholder="08:00 - 19:00 (Mon–Fri)"
+      />
+      <p class="info">
+        You can edit this text. The system reads the hours you enter.
+      </p>
+
+      <button id="applyBtn" class="primaryButton" type="button">
+        Apply Schedule
+      </button>
+    </div>
+
+    <div class="card">
+      <h3>Blackout Dates (All Resources)</h3>
+
+      <label for="blackoutDate">Add blackout date</label>
+      <input type="date" id="blackoutDate" />
+
+      <p class="info">A blackout date disables all rooms on that day.</p>
+
+      <button id="addBlackoutBtn" class="primaryButton" type="button">
+        Add Blackout Date
+      </button>
+
+      <h4 style="margin-top: 18px">Existing blackout dates</h4>
+      <div id="blackoutList" class="info"></div>
+    </div>
+
+    <button id="goBack" class="primaryButton" type="button">
+      Go Back To Dashboard
+    </button>
 
     <script>
-      const username = localStorage.getItem("username");
-      document.getElementById("displayName").textContent = username;
+      document.getElementById("goBack").onclick = () =>
+        (location.href = "adminPage.html");
 
-      document
-        .getElementById("workingHours")
-        .addEventListener("click", function () {
-          alert("Office Hours Have Been Changed!");
-        });
+      const roomSelect = document.getElementById("roomSelect");
+      const workingHours = document.getElementById("workingHours");
+      const blackoutDateInput = document.getElementById("blackoutDate");
+      const blackoutListDiv = document.getElementById("blackoutList");
 
-      document
-        .getElementById("exception")
-        .addEventListener("click", function () {
-          alert("Exception has been added!");
-        });
+      async function loadRooms() {
+        try {
+          const res = await fetch("/api/admin/resources");
+          const data = await res.json();
 
-      document
-        .getElementById("blackoutDate")
-        .addEventListener("click", function () {
-          alert("This day has been blacked out!");
-        });
+          roomSelect.innerHTML = "";
 
-      document
-        .getElementById("goBack")
-        .addEventListener("click", function () {
-          location.href = "adminPage.html";
-        });
+          if (!data.success || data.resources.length === 0) {
+            const opt = document.createElement("option");
+            opt.textContent = "No resources yet";
+            opt.disabled = true;
+            roomSelect.appendChild(opt);
+            return;
+          }
+
+          data.resources.forEach((r) => {
+            const opt = document.createElement("option");
+            opt.value = r.name;
+            opt.textContent = r.name + (r.blocked ? " (BLOCKED)" : "");
+            roomSelect.appendChild(opt);
+          });
+        } catch (err) {
+          console.error(err);
+          roomSelect.innerHTML = "<option>Error loading resources</option>";
+        }
+      }
+
+      document.getElementById("defaultWeekBtn").onclick = () => {
+        workingHours.value = "08:00 - 19:00 (Mon–Fri)";
+      };
+
+      function parseWorkingHours(str) {
+        const [timePart] = str.split("(");
+        const [start, end] = timePart.split("-").map((s) => s.trim());
+        return {
+          startHour: Number(start.split(":")[0]),
+          endHour: Number(end.split(":")[0]),
+        };
+      }
+
+      document.getElementById("applyBtn").onclick = async () => {
+        const room = roomSelect.value;
+        const hoursString = workingHours.value.trim();
+
+        if (!room) return alert("Select a room first.");
+        if (!hoursString.includes("-"))
+          return alert("Use format: HH:MM - HH:MM (Mon–Fri)");
+
+        const { startHour, endHour } = parseWorkingHours(hoursString);
+
+        if (isNaN(startHour) || isNaN(endHour) || startHour >= endHour)
+          return alert("Invalid time range.");
+
+        try {
+          const res = await fetch("/api/admin/set-availability", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              room,
+              startHour,
+              endHour,
+              mode: "custom",
+            }),
+          });
+
+          const data = await res.json();
+          if (!data.success) return alert(data.message);
+
+          alert("Schedule applied.");
+        } catch (err) {
+          console.error(err);
+          alert("Network error.");
+        }
+      };
+
+      async function loadBlackouts() {
+        blackoutListDiv.innerHTML = "Loading...";
+        try {
+          const res = await fetch("/api/admin/blackouts");
+          const data = await res.json();
+
+          if (!data.success || !data.dates.length) {
+            blackoutListDiv.innerHTML = "<p>No blackout dates set.</p>";
+            return;
+          }
+
+          blackoutListDiv.innerHTML = "";
+          data.dates.forEach((d) => {
+            const row = document.createElement("div");
+            row.className = "blackout-item";
+            row.innerHTML = `
+              <span>${d}</span>
+              <button class="secondaryButton" data-date="${d}" type="button">Remove</button>
+            `;
+            blackoutListDiv.appendChild(row);
+          });
+
+          blackoutListDiv
+            .querySelectorAll("button.secondaryButton")
+            .forEach((btn) => {
+              btn.onclick = async () => {
+                const date = btn.getAttribute("data-date");
+                try {
+                  await fetch("/api/admin/blackouts/remove", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ date }),
+                  });
+                  loadBlackouts();
+                } catch (err) {
+                  console.error(err);
+                  alert("Network error.");
+                }
+              };
+            });
+        } catch (err) {
+          console.error(err);
+          blackoutListDiv.innerHTML = "<p>Error loading blackout dates.</p>";
+        }
+      }
+
+      document.getElementById("addBlackoutBtn").onclick = async () => {
+        const date = blackoutDateInput.value;
+        if (!date) return alert("Pick a date.");
+
+        try {
+          await fetch("/api/admin/blackouts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ date }),
+          });
+          blackoutDateInput.value = "";
+          loadBlackouts();
+        } catch (err) {
+          console.error(err);
+          alert("Network error.");
+        }
+      };
+
+      loadRooms();
+      loadBlackouts();
     </script>
   </body>
 </html>

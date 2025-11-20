@@ -5,11 +5,10 @@
     <title>Past Appointments</title>
     <link rel="stylesheet" href="projectStyle.css" />
     <style>
-      /* === Concordia Header === */
       .site-header {
-        background-color: #5e001f; /* Burgundy */
+        background-color: #5e001f;
         color: #fff;
-        border-bottom: 4px solid #c9a646; /* Gold accent */
+        border-bottom: 4px solid #c9a646;
         padding: 12px 24px;
         display: flex;
         align-items: center;
@@ -63,7 +62,6 @@
         margin-bottom: 24px;
       }
 
-      /* === Appointment Cards === */
       .redBlock {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -81,6 +79,30 @@
         border-color: #5e001f;
         box-shadow: 0 6px 14px rgba(94, 0, 31, 0.15);
       }
+
+      .statusTag {
+        display: inline-block;
+        margin-left: 8px;
+        font-size: 0.8rem;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #bbb;
+      }
+      .statusTag.pending {
+        background: #fff9e6;
+        border-color: #e6b800;
+        color: #a67c00;
+      }
+      .statusTag.approved {
+        background: #e6ffe9;
+        border-color: #1e7b3a;
+        color: #1e7b3a;
+      }
+      .statusTag.denied {
+        background: #ffe6e6;
+        border-color: #cc0000;
+        color: #cc0000;
+      }
     </style>
   </head>
 
@@ -92,22 +114,78 @@
 
     <h1>Your past appointments:</h1>
 
-    <div class="redBlock">
-      10:00 am - 11:00 am 2025-10-19 — Room: Study Room A
-    </div>
-    <div class="redBlock">
-      09:00 am - 10:00 am 2025-10-19 — Room: Study Room A
-    </div>
-    <div class="redBlock">
-      1:00 pm - 2:00 pm 2025-10-09 — Room: Computer Lab B
-    </div>
+    <div id="appointmentsContainer"></div>
+
     <button id="goBack" class="primaryButton" type="button">
       Go Back To Dashboard
     </button>
+
     <script>
       document.getElementById("goBack").addEventListener("click", function () {
         location.href = "studentPage.html";
       });
+
+      async function loadAppointments() {
+        const container = document.getElementById("appointmentsContainer");
+        container.innerHTML = "";
+
+        const username = localStorage.getItem("username");
+        if (!username) {
+          container.innerHTML =
+            "<p style='text-align:center'>No user logged in.</p>";
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            "/api/my-bookings?username=" + encodeURIComponent(username)
+          );
+          const data = await res.json();
+          if (!data.success) {
+            container.innerHTML =
+              "<p style='text-align:center'>Could not load appointments.</p>";
+            return;
+          }
+
+          const today = new Date().toISOString().split("T")[0];
+
+          const past = data.bookings.filter((b) => b.date < today);
+          if (!past.length) {
+            container.innerHTML =
+              "<p style='text-align:center'>You have no past appointments yet.</p>";
+            return;
+          }
+
+          past.sort((a, b) => {
+            if (a.date === b.date) {
+              return a.startTime.localeCompare(b.startTime);
+            }
+            return b.date.localeCompare(a.date); // newest first
+          });
+
+          past.forEach((b) => {
+            const div = document.createElement("div");
+            div.className = "redBlock";
+
+            const status = (b.status || "pending").toLowerCase();
+            let statusClass = "pending";
+            if (status === "approved") statusClass = "approved";
+            else if (status === "denied") statusClass = "denied";
+
+            div.innerHTML = `
+              ${b.startTime} - ${b.endTime} ${b.date} — Room: ${b.room}
+              <span class="statusTag ${statusClass}">${status}</span>
+            `;
+            container.appendChild(div);
+          });
+        } catch (err) {
+          console.error(err);
+          container.innerHTML =
+            "<p style='text-align:center'>Error loading appointments.</p>";
+        }
+      }
+
+      loadAppointments();
     </script>
   </body>
 </html>

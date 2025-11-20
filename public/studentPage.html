@@ -4,820 +4,416 @@
     <meta charset="UTF-8" />
     <title>Student Home Page</title>
     <link rel="stylesheet" href="projectStyle.css" />
-  <style>
-  :root {
-    --brand-dark: #5e001f;
-    --brand-dark-hover: #440017;
-    --brand-gold: #c9a646;
-    --text-main: #222;
-    --text-dim: #6b6b6b;
-    --bg-page: #f5f5f5;
-    --card-bg: #fff;
-    --card-border: #ddd;
-    --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
-  }
-
-  body {
-    background-color: var(--bg-page);
-    color: var(--text-main);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-    padding: 30px;
-  }
-
-  /* --- UPDATED WELCOME / HEADER SECTION TO MATCH CONCORDIA STYLE --- */
-  .firstsection {
-    width: calc(100% + 60px);            /* bleed full width past page padding */
-    margin: -30px 0 24px -30px;          /* pull it up and left to act like a page header */
-    padding: 16px 24px;
-
-    background-color: var(--brand-dark); /* burgundy bar */
-    color: #fff;
-    border-bottom: 4px solid var(--brand-gold); /* gold accent */
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    row-gap: 12px;
-    column-gap: 16px;
-
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  }
-
-  .firstsectionleft h1 {
-    font-weight: 600;
-    color: #fff;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    margin: 0 0 6px 0;
-  }
-
-  .welcomeText {
-    display: inline-block;
-    margin-right: 6px;
-  }
-
-  #displayName {
-    color: #fff;
-    font-weight: 600;
-  }
-
-  .firstsectionleft p,
-  .dateBlock,
-  .scheduleLabel {
-    margin: 0;
-    font-size: 0.8rem;
-    color: #fff;
-    line-height: 1.4;
-    font-weight: 400;
-  }
-
-  .dateBlock {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    margin-top: 4px;
-  }
-
-  .scheduleLabel {
-    font-weight: 600;
-  }
-
-  /* make the date look like a pill in header */
-  .dateInput {
-    background: #fff;
-    border: 1px solid #999;
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 0.8rem;
-    line-height: 1.2;
-    color: #222;
-    min-width: 135px;
-    cursor: pointer; /* changed from not-allowed so user can interact */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
-
-  .firstsectionright {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .manageButton {
-    background-color: #fff;
-    color: var(--brand-dark);
-    border: 1px solid #fff;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1.2;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.4);
-    transition: all 0.15s ease;
-    white-space: nowrap;
-  }
-
-  .manageButton:hover {
-    background-color: var(--brand-gold);
-    color: #1e1e1e;
-    border-color: var(--brand-gold);
-    box-shadow: 0 20px 36px rgba(0,0,0,0.55);
-  }
-
-  .manageButton:active {
-    transform: scale(0.98);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-  }
-
-  /* --- EXISTING BOOKING TABLE STYLES (UNCHANGED) --- */
-  .roomsection {
-    max-width: 1200px;                 
-    margin: 0 auto 32px auto;          
-    background: var(--card-bg);        
-    border: 1px solid var(--card-border);  
-    border-radius: 16px;              
-    box-shadow: var(--card-shadow);    
-    padding: 24px 28px;                
-    font-family: inherit;             
-    color: var(--text-main);           
-  }
-
-  .sectionheader {
-    margin-bottom: 20px;               
-  }
-
-  .tableTitle {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-main);
-  }
-
-  .description {
-    margin: 0;
-    font-size: 14;
-    color: var(--text-dim);
-    text-align: left; 
-  }
-
-  .booking {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    background: #ffffff;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-  }
-
-  .bookingtable {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    min-width: 800px;
-    font-size: 0.8rem;
-    color: var(--text-main);
-  }
-
-  .bookingtable thead th {
-    background: radial-gradient(
-      circle at 0% 0%,
-      #ffffff 0%,
-      #dbdada 100%
-    );
-    color: #2b2b2b;
-    font-weight: 600;
-    text-align: center;
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-    font-size: 0.7rem;
-    white-space: nowrap;
-    letter-spacing: -0.02em;
-  }
-
-  .bookingtable tbody td {
-    position: relative;
-    vertical-align: middle;
-    min-width: 80px;
-    height: 56px;
-    padding: 6px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    background: #fff;
-    border-top: 1px solid rgba(0,0,0,0.07);
-    text-align: center;
-  }
-
-  .roomName {
-    background: radial-gradient(circle at 0% 0%, #faf9fa 0%, #ffffff 70%);
-    color: #2b2b2b;
-    text-align: left;
-    font-size: 0.8rem;
-    font-weight: 900;
-    line-height: 1.3;
-    white-space: nowrap;
-    height: auto;
-  }
-
-  .slotcheckbox {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    width: auto;
-    height: auto;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-  }
-
-  .slotcheckbox:disabled {
-    cursor: not-allowed;
-  }
-
-  .slotvisual {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    right: 6px;
-    bottom: 6px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    display: block;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    transition: all 0.15s;
-    z-index: 1;
-  }
-
-  .slotvisual_available {
-    background: #86c99c;
-    border-color: #27ae60;
-    box-shadow: 0 12px 24px rgba(98, 189, 136, 0.3);
-  }
-
-  .slotvisual_unavailable {
-    background: repeating-linear-gradient(
-      135deg,
-      #bcbcbc 0px,
-      #bcbcbc 6px,
-      #9a9a9a 6px,
-      #9a9a9a 12px
-    );
-    border: 2px solid #7a7a7a;
-    opacity: 0.7;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  }
-
-  .dateInput {
-    background: #fff;
-    border: 1px solid #999;
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 0.8rem;
-    line-height: 1.2;
-    color: #222;
-    min-width: 135px;
-    cursor: pointer; /* also updated here to match */
-  }
-
-  .bookButtonSpace {
-    justify-content: center;
-    margin-top: 24px;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-
-  .bookButtonSpace .manageButton {
-    background-color: var(--brand-dark);
-    color: #fff;
-    border: 1px solid var(--brand-dark);
-    border-radius: 10px;
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    line-height: 1.2;
-    box-shadow: 0 16px 32px rgba(94, 0, 31, 0.4);
-    transition: box-shadow 0.15s, transform 0.15s;
-    white-space: nowrap;
-  }
-
-  .bookButtonSpace .manageButton:hover {
-    background-color: var(--brand-dark-hover);
-    border-color: var(--brand-dark-hover);
-    box-shadow: 0 20px 36px rgba(68, 0, 23, 0.5);
-  }
-
-  .bookButtonSpace .manageButton:active {
-    transform: scale(0.98);
-    box-shadow: 0 8px 16px rgba(94, 0, 31, 0.4);
-  }
-
-</style>
-
-<body>
-  <!-- First section: Welcome + Manage Account button -->
- <header class="firstsection">
-  <!-- LEFT SIDE -->
-  <div class="firstsectionleft">
-   <h1>Welcome, <span id="displayName"></span>!</h1>
-    <script>
-      //still have to fix this it isnt working
-      const username = localStorage.getItem("username");
-      document.getElementById("displayName").textContent = username;
-    </script>
-
-    <div class="dateBlock">
-      <label class="scheduleLabel"><strong>Booking Schedule for:</strong></label>
-
-      <!-- UPDATED: now editable, has id="dateInput", no readonly/min/max lock -->
-      <input
-        type="date"
-        class="dateInput"
-        id="dateInput"
-        value="2025-10-19"
-      />
-    </div>
-  </div>
-
-  <!-- RIGHT SIDE -->
-  <div class="firstsectionright">
-    <a class="manageButton" href="managingAccountStudent.html">
-      Manage My Account
-    </a>
-  </div>
-</header>
-
-
-  <!--STUDY ROOMS SECTION --->
-  <section class="roomsection">
-    <!--Header part: title and short description of studo rooms-->
-    <div class="sectionheader">
-      <h2 class="tableTitle">Study Rooms</h2>
-      <p class="description">
-        Quiet, enclosed rooms for group work. Each room fits up to 6 students and whiteboard included
-      </p>
-    </div>
-
-    <div class="booking">
-      <table class="bookingtable">
-        <thead>
-          <tr>
-            <th class="roomNamecolumn">Room</th>
-            <!--Time headers-->
-            <th>10:00</th>
-            <th>11:00</th>
-            <th>12:00</th>
-            <th>13:00</th>
-            <th>14:00</th>
-            <th>15:00</th>
-            <th>16:00</th>
-            <th>17:00</th>
-            <th>18:00</th>
-            <th>19:00</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr> <!--Row 1: Study Room A-->
-            <td class="roomName">Study Room A</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_available" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_unavailable" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_available" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_available" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_unavailable" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_available" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_available" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_available" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_unavailable" for="A19"></label>
-            </td>
-          </tr>
-          <tr> <!--Row 2: Study Room B-->
-              <td class="roomName">Study Room B</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_available" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_available" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_unavailable" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_unavailable" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_unavailable" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_available" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_available" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_unavailable" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_unavailable" for="A19"></label>
-            </td>
-          </tr>
-          <tr> <!--Row 3: Study Room C-->
-            <td class="roomName">Study Room A=C</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_unavailable" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_unavailable" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_unavailable" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_unavailable" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_unavailable" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_available" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_available" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_available" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_available" for="A19"></label>
-            </td>
-          </tr>
-          <tr> <!--Row 1: Study Room D-->
-            <td class="roomName">Study Room D</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_unavailable" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_available" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_available" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_available" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_available" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_available" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_available" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_unavailable" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_available" for="A19"></label>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-
-
-  <section class="roomsection">
-    <!--Header part: title and short description of studo rooms-->
-    <div class="sectionheader">
-      <h2 class="tableTitle">Computer Lab Rooms</h2>
-      <p class="description">
-        Computers, lab equipment
-      </p>
-    </div>
-
-    <div class="booking">
-      <table class="bookingtable">
-        <thead>
-          <tr>
-            <th class="roomNamecolumn">Room</th>
-            <!--Time headers-->
-            <th>10:00</th>
-            <th>11:00</th>
-            <th>12:00</th>
-            <th>13:00</th>
-            <th>14:00</th>
-            <th>15:00</th>
-            <th>16:00</th>
-            <th>17:00</th>
-            <th>18:00</th>
-            <th>19:00</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr> 
-            <td class="roomName">Computer Lab B</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_unavailable" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_unavailable" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_available" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_unavailable" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_available" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_available" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_unavailable" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_available" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_unavailable" for="A19"></label>
-            </td>
-          </tr>
-          <tr> 
-              <td class="roomName">Computer Lab X</td>
-            
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A10"/>
-              <label class="slotvisual slotvisual_available" for="A10"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A11"/>
-              <label class="slotvisual slotvisual_available" for="A11"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A12"/>
-              <label class="slotvisual slotvisual_available" for="A12"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A13"/>
-              <label class="slotvisual slotvisual_available" for="A13"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A14"/>
-              <label class="slotvisual slotvisual_available" for="A14"></label>
-            </td>
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A15"/>
-              <label class="slotvisual slotvisual_unavailable" for="A15"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A16"/>
-              <label class="slotvisual slotvisual_unavailable" for="A16"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A17"/>
-              <label class="slotvisual slotvisual_unavailable" for="A17"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A18"/>
-              <label class="slotvisual slotvisual_available" for="A18"></label>
-            </td>
-
-            <td>
-              <input class="slotcheckbox" type="checkbox" id="A19"/>
-              <label class="slotvisual slotvisual_unavailable" for="A19"></label>
-            </td>
-          </tr>
-    </tbody>
-      </table>
-    </div>
-  </section>
- <div class="bookButtonSpace">
-    <button class="manageButton">Book</button>
-  </div>
+    <style>
+      :root {
+        --brand-dark: #5e001f;
+        --brand-dark-hover: #440017;
+        --brand-gold: #c9a646;
+        --text-main: #222;
+        --text-dim: #6b6b6b;
+        --bg-page: #f5f5f5;
+        --card-bg: #fff;
+        --card-border: #ddd;
+        --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+      }
+
+      .firstsection {
+        width: calc(100% + 60px);
+        margin: -30px 0 24px -30px;
+        padding: 16px 24px;
+
+        background-color: var(--brand-dark);
+        color: #fff;
+        border-bottom: 4px solid var(--brand-gold);
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        row-gap: 12px;
+        column-gap: 16px;
+
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .firstsectionleft h1 {
+        font-weight: 600;
+        color: #fff;
+        font-size: 1.1rem;
+        line-height: 1.4;
+        margin: 0 0 6px 0;
+      }
+
+      #displayName {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .dateBlock {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-top: 4px;
+      }
+      .scheduleLabel {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #fff;
+        line-height: 1.4;
+        font-weight: 400;
+      }
+
+      .dateInput {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        color: #222;
+        min-width: 135px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .bookButtonSpace .manageButton {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid #fff;
+        background: transparent;
+        color: #fff;
+        text-decoration: none;
+        line-height: 1.2;
+        box-shadow: 0 16px 32px rgba(94, 0, 31, 0.4);
+        transition: box-shadow 0.15s, transform 0.15s;
+        white-space: nowrap;
+      }
+      .bookButtonSpace .manageButton:hover {
+        background-color: var(--brand-dark-hover);
+        border-color: var(--brand-dark-hover);
+        box-shadow: 0 20px 36px rgba(68, 0, 23, 0.5);
+      }
+
+      .roomsection {
+        margin-top: 20px;
+      }
+
+      .bookingfooter {
+        margin-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .bookButtonPrimary {
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 10px 16px;
+        background-color: var(--brand-dark);
+        color: #fff;
+        border: 1px solid var(--brand-dark);
+        transition: all 0.15s ease;
+      }
+      .bookButtonPrimary:hover {
+        background-color: var(--brand-dark-hover);
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      .infoText {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header / welcome -->
+    <header class="firstsection">
+      <!-- LEFT SIDE -->
+      <div class="firstsectionleft">
+        <h1>Welcome, <span id="displayName"></span>!</h1>
+        <script>
+          const username = localStorage.getItem("username");
+          if (username) {
+            document.getElementById("displayName").textContent = username;
+          }
+        </script>
+
+        <div class="dateBlock">
+          <label class="scheduleLabel"
+            ><strong>Booking Schedule for:</strong></label
+          >
+          <input
+            type="date"
+            class="dateInput"
+            id="dateInput"
+            value="2025-10-19"
+          />
+        </div>
+        <div class="infoText">
+          Time slots and rooms below come from the admin's schedule for this
+          date.
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="bookButtonSpace">
+        <a class="manageButton" href="managingAccountStudent.html">
+          Manage My Account
+        </a>
+      </div>
+    </header>
+
+    <!-- STUDY ROOMS SECTION (dynamic table, style preserved) -->
+    <section class="roomsection">
+      <div class="sectionheader">
+        <h2 class="tableTitle">Available Rooms</h2>
+        <p class="description">
+          Rooms and time slots shown are based on the schedule defined by the
+          admin. Grey squares are unavailable; burgundy ones are available to
+          book.
+        </p>
+      </div>
+
+      <div class="booking">
+        <table class="bookingtable" id="bookingTable">
+          <thead>
+            <tr id="bookingHeaderRow">
+              <th class="roomNamecolumn">Room</th>
+              <!-- Time headers will be injected here -->
+            </tr>
+          </thead>
+          <tbody id="bookingBody">
+            <!-- Rows injected here -->
+          </tbody>
+        </table>
+        <div class="infoText" id="scheduleMessage"></div>
+        <div class="bookingfooter">
+          <button id="bookSelected" class="bookButtonPrimary" type="button">
+            Book Selected Slots
+          </button>
+        </div>
+      </div>
+    </section>
 
     <script>
-      document
-        .getElementById("manageYourAccount")
-        .addEventListener("click", function () {
-          location.href = "managingAccountStudent.html";
+      const headerRow = document.getElementById("bookingHeaderRow");
+      const body = document.getElementById("bookingBody");
+      const dateInput = document.getElementById("dateInput");
+      const scheduleMsg = document.getElementById("scheduleMessage");
+      const currentUser = localStorage.getItem("username") || "student";
+
+      let currentTimes = [];
+      let currentRooms = [];
+
+      async function fetchResources() {
+        try {
+          const res = await fetch("/api/admin/resources");
+          const data = await res.json();
+          if (!data.success) return [];
+          // Only non-blocked rooms available to students
+          return data.resources.filter((r) => !r.isBlocked).map((r) => r.name);
+        } catch (err) {
+          console.error(err);
+          return [];
+        }
+      }
+
+      async function fetchSchedule(date) {
+        try {
+          const res = await fetch(
+            "/api/schedule?date=" + encodeURIComponent(date)
+          );
+          const data = await res.json();
+          if (!data.success) return null;
+          return data; // {rooms, times, schedule}
+        } catch (err) {
+          console.error(err);
+          return null;
+        }
+      }
+
+      function buildHeader(times) {
+        // Clear old headers except first (Room)
+        while (headerRow.children.length > 1) {
+          headerRow.removeChild(headerRow.lastElementChild);
+        }
+        times.forEach((t) => {
+          const th = document.createElement("th");
+          th.textContent = t;
+          headerRow.appendChild(th);
         });
-      class TimeSlot {
-        constructor(time, status) {
-          this.time = time;
-          this.status = status;
-        }
       }
 
-      class Room {
-        constructor(name) {
-          this.name = name;
-          this.slots = [];
+      function buildBody(activeRooms, times, scheduleObj) {
+        body.innerHTML = "";
+        if (!times.length || !activeRooms.length) {
+          scheduleMsg.textContent =
+            "No schedule has been defined by the admin for this date yet.";
+          return;
         }
+        scheduleMsg.textContent =
+          "Select one or more available slots (burgundy squares) for a single room, then click 'Book Selected Slots'.";
 
-        addTimeSlot(time, status) {
-          this.slots.push(new TimeSlot(time, status));
-        }
+        activeRooms.forEach((roomName) => {
+          const tr = document.createElement("tr");
 
-        findAvailableStatus() {
-          return this.slots.filter((s) => s.status === "available");
-        }
+          const roomCell = document.createElement("td");
+          roomCell.className = "roomName";
+          roomCell.textContent = roomName;
+          tr.appendChild(roomCell);
+
+          const roomSlots = (scheduleObj[roomName] || []).reduce((acc, s) => {
+            acc[s.time] = s.status;
+            return acc;
+          }, {});
+
+          times.forEach((time) => {
+            const td = document.createElement("td");
+            const checkboxId = roomName.replace(/\s+/g, "_") + "_" + time;
+
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.className = "slotcheckbox";
+            input.id = checkboxId;
+
+            const label = document.createElement("label");
+            label.htmlFor = checkboxId;
+
+            const status = roomSlots[time] || "unavailable";
+            if (status === "available") {
+              label.className = "slotvisual slotvisual_available";
+              input.disabled = false;
+            } else {
+              label.className = "slotvisual slotvisual_unavailable";
+              input.disabled = true;
+            }
+
+            td.appendChild(input);
+            td.appendChild(label);
+            tr.appendChild(td);
+          });
+
+          body.appendChild(tr);
+        });
       }
 
-      class Day {
-        constructor(date) {
-          this.date = date;
-          this.rooms = [];
+      async function refreshSchedule() {
+        const date = dateInput.value;
+        if (!date) return;
+
+        const activeRooms = await fetchResources();
+        const sched = await fetchSchedule(date);
+
+        if (!sched || !sched.times.length) {
+          currentTimes = [];
+          currentRooms = [];
+          buildHeader([]);
+          buildBody([], [], {});
+          return;
         }
 
-        addRoom(room) {
-          this.rooms.push(room);
-        }
-        getRoom(name) {
-          return this.rooms.find((r) => r.name === name);
-        }
+        // Intersect schedule rooms with active rooms
+        const roomsForDate = sched.rooms.filter((r) => activeRooms.includes(r));
+
+        currentTimes = sched.times;
+        currentRooms = roomsForDate;
+
+        buildHeader(currentTimes);
+        buildBody(roomsForDate, currentTimes, sched.schedule);
       }
 
-      const days = new Map();
+      dateInput.addEventListener("change", refreshSchedule);
 
-      const oct_19_25 = new Day("2025-10-19");
-      const oct_19_studyroomA = new Room("Study Room A");
-      oct_19_studyroomA.addTimeSlot("14h00-15h00", "available");
-      oct_19_studyroomA.addTimeSlot("15h00-16h00", "available");
-      oct_19_studyroomA.addTimeSlot("16h00-17h00", "available");
-      oct_19_25.addRoom(oct_19_studyroomA);
+      document
+        .getElementById("bookSelected")
+        .addEventListener("click", async () => {
+          if (!currentRooms.length || !currentTimes.length) {
+            alert("No schedule available for this date.");
+            return;
+          }
+          const date = dateInput.value;
+          if (!date) {
+            alert("Please select a date first.");
+            return;
+          }
 
-      const oct_19_computerlabB = new Room("Computer Lab B");
-      oct_19_computerlabB.addTimeSlot("14h00-15h00", "available");
-      oct_19_computerlabB.addTimeSlot("15h00-16h00", "available");
-      oct_19_computerlabB.addTimeSlot("16h00-17h00", "available");
-      oct_19_25.addRoom(oct_19_computerlabB);
+          // Collect checked slots grouped by room
+          const selectionsByRoom = {};
+          currentRooms.forEach((room) => {
+            selectionsByRoom[room] = [];
+          });
 
-      const oct_19_studyroomB = new Room("Study Room B");
-      oct_19_studyroomB.addTimeSlot("14h00-15h00", "available");
-      oct_19_studyroomB.addTimeSlot("15h00-16h00", "available");
-      oct_19_studyroomB.addTimeSlot("16h00-17h00", "available");
-      oct_19_25.addRoom(oct_19_studyroomB);
+          currentRooms.forEach((room) => {
+            currentTimes.forEach((time) => {
+              const id = room.replace(/\s+/g, "_") + "_" + time;
+              const checkbox = document.getElementById(id);
+              if (checkbox && checkbox.checked && !checkbox.disabled) {
+                selectionsByRoom[room].push(time);
+              }
+            });
+          });
 
-      days.set(oct_19_25.date, oct_19_25);
+          // Only allow multiple slots for a single room per booking request
+          const roomsWithSelections = Object.entries(selectionsByRoom).filter(
+            ([_, times]) => times.length > 0
+          );
 
-      const daySelected = document.getElementById("dateInput");
-      const list1 = document.getElementById("list1");
-      const list2 = document.getElementById("list2");
-      const list3 = document.getElementById("list3");
+          if (!roomsWithSelections.length) {
+            alert("Please select at least one available time slot.");
+            return;
+          }
+          if (roomsWithSelections.length > 1) {
+            alert(
+              "Please select slots for only one room at a time (uncheck others)."
+            );
+            return;
+          }
 
-      daySelected.addEventListener("change", () => {
-        const daySelectedString = daySelected.value;
-        const d = days.get(daySelectedString);
+          const [room, slots] = roomsWithSelections[0];
 
-        const roomA = d.getRoom("Study Room A").findAvailableStatus();
-        for (let i = 0; i < roomA.length; i++) {
-          const op1 = document.createElement("option");
-          op1.value = roomA[i].time;
-          op1.textContent = roomA[i].time;
-          list1.appendChild(op1);
-        }
-        list1.size = roomA.length;
+          try {
+            const res = await fetch("/api/bookings", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                username: currentUser,
+                room,
+                date,
+                slots,
+              }),
+            });
+            const data = await res.json();
+            if (!data.success) {
+              alert(data.message || "Error creating booking.");
+              return;
+            }
+            alert("Booking request submitted!");
+            // Reload schedule so newly booked slots become unavailable
+            refreshSchedule();
+          } catch (err) {
+            console.error(err);
+            alert("Network error while booking.");
+          }
+        });
 
-        const labB = d.getRoom("Computer Lab B").findAvailableStatus();
-        for (let i = 0; i < labB.length; i++) {
-          const op2 = document.createElement("option");
-          op2.value = labB[i].time;
-          op2.textContent = labB[i].time;
-          list2.appendChild(op2);
-        }
-        list2.size = labB.length;
-
-        const roomB = d.getRoom("Study Room B").findAvailableStatus();
-        for (let i = 0; i < roomB.length; i++) {
-          const op3 = document.createElement("option");
-          op3.value = roomB[i].time;
-          op3.textContent = roomB[i].time;
-          list3.appendChild(op3);
-        }
-        list3.size = labB.length;
-      });
+      // Initial load
+      refreshSchedule();
     </script>
   </body>
 </html>

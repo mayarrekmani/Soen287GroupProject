@@ -32,51 +32,26 @@
         border: 1px solid #5e001f;
       }
 
-      /* Header bar at top with Concordia colors */
       .site-header {
-        background-color: #5e001f; /* burgundy */
+        background-color: #5e001f;
         color: #fff;
-        border-bottom: 4px solid #c9a646; /* gold accent */
+        border-bottom: 4px solid #c9a646;
         padding: 12px 24px;
         display: flex;
         align-items: center;
-        justify-content: flex-start; /* <-- keeps writing on the left */
+        justify-content: flex-start;
         gap: 12px;
-        margin: -32px -32px 24px -32px; /* stretch full width since body is padded */
+        margin: -32px -32px 24px -32px;
       }
-
       .site-header img {
         height: 48px;
         width: auto;
       }
-
       .site-header h2 {
         font-size: 1.1rem;
         font-weight: 500;
         margin: 0;
-        text-align: left; /* <-- ensures it’s left-aligned */
-      }
-
-      /* "Back to Dashboard" link */
-      .back {
-        color: #5e001f;
-        font-weight: 600;
-        font-size: 0.9rem;
-        text-decoration: none;
-        background-color: #fff;
-        border: 1px solid #5e001f;
-        border-radius: 4px;
-        padding: 6px 10px;
-        display: inline-block;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-        transition: all 0.15s ease;
-        margin-bottom: 16px;
-      }
-
-      .back:hover {
-        background-color: #5e001f;
-        color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+        text-align: left;
       }
 
       h1 {
@@ -85,7 +60,6 @@
         font-weight: 600;
         margin-bottom: 16px;
       }
-
       h2 {
         color: #333;
         font-size: 1.1rem;
@@ -93,7 +67,6 @@
         margin: 24px 0 12px 0;
       }
 
-      /* Form and list "cards" */
       form,
       .list {
         background-color: #fff;
@@ -202,6 +175,25 @@
         font-size: 0.8rem;
         line-height: 1.4;
       }
+
+      .statusTag {
+        display: inline-block;
+        margin-top: 4px;
+        font-size: 0.78rem;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #bbb;
+      }
+      .statusTag.blocked {
+        background: #ffe6e6;
+        border-color: #cc0000;
+        color: #cc0000;
+      }
+      .statusTag.active {
+        background: #e6ffe9;
+        border-color: #1e7b3a;
+        color: #1e7b3a;
+      }
     </style>
   </head>
   <body>
@@ -211,63 +203,138 @@
     </header>
     <h1>Resources</h1>
 
-    <!-- Add / Edit Resource -->
     <h2>Add / Edit Resource</h2>
     <form>
       <div class="row">
-        <label>Name</label
-        ><input type="text" placeholder="e.g., Study Room A" />
+        <label>Name</label>
+        <input id="resName" type="text" placeholder="e.g., Study Room A" />
       </div>
       <div class="row">
-        <label>Description</label
-        ><textarea rows="3" placeholder="Short details"></textarea>
+        <label>Description</label>
+        <textarea
+          id="resDescription"
+          rows="3"
+          placeholder="Short details"
+        ></textarea>
       </div>
       <div class="row">
-        <label>Location</label
-        ><input type="text" placeholder="Building, Floor, Room" />
+        <label>Location</label>
+        <input
+          id="resLocation"
+          type="text"
+          placeholder="Building, Floor, Room"
+        />
       </div>
       <div class="row">
-        <label>Capacity</label
-        ><input type="number" min="1" placeholder="e.g., 6" />
+        <label>Capacity</label>
+        <input id="resCapacity" type="number" min="1" placeholder="e.g., 6" />
       </div>
       <div class="actions">
-        <button class="secondaryButton">Save</button>
-        <button class="secondaryButton">Clear</button>
+        <button id="saveResource" class="secondaryButton" type="button">
+          Save
+        </button>
+        <button id="clearResource" class="secondaryButton" type="button">
+          Clear
+        </button>
       </div>
     </form>
 
-    <!-- Existing Resources List -->
     <h2 style="margin-top: 18px">Existing Resources</h2>
-    <div class="list">
-      <div class="card">
-        <strong>Study Room A</strong> — Capacity 6 <br />
-        <em>H-9, Room 902</em><br />
-        <small>Description: Quiet study room with 6 seats.</small>
-        <div class="actions" style="margin-top: 8px">
-          <button class="secondaryButton">Edit</button>
-          <button class="secondaryButton">Remove</button>
-        </div>
-      </div>
+    <div id="resourceList" class="list"></div>
 
-      <div class="card">
-        <strong>Computer Lab B</strong> — Capacity 24 <br />
-        <em>JMSB, 3rd floor</em><br />
-        <small
-          >Description: Computer lab equipped with PCs and projectors.</small
-        >
-        <div class="actions" style="margin-top: 8px">
-          <button class="secondaryButton">Edit</button>
-          <button class="secondaryButton">Remove</button>
-        </div>
-      </div>
-    </div>
     <button id="goBack" class="primaryButton" type="button">
       Go Back To Dashboard
     </button>
+
     <script>
       document.getElementById("goBack").addEventListener("click", function () {
         location.href = "adminPage.html";
       });
+
+      const nameInput = document.getElementById("resName");
+      const descInput = document.getElementById("resDescription");
+      const locInput = document.getElementById("resLocation");
+      const capInput = document.getElementById("resCapacity");
+      const listDiv = document.getElementById("resourceList");
+
+      document
+        .getElementById("clearResource")
+        .addEventListener("click", function () {
+          nameInput.value = "";
+          descInput.value = "";
+          locInput.value = "";
+          capInput.value = "";
+        });
+
+      async function loadResources() {
+        listDiv.innerHTML = "";
+        try {
+          const res = await fetch("/api/admin/resources");
+          const data = await res.json();
+          if (!data.success) return;
+
+          if (!data.resources.length) {
+            listDiv.innerHTML = "<p>No resources yet.</p>";
+            return;
+          }
+
+          data.resources.forEach((r) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const statusClass = r.isBlocked ? "blocked" : "active";
+            const statusText = r.isBlocked ? "Blocked" : "Active";
+
+            card.innerHTML = `
+              <strong>${r.name}</strong> — Capacity ${r.capacity}<br />
+              <em>${r.location}</em><br />
+              <small>Description: ${r.description || "—"}</small>
+              <span class="statusTag ${statusClass}">${statusText}</span>
+            `;
+            listDiv.appendChild(card);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      document
+        .getElementById("saveResource")
+        .addEventListener("click", async function () {
+          const name = nameInput.value.trim();
+          const description = descInput.value.trim();
+          const location = locInput.value.trim();
+          const capacity = capInput.value.trim();
+
+          if (!name || !location || !capacity) {
+            alert("Please fill Name, Location and Capacity.");
+            return;
+          }
+
+          try {
+            const res = await fetch("/api/admin/resources", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ name, description, location, capacity }),
+            });
+            const data = await res.json();
+            if (!data.success) {
+              alert(data.message || "Could not save resource.");
+              return;
+            }
+            alert("Resource saved.");
+            nameInput.value = "";
+            descInput.value = "";
+            locInput.value = "";
+            capInput.value = "";
+            await loadResources();
+          } catch (err) {
+            console.error(err);
+            alert("Network error while saving resource.");
+          }
+        });
+
+      loadResources();
     </script>
   </body>
 </html>

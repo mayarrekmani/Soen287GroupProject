@@ -1,26 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Booking Requests</title>
+    <meta charset="UTF-8" />
+    <title>Approve / Reject Bookings</title>
     <link rel="stylesheet" href="projectStyle.css" />
     <style>
-      /* --- Concordia Header --- */
-      .site-header {
-        background-color: #5e001f; /* Concordia burgundy */
-        color: #fff;
-        border-bottom: 4px solid #c9a646; /* gold accent stripe */
-        padding: 12px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 12px;
-      }
-
-      .site-header img {
-        height: 48px;
-        width: auto;
-      }
-
       body {
         background-color: #f5f5f5;
         color: #222;
@@ -30,6 +14,20 @@
         padding: 32px;
       }
 
+      .site-header {
+        background-color: #5e001f;
+        color: #fff;
+        border-bottom: 4px solid #c9a646;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: -32px -32px 24px -32px;
+      }
+      .site-header img {
+        height: 48px;
+      }
+
       h1 {
         color: #5e001f;
         font-size: 1.6rem;
@@ -37,167 +35,145 @@
         margin-bottom: 16px;
       }
 
-      .redBlock {
+      .card {
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 16px 20px;
-        max-width: 700px;
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
-        line-height: 1.5;
-        margin-bottom: 20px;
+        padding: 12px 16px;
+        margin-bottom: 10px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+        font-size: 0.95rem;
       }
 
-      .redBlock p {
-        margin: 4px 0;
+      .actions {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
       }
 
-      /* --- Matching Button Styles (Approve / Deny / Go Back) --- */
-
-      .approveButton,
-      .denyButton,
-      .primaryButton {
-        font-size: 0.9rem;
-        font-weight: 600;
-        padding: 8px 14px;
-        border-radius: 4px;
-        border: 1px solid transparent;
+      button {
         cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        border-radius: 4px;
+        font-weight: 600;
+        border: none;
+        padding: 8px 14px;
         transition: all 0.15s ease;
-        margin-right: 8px;
       }
 
-      /* Approve = Concordia Burgundy */
-      .approveButton {
-        background-color: #5e001f;
+      .approveBtn {
+        background-color: #1e7b3a;
         color: #fff;
-        border-color: #5e001f;
+      }
+      .approveBtn:hover {
+        background-color: #165a2a;
       }
 
-      .approveButton:hover {
-        background-color: #7a0b2b;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
-      }
-
-      /* Deny = Light border with red text */
-      .denyButton {
-        background-color: #fff;
-        color: #5e001f;
-        border-color: #5e001f;
-      }
-
-      .denyButton:hover {
-        background-color: #5e001f;
+      .denyBtn {
+        background-color: #b30000;
         color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+      }
+      .denyBtn:hover {
+        background-color: #800000;
       }
 
-      /* Go Back button (same Concordia style) */
       .primaryButton {
-        background-color: #fff;
-        color: #5e001f;
-        border: 1px solid #5e001f;
-        display: block;
-        margin-top: 24px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      }
-
-      .primaryButton:hover {
         background-color: #5e001f;
         color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+        border: 1px solid #5e001f;
+        margin-top: 16px;
+      }
+      .primaryButton:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
       }
     </style>
   </head>
 
   <body>
-    <!-- Concordia Header -->
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
-      <h2>Concordia University — Booking Requests</h2>
+      <h2>Concordia University — Booking Approvals</h2>
     </header>
 
     <h1>Pending Booking Requests</h1>
 
-    <div class="redBlock">
-      Student: John Doe
-      <p></p>
-      Request: 5:00 pm - 6:00 pm 2025-10-22
-      <p></p>
-      Reason: I want to meet with my team for my Soen287 project
-      <p></p>
-      <button class="approveButton" type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-
-    <div class="redBlock">
-      Student: Alice Nguyen
-      <p></p>
-      Request: 9:30 am - 10:30 am 2025-10-23
-      <p></p>
-      Reason: Need help reviewing my COMP248 assignment
-      <p></p>
-      <button class="approveButton" type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-
-    <div class="redBlock">
-      Student: Mark Thompson
-      <p></p>
-      Request: 2:00 pm - 3:00 pm 2025-10-25
-      <p></p>
-      Reason: Discuss upcoming midterm project proposal
-      <p></p>
-      <button class="approveButton" type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-
-    <div class="redBlock">
-      Student: Sophia Martinez
-      <p></p>
-      Request: 11:15 am - 12:00 pm 2025-10-27
-      <p></p>
-      Reason: Clarify doubts about JavaScript DOM manipulation
-      <p></p>
-      <button class="approveButton" type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
-
-    <div class="redBlock">
-      Student: Liam Patel
-      <p></p>
-      Request: 4:45 pm - 5:30 pm 2025-10-29
-      <p></p>
-      Reason: Schedule feedback session for my co-op resume
-      <p></p>
-      <button class="approveButton" type="button">Approve</button>
-      <button class="denyButton" type="button">Deny</button>
-    </div>
+    <div id="pendingList"></div>
 
     <button id="goBack" class="primaryButton" type="button">
       Go Back To Dashboard
     </button>
 
     <script>
-      const approveRequests = document.querySelectorAll(".approveButton");
-      for (let i = 0; i < approveRequests.length; i++) {
-        approveRequests[i].addEventListener("click", function () {
-          alert("Request has been approved!");
-          this.parentElement.remove();
-        });
-      }
-
-      const denyRequests = document.querySelectorAll(".denyButton");
-      for (let j = 0; j < denyRequests.length; j++) {
-        denyRequests[j].addEventListener("click", function () {
-          alert("Request has been denied!");
-          this.parentElement.remove();
-        });
-      }
-
-      document.getElementById("goBack").addEventListener("click", function () {
+      document.getElementById("goBack").onclick = () => {
         location.href = "adminPage.html";
-      });
+      };
+
+      async function loadPending() {
+        const list = document.getElementById("pendingList");
+        list.innerHTML = "";
+        try {
+          const res = await fetch("/api/admin/pending-bookings");
+          const data = await res.json();
+          if (!data.success || !data.bookings.length) {
+            list.innerHTML = "<p>No pending bookings.</p>";
+            return;
+          }
+          data.bookings.forEach((b) => {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `
+              <strong>Student:</strong> ${b.username}<br/>
+              <strong>Room:</strong> ${b.room}<br/>
+              <strong>Date:</strong> ${b.date}<br/>
+              <strong>Time:</strong> ${b.startTime} - ${b.endTime}<br/>
+            `;
+            const actions = document.createElement("div");
+            actions.className = "actions";
+
+            const approveBtn = document.createElement("button");
+            approveBtn.className = "approveBtn";
+            approveBtn.textContent = "Approve";
+            approveBtn.onclick = async () => {
+              const res = await fetch("/api/admin/approve/" + b.id, {
+                method: "POST",
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error approving.");
+                return;
+              }
+              loadPending();
+            };
+
+            const denyBtn = document.createElement("button");
+            denyBtn.className = "denyBtn";
+            denyBtn.textContent = "Deny";
+            denyBtn.onclick = async () => {
+              const res = await fetch("/api/admin/deny/" + b.id, {
+                method: "POST",
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error denying.");
+                return;
+              }
+              loadPending();
+            };
+
+            actions.appendChild(approveBtn);
+            actions.appendChild(denyBtn);
+            div.appendChild(actions);
+            list.appendChild(div);
+          });
+        } catch (err) {
+          console.error(err);
+          list.innerHTML = "<p>Error loading pending bookings.</p>";
+        }
+      }
+
+      loadPending();
     </script>
   </body>
 </html>
