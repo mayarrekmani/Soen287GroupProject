@@ -138,19 +138,48 @@
     <!-- Footer -->
     <footer>© Concordia University · All rights reserved</footer>
 
-    <!-- Script -->
+    
     <script>
-      document.getElementById("submit").addEventListener("click", function () {
-        const newUsername = document.getElementById("newUsername").value.trim();
+  document.getElementById("submit").addEventListener("click", function () {
+    const newUsername = document.getElementById("newUsername").value.trim();
+    const oldUsername = localStorage.getItem("username"); // current logged-in user
 
-        if (!newUsername) {
-          alert("Please enter a new username");
+    if (!newUsername) {
+      alert("Please enter a new username");
+      return;
+    }
+
+    // ---- SEND TO BACKEND ----
+    fetch("/api/change-username", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        oldUsername: oldUsername,
+        newUsername: newUsername,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) {
+          alert(data.message || "Error updating username.");
         } else {
           alert("Username has been changed!");
           localStorage.setItem("username", newUsername);
           location.href = "index.html";
         }
+      })
+      .catch((err) => {
+        console.error("Username change error:", err);
+        alert(
+          "Server error. Make sure node server.js is running and route exists."
+        );
       });
-    </script>
+  });
+</script>
+
+
+
   </body>
 </html>

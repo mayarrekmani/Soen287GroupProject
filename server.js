@@ -364,6 +364,86 @@ app.post("/api/admin/deny/:id", (req, res) => {
   return res.json({ success: true, booking: b });
 });
 
+
+// ================================================
+// 7. Change Username
+// ================================================
+
+// CHANGE USERNAME
+app.post("/api/change-username", (req, res) => {
+  const { oldUsername, newUsername } = req.body;
+
+  if (!oldUsername || !newUsername) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing fields" });
+  }
+
+  const user = users.find(
+    (u) => u.username.toLowerCase() === oldUsername.toLowerCase()
+  );
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Old username not found" });
+  }
+
+  // Check if new username exists
+  const taken = users.find(
+    (u) => u.username.toLowerCase() === newUsername.toLowerCase()
+  );
+
+  if (taken) {
+    return res
+      .status(400)
+      .json({ success: false, message: "That username is already taken" });
+  }
+
+  // Update
+  user.username = newUsername;
+
+  console.log(`Changed username: ${oldUsername} → ${newUsername}`);
+
+  return res.json({ success: true });
+});
+
+// ================================================
+// 8. Forget Password
+// ================================================
+
+
+
+// RESET PASSWORD (fake system just validates email)
+app.post("/api/reset-password", (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Email is required." });
+  }
+
+  const user = users.find(
+    (u) => u.email.toLowerCase() === email.toLowerCase()
+  );
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No account found with that email." });
+  }
+
+  console.log(`Password reset requested for: ${email}`);
+
+  // In a real system we would send email — here we just simulate success
+  return res.json({
+    success: true,
+    message: "Reset email sent successfully.",
+  });
+});
+
+
 // ================================================
 // START SERVER
 // ================================================
