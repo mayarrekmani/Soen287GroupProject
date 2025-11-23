@@ -49,7 +49,7 @@
         text-align: center;
       }
 
-      /* === Buttons === */
+      /* === Big menu buttons === */
       .largeButton {
         display: block;
         margin: 10px auto;
@@ -73,8 +73,8 @@
         box-shadow: 0 6px 12px rgba(94, 0, 31, 0.3);
       }
 
-      /* === Upcoming Appointments === */
-      label {
+      /* === Appointment cards (dynamic) === */
+      .appointmentCard {
         display: block;
         background-color: #fff;
         border: 1px solid #ddd;
@@ -86,7 +86,16 @@
         font-size: 0.95rem;
       }
 
-      /* === Buttons inside appointments === */
+      .appointmentMeta {
+        display: inline-block;
+        margin-right: 12px;
+      }
+
+      .appointmentActions {
+        float: right;
+      }
+
+      /* Buttons inside appointment cards */
       .reschedule,
       .cancel {
         margin-left: 8px;
@@ -121,24 +130,36 @@
         box-shadow: 0 3px 8px rgba(94, 0, 31, 0.3);
       }
 
-      .center-button {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 150px;
-        height: 100px;
+      /* Cancelled by admin style */
+      .appointmentCard.cancelledAdmin {
+        background-color: #f0f0f0;
+        border-style: dashed;
+        border-color: #b0b0b0;
+        color: #777;
+      }
+
+      .appointmentCard.cancelledAdmin .appointmentActions {
+        display: none; /* no reschedule/cancel buttons */
+      }
+
+      .emptyMessage {
+        text-align: center;
+        color: #666;
+        font-size: 0.95rem;
+        margin-top: 12px;
       }
     </style>
   </head>
 
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt="Concordia Emblem">
+      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
       <h2>Concordia University — Account Management</h2>
     </header>
 
     <h1>
-      Welcome, <span id="displayName"></span> please choose which option pertains to you.
+      Welcome, <span id="displayName"></span> please choose which option
+      pertains to you.
     </h1>
 
     <button id="changePassword" class="largeButton" type="button">
@@ -156,34 +177,10 @@
 
     <h2>Upcoming Appointments:</h2>
 
-    <label>
-      Time = 1:00 pm - 2 : 00 pm 2025-10-21 Room = Computer Lab B
-      <button class="reschedule" type="button">Reschedule</button>
-      <button class="cancel" type="button">Cancel</button>
-    </label>
-    <label>
-      Time = 2:00 pm - 3 : 00 pm 2025-10-21 Room = Computer Lab B
-      <button class="reschedule" type="button">Reschedule</button>
-      <button class="cancel" type="button">Cancel</button>
-    </label>
-    <label>
-      Time = 3:00 pm - 4 : 00 pm 2025-10-21 Room = Computer Lab B
-      <button class="reschedule" type="button">Reschedule</button>
-      <button class="cancel" type="button">Cancel</button>
-    </label>
-    <label>
-      Time = 4:00 pm - 5 : 00 pm 2025-10-21 Room = Computer Lab B
-      <button class="reschedule" type="button">Reschedule</button>
-      <button class="cancel" type="button">Cancel</button>
-    </label>
-    <label>
-      Time = 1:00 pm - 2 : 00 pm 2025-10-22 Room = Computer Lab B
-      <button class="reschedule" type="button">Reschedule</button>
-      <button class="cancel" type="button">Cancel</button>
-    </label>
+    <div id="upcomingList"></div>
 
     <script>
-      const username = localStorage.getItem("username");
+      const username = localStorage.getItem("username") || "student";
       document.getElementById("displayName").textContent = username;
 
       document
@@ -207,22 +204,130 @@
           location.href = "pastAppointments.html";
         });
 
-      const rescheduleBtn = document.querySelectorAll(".reschedule");
-      const cancelBtn = document.querySelectorAll(".cancel");
+      const upcomingListDiv = document.getElementById("upcomingList");
 
-      for (let i = 0; i < rescheduleBtn.length; i++) {
-        rescheduleBtn[i].addEventListener("click", function () {
-          location.href = "studentPage.html";
-          this.parentElement.remove();
-        });
+      function todayString() {
+        return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
       }
 
-      for (let j = 0; j < cancelBtn.length; j++) {
-        cancelBtn[j].addEventListener("click", function () {
-          alert("Appointment has been canceled!");
-          this.parentElement.remove();
-        });
+      function formatTime(t) {
+        // t is "13:00" -> "1:00 pm"
+        const [hStr, mStr] = t.split(":");
+        let h = parseInt(hStr, 10);
+        const ampm = h >= 12 ? "pm" : "am";
+        if (h === 0) h = 12;
+        else if (h > 12) h -= 12;
+        return `${h}:${mStr} ${ampm}`;
       }
+
+      function formatBookingText(b) {
+        const start = formatTime(b.startTime);
+        const end = formatTime(b.endTime);
+        return `Time = ${start} - ${end} ${b.date} Room = ${b.room}`;
+      }
+
+      async function loadUpcoming() {
+        upcomingListDiv.innerHTML = "";
+
+        try {
+          const res = await fetch(
+            "/api/my-bookings?username=" + encodeURIComponent(username)
+          );
+          const data = await res.json();
+          if (!data.success) {
+            upcomingListDiv.innerHTML =
+              "<p class='emptyMessage'>Could not load bookings.</p>";
+            return;
+          }
+
+          const today = todayString();
+          const upcoming = data.bookings
+            .filter((b) => b.date >= today)
+            .sort((a, b) => {
+              // sort by date then startTime
+              if (a.date !== b.date) return a.date.localeCompare(b.date);
+              return a.startTime.localeCompare(b.startTime);
+            });
+
+          if (!upcoming.length) {
+            upcomingListDiv.innerHTML =
+              "<p class='emptyMessage'>You currently have no upcoming appointments.</p>";
+            return;
+          }
+
+          upcoming.forEach((b) => {
+            const card = document.createElement("div");
+            card.className = "appointmentCard";
+
+            const metaSpan = document.createElement("span");
+            metaSpan.className = "appointmentMeta";
+            metaSpan.textContent = formatBookingText(b);
+
+            const actionsDiv = document.createElement("span");
+            actionsDiv.className = "appointmentActions";
+
+            // Cancelled because room removed
+            if (b.status === "cancelled_by_admin") {
+              card.classList.add("cancelledAdmin");
+              const note = document.createElement("div");
+              note.style.marginTop = "4px";
+              note.style.fontSize = "0.85rem";
+              note.textContent =
+                b.cancelReason ||
+                "This booking was cancelled because the resource was removed.";
+              card.appendChild(metaSpan);
+              card.appendChild(note);
+              upcomingListDiv.appendChild(card);
+              return;
+            }
+
+            // Normal / pending / approved bookings → show buttons
+            const resBtn = document.createElement("button");
+            resBtn.type = "button";
+            resBtn.className = "reschedule";
+            resBtn.textContent = "Reschedule";
+            resBtn.onclick = () => {
+              // For now just go back to booking page
+              location.href = "studentPage.html";
+            };
+
+            const cancelBtn = document.createElement("button");
+            cancelBtn.type = "button";
+            cancelBtn.className = "cancel";
+            cancelBtn.textContent = "Cancel";
+            cancelBtn.onclick = async () => {
+              if (!confirm("Cancel this appointment?")) return;
+              try {
+                const res = await fetch("/api/bookings/" + b.id + "/cancel", {
+                  method: "POST",
+                });
+                const d = await res.json();
+                if (!d.success) {
+                  alert(d.message || "Error cancelling booking.");
+                  return;
+                }
+                loadUpcoming();
+              } catch (err) {
+                console.error(err);
+                alert("Network error while cancelling.");
+              }
+            };
+
+            actionsDiv.appendChild(resBtn);
+            actionsDiv.appendChild(cancelBtn);
+
+            card.appendChild(metaSpan);
+            card.appendChild(actionsDiv);
+            upcomingListDiv.appendChild(card);
+          });
+        } catch (err) {
+          console.error(err);
+          upcomingListDiv.innerHTML =
+            "<p class='emptyMessage'>Network error while loading bookings.</p>";
+        }
+      }
+
+      loadUpcoming();
     </script>
   </body>
 </html>

@@ -1,144 +1,136 @@
-*{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
+* {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-h1{
-    font-weight: bold;
-    color: #912338;
-
+h1 {
+  font-weight: bold;
+  color: #912338;
 }
 
-h2{
-    font-weight: bold;
-    color: black;
+h2 {
+  font-weight: bold;
+  color: black;
 }
 
-h3{
-    font-weight:normal;
-    color:#912338;
+h3 {
+  font-weight: normal;
+  color: #912338;
 }
 
-p{
-    font-weight:normal;
-    color:black;
-    text-align:center;
+p {
+  font-weight: normal;
+  color: black;
+  text-align: center;
 }
 
-
-.primaryButton{
-    background-color: #c4a0a7;
-    text-transform: uppercase;
-    font-weight:normal;
-    color:black;
-    border-radius: 6px;
+.primaryButton {
+  background-color: #c4a0a7;
+  text-transform: uppercase;
+  font-weight: normal;
+  color: black;
+  border-radius: 6px;
 }
 
-.primaryButton:hover{
-    background-color:#912338;
-    text-transform: uppercase;
-    font-weight:bold;
-    color:white;
-    border-radius:6px;
+.primaryButton:hover {
+  background-color: #912338;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  border-radius: 6px;
 }
 
-.primaryButton:active{
-    background-color:#470a15;
+.primaryButton:active {
+  background-color: #470a15;
 }
-.secondaryButton{
-    text-transform:uppercase;
-    background-color:#0f73ae;
-    color:white;
-    font-weight:normal;
-    border-radius:6px;
-
-}
-
-.secondaryButton:hover{
-    background-color:#5c9abe;
-    font-weight:bold;
-
+.secondaryButton {
+  text-transform: uppercase;
+  background-color: #0f73ae;
+  color: white;
+  font-weight: normal;
+  border-radius: 6px;
 }
 
-.secondaryButton.active{
-    background-color:#084263;
-    font-weight:bold;
+.secondaryButton:hover {
+  background-color: #5c9abe;
+  font-weight: bold;
 }
 
-.largeButton{
-    display:block;
-    margin:0 auto;
-    text-transform:uppercase;
-    color:black;
-    background-color:#c4a0a7;
-    border-radius:6px;
-    padding:20px 30px;
-    text-align:center;
-    width:210px;
+.secondaryButton.active {
+  background-color: #084263;
+  font-weight: bold;
 }
 
-.largeButton:hover{
-    background-color:#912338;
-    color:white;
-    font-weight:bold;
+.largeButton {
+  display: block;
+  margin: 0 auto;
+  text-transform: uppercase;
+  color: black;
+  background-color: #c4a0a7;
+  border-radius: 6px;
+  padding: 20px 30px;
+  text-align: center;
+  width: 210px;
 }
 
-
-
-.site-footer{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background-colour:#912338;
-    
+.largeButton:hover {
+  background-color: #912338;
+  color: white;
+  font-weight: bold;
 }
 
-.site-header{
-    background-color:white;
-    width:100%;
-    text-align:center;
-    padding:10px 0;
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-colour: #912338;
 }
 
-.site-header img{
-    display:block;
-    margin:0 auto;
+.site-header {
+  background-color: white;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
 }
 
-.redBlock{
-    background-color:#c4a0a7;
-    color:black;
-    border-radius:6px;
-    padding:10px;
+.site-header img {
+  display: block;
+  margin: 0 auto;
 }
 
-.approveButton{
-    text-transform:uppercase;
-    color:black;
-    background-color:lightgreen;
-    border-radius:6px;
+.redBlock {
+  background-color: #c4a0a7;
+  color: black;
+  border-radius: 6px;
+  padding: 10px;
 }
 
-.approveButton:hover{
-    color:white;
-    font-weight:bold;
-    background-color:green;
+.approveButton {
+  text-transform: uppercase;
+  color: black;
+  background-color: lightgreen;
+  border-radius: 6px;
 }
 
-.denyButton{
-    color:black;
-    text-transform:uppercase;
-    background-color:lightcoral;
-    border-radius:6px;
+.approveButton:hover {
+  color: white;
+  font-weight: bold;
+  background-color: green;
 }
 
-.denyButton:hover{
-    color:white;
-    font-weight:bold;
-    background-color:red;
+.denyButton {
+  color: black;
+  text-transform: uppercase;
+  background-color: lightcoral;
+  border-radius: 6px;
 }
 
-.centerText{
-    text-align:center;
+.denyButton:hover {
+  color: white;
+  font-weight: bold;
+  background-color: red;
+}
+
+.centerText {
+  text-align: center;
 }

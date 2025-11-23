@@ -14,6 +14,7 @@
         padding: 32px;
         line-height: 1.4;
       }
+
       button {
         cursor: pointer;
         font-size: 0.9rem;
@@ -39,19 +40,11 @@
         padding: 12px 24px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
         gap: 12px;
         margin: -32px -32px 24px -32px;
       }
       .site-header img {
         height: 48px;
-        width: auto;
-      }
-      .site-header h2 {
-        font-size: 1.1rem;
-        font-weight: 500;
-        margin: 0;
-        text-align: left;
       }
 
       h1 {
@@ -60,21 +53,15 @@
         font-weight: 600;
         margin-bottom: 16px;
       }
-      h2 {
-        color: #333;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 24px 0 12px 0;
-      }
 
       form,
       .list {
-        background-color: #fff;
+        background: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
+        padding: 16px 20px;
         max-width: 640px;
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
-        padding: 16px 20px;
       }
 
       .row {
@@ -83,152 +70,62 @@
         gap: 10px;
         margin-bottom: 14px;
         font-size: 0.95rem;
-        color: #333;
-        font-weight: 600;
       }
 
-      .row label {
-        color: #5e001f;
-        font-weight: 600;
-        padding-top: 8px;
-        line-height: 1.3;
-      }
-
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px 12px;
-        font-size: 0.95rem;
-        color: #222;
-        background-color: #fff;
-        border: 1px solid #bbb;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
-        transition: all 0.15s ease;
-        font-family: inherit;
-      }
-
-      input:focus,
-      textarea:focus {
-        outline: none;
-        border-color: #5e001f;
-        box-shadow: 0 0 0 3px rgba(94, 0, 31, 0.15);
-      }
-
-      .actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .secondaryButton {
+      .editBtn,
+      .deleteBtn {
         background-color: #fff;
         color: #5e001f;
         border: 1px solid #5e001f;
+        padding: 6px 12px;
+        margin-right: 6px;
         border-radius: 4px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        line-height: 1.2;
-        padding: 8px 14px;
         cursor: pointer;
-        transition: all 0.15s ease;
       }
-
-      .secondaryButton:hover {
-        background-color: #5e001f;
-        color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.3);
+      .editBtn:hover {
+        background-color: #e8e2e5;
       }
-
-      .list {
-        padding: 16px 20px;
+      .deleteBtn {
+        border-color: #b30000;
+        color: #b30000;
       }
-
-      .card {
-        background-color: #fafafa;
-        border: 1px solid #eee;
-        border-radius: 6px;
-        padding: 12px 14px;
-        margin: 10px 0;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-        font-size: 0.95rem;
-        line-height: 1.4;
-      }
-
-      .card strong {
-        color: #5e001f;
-        font-weight: 600;
-      }
-
-      .card em {
-        color: #444;
-        font-style: normal;
-        font-weight: 500;
-        display: inline-block;
-        margin-top: 4px;
-      }
-
-      .card small {
-        color: #555;
-        display: block;
-        margin-top: 4px;
-        font-size: 0.8rem;
-        line-height: 1.4;
-      }
-
-      .statusTag {
-        display: inline-block;
-        margin-top: 4px;
-        font-size: 0.78rem;
-        padding: 2px 8px;
-        border-radius: 999px;
-        border: 1px solid #bbb;
-      }
-      .statusTag.blocked {
-        background: #ffe6e6;
-        border-color: #cc0000;
-        color: #cc0000;
-      }
-      .statusTag.active {
-        background: #e6ffe9;
-        border-color: #1e7b3a;
-        color: #1e7b3a;
+      .deleteBtn:hover {
+        background-color: #ffe6e6;
       }
     </style>
   </head>
+
   <body>
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
       <h2>Concordia University — Manage Resources</h2>
     </header>
+
     <h1>Resources</h1>
 
     <h2>Add / Edit Resource</h2>
+
     <form>
       <div class="row">
         <label>Name</label>
-        <input id="resName" type="text" placeholder="e.g., Study Room A" />
+        <input id="resName" type="text" />
       </div>
+
       <div class="row">
         <label>Description</label>
-        <textarea
-          id="resDescription"
-          rows="3"
-          placeholder="Short details"
-        ></textarea>
+        <textarea id="resDescription" rows="3"></textarea>
       </div>
+
       <div class="row">
         <label>Location</label>
-        <input
-          id="resLocation"
-          type="text"
-          placeholder="Building, Floor, Room"
-        />
+        <input id="resLocation" type="text" />
       </div>
+
       <div class="row">
         <label>Capacity</label>
-        <input id="resCapacity" type="number" min="1" placeholder="e.g., 6" />
+        <input id="resCapacity" type="number" min="1" />
       </div>
+
       <div class="actions">
         <button id="saveResource" class="secondaryButton" type="button">
           Save
@@ -247,9 +144,9 @@
     </button>
 
     <script>
-      document.getElementById("goBack").addEventListener("click", function () {
+      document.getElementById("goBack").onclick = () => {
         location.href = "adminPage.html";
-      });
+      };
 
       const nameInput = document.getElementById("resName");
       const descInput = document.getElementById("resDescription");
@@ -257,84 +154,130 @@
       const capInput = document.getElementById("resCapacity");
       const listDiv = document.getElementById("resourceList");
 
-      document
-        .getElementById("clearResource")
-        .addEventListener("click", function () {
-          nameInput.value = "";
-          descInput.value = "";
-          locInput.value = "";
-          capInput.value = "";
-        });
+      let editingName = null;
+
+      document.getElementById("clearResource").onclick = () => {
+        editingName = null;
+        nameInput.value = "";
+        descInput.value = "";
+        locInput.value = "";
+        capInput.value = "";
+      };
 
       async function loadResources() {
         listDiv.innerHTML = "";
-        try {
-          const res = await fetch("/api/admin/resources");
-          const data = await res.json();
-          if (!data.success) return;
 
-          if (!data.resources.length) {
-            listDiv.innerHTML = "<p>No resources yet.</p>";
-            return;
-          }
+        const res = await fetch("/api/admin/resources");
+        const data = await res.json();
+        if (!data.success) return;
 
-          data.resources.forEach((r) => {
-            const card = document.createElement("div");
-            card.className = "card";
+        data.resources.forEach((r) => {
+          const card = document.createElement("div");
+          card.className = "card";
 
-            const statusClass = r.isBlocked ? "blocked" : "active";
-            const statusText = r.isBlocked ? "Blocked" : "Active";
+          card.innerHTML = `
+            <strong>${r.name}</strong> — Capacity ${r.capacity}<br/>
+            <em>${r.location}</em><br/>
+            <small>Description: ${r.description || "—"}</small><br/>
+            <br/>
+          `;
 
-            card.innerHTML = `
-              <strong>${r.name}</strong> — Capacity ${r.capacity}<br />
-              <em>${r.location}</em><br />
-              <small>Description: ${r.description || "—"}</small>
-              <span class="statusTag ${statusClass}">${statusText}</span>
-            `;
-            listDiv.appendChild(card);
-          });
-        } catch (err) {
-          console.error(err);
-        }
-      }
+          const editBtn = document.createElement("button");
+          editBtn.className = "editBtn";
+          editBtn.textContent = "Edit";
+          editBtn.onclick = () => {
+            editingName = r.name;
+            nameInput.value = r.name;
+            descInput.value = r.description;
+            locInput.value = r.location;
+            capInput.value = r.capacity;
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          };
 
-      document
-        .getElementById("saveResource")
-        .addEventListener("click", async function () {
-          const name = nameInput.value.trim();
-          const description = descInput.value.trim();
-          const location = locInput.value.trim();
-          const capacity = capInput.value.trim();
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "deleteBtn";
+          deleteBtn.textContent = "Delete";
+          deleteBtn.onclick = async () => {
+            if (!confirm("Delete this resource?")) return;
 
-          if (!name || !location || !capacity) {
-            alert("Please fill Name, Location and Capacity.");
-            return;
-          }
-
-          try {
-            const res = await fetch("/api/admin/resources", {
+            const del = await fetch("/api/admin/resource/delete", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name, description, location, capacity }),
+              body: JSON.stringify({ name: r.name }),
             });
-            const data = await res.json();
-            if (!data.success) {
-              alert(data.message || "Could not save resource.");
+
+            const out = await del.json();
+            if (!out.success) {
+              alert(out.message);
               return;
             }
-            alert("Resource saved.");
-            nameInput.value = "";
-            descInput.value = "";
-            locInput.value = "";
-            capInput.value = "";
-            await loadResources();
-          } catch (err) {
-            console.error(err);
-            alert("Network error while saving resource.");
-          }
+
+            loadResources();
+          };
+
+          card.appendChild(editBtn);
+          card.appendChild(deleteBtn);
+          listDiv.appendChild(card);
         });
+      }
 
       loadResources();
+
+      document.getElementById("saveResource").onclick = async () => {
+        const name = nameInput.value.trim();
+        const description = descInput.value.trim();
+        const location = locInput.value.trim();
+        const capacity = capInput.value.trim();
+
+        if (!name || !location || !capacity) {
+          alert("Fill all required fields.");
+          return;
+        }
+
+        if (editingName) {
+          const res = await fetch("/api/admin/resource/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              oldName: editingName,
+              name,
+              description,
+              location,
+              capacity,
+            }),
+          });
+
+          const out = await res.json();
+          if (!out.success) {
+            alert(out.message);
+            return;
+          }
+        } else {
+          const res = await fetch("/api/admin/resources", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name,
+              description,
+              location,
+              capacity,
+            }),
+          });
+
+          const out = await res.json();
+          if (!out.success) {
+            alert(out.message);
+            return;
+          }
+        }
+
+        editingName = null;
+        nameInput.value = "";
+        descInput.value = "";
+        locInput.value = "";
+        capInput.value = "";
+        loadResources();
+      };
     </script>
   </body>
 </html>

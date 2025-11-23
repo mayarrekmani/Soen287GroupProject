@@ -12,9 +12,6 @@
         --text-main: #222;
         --text-dim: #6b6b6b;
         --bg-page: #f5f5f5;
-        --card-bg: #fff;
-        --card-border: #ddd;
-        --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
       }
 
       body {
@@ -30,18 +27,15 @@
         width: calc(100% + 60px);
         margin: -30px 0 24px -30px;
         padding: 16px 24px;
-
         background-color: var(--brand-dark);
         color: #fff;
         border-bottom: 4px solid var(--brand-gold);
-
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: flex-start;
         row-gap: 12px;
         column-gap: 16px;
-
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       }
 
@@ -65,6 +59,7 @@
         align-items: center;
         margin-top: 4px;
       }
+
       .scheduleLabel {
         margin: 0;
         font-size: 0.8rem;
@@ -99,6 +94,7 @@
         transition: box-shadow 0.15s, transform 0.15s;
         white-space: nowrap;
       }
+
       .bookButtonSpace .manageButton:hover {
         background-color: var(--brand-dark-hover);
         border-color: var(--brand-dark-hover);
@@ -128,6 +124,7 @@
         border: 1px solid var(--brand-dark);
         transition: all 0.15s ease;
       }
+
       .bookButtonPrimary:hover {
         background-color: var(--brand-dark-hover);
         box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
@@ -137,6 +134,54 @@
         font-size: 0.85rem;
         color: var(--text-dim);
         margin-top: 6px;
+      }
+
+      /* === SLOT VISUALS (student) === */
+
+      .slotcheckbox {
+        display: none;
+      }
+
+      .slotvisual {
+        display: inline-block;
+        width: 26px;
+        height: 22px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background-color: #f5f5f5;
+        transition: background-color 0.15s ease, border-color 0.15s ease,
+          box-shadow 0.15s ease;
+        cursor: default;
+      }
+
+      /* Unavailable: dashed grey */
+      .slotvisual_unavailable {
+        border-style: dashed;
+        border-color: #b3b3b3;
+        background-color: #f0f0f0;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+
+      /* Available: green base */
+      .slotvisual_available {
+        background-color: #e7f9ed;
+        border-color: #2e7d32;
+        cursor: pointer;
+      }
+
+      /* Hover (pale blue) for available slots */
+      .slotcheckbox:not(:disabled) + .slotvisual_available:hover {
+        background-color: #e3f0ff;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35);
+      }
+
+      /* Selected (dark blue) */
+      .slotcheckbox:checked + .slotvisual_available {
+        background-color: #2563eb;
+        border-color: #1d4ed8;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.6);
       }
     </style>
   </head>
@@ -179,14 +224,14 @@
       </div>
     </header>
 
-    <!-- STUDY ROOMS SECTION (dynamic table, style preserved) -->
+    <!-- STUDY ROOMS SECTION -->
     <section class="roomsection">
       <div class="sectionheader">
         <h2 class="tableTitle">Available Rooms</h2>
         <p class="description">
           Rooms and time slots shown are based on the schedule defined by the
-          admin. Grey squares are unavailable; burgundy ones are available to
-          book.
+          admin. Grey dashed squares are unavailable; green ones are bookable.
+          Hover = pale blue, selected = darker blue.
         </p>
       </div>
 
@@ -195,12 +240,9 @@
           <thead>
             <tr id="bookingHeaderRow">
               <th class="roomNamecolumn">Room</th>
-              <!-- Time headers will be injected here -->
             </tr>
           </thead>
-          <tbody id="bookingBody">
-            <!-- Rows injected here -->
-          </tbody>
+          <tbody id="bookingBody"></tbody>
         </table>
         <div class="infoText" id="scheduleMessage"></div>
         <div class="bookingfooter">
@@ -241,7 +283,7 @@
           );
           const data = await res.json();
           if (!data.success) return null;
-          return data; // {rooms, times, schedule}
+          return data; // {rooms, times, schedule, blackout?}
         } catch (err) {
           console.error(err);
           return null;
@@ -249,7 +291,6 @@
       }
 
       function buildHeader(times) {
-        // Clear old headers except first (Room)
         while (headerRow.children.length > 1) {
           headerRow.removeChild(headerRow.lastElementChild);
         }
@@ -268,7 +309,7 @@
           return;
         }
         scheduleMsg.textContent =
-          "Select one or more available slots (burgundy squares) for a single room, then click 'Book Selected Slots'.";
+          "Select one or more available slots for a single room, then click 'Book Selected Slots'.";
 
         activeRooms.forEach((roomName) => {
           const tr = document.createElement("tr");
@@ -320,15 +361,18 @@
         const activeRooms = await fetchResources();
         const sched = await fetchSchedule(date);
 
-        if (!sched || !sched.times.length) {
+        if (!sched || !sched.times.length || !sched.rooms.length) {
           currentTimes = [];
           currentRooms = [];
           buildHeader([]);
           buildBody([], [], {});
+          if (sched && sched.blackout) {
+            scheduleMsg.textContent =
+              "This date is marked as a blackout day. No bookings are available.";
+          }
           return;
         }
 
-        // Intersect schedule rooms with active rooms
         const roomsForDate = sched.rooms.filter((r) => activeRooms.includes(r));
 
         currentTimes = sched.times;
@@ -353,7 +397,6 @@
             return;
           }
 
-          // Collect checked slots grouped by room
           const selectionsByRoom = {};
           currentRooms.forEach((room) => {
             selectionsByRoom[room] = [];
@@ -369,7 +412,6 @@
             });
           });
 
-          // Only allow multiple slots for a single room per booking request
           const roomsWithSelections = Object.entries(selectionsByRoom).filter(
             ([_, times]) => times.length > 0
           );
@@ -404,7 +446,6 @@
               return;
             }
             alert("Booking request submitted!");
-            // Reload schedule so newly booked slots become unavailable
             refreshSchedule();
           } catch (err) {
             console.error(err);

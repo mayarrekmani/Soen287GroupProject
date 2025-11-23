@@ -275,140 +275,146 @@
     </div>
 
     <script>
-  // Grab sections
-  const studentSection = document.getElementById("student");
-  const adminSection = document.getElementById("admin");
+      // Grab sections
+      const studentSection = document.getElementById("student");
+      const adminSection = document.getElementById("admin");
 
-  // Buttons that show the forms
-  const studentLoginBtn = document.getElementById("studentLoginBtn");
-  const adminLoginBtn = document.getElementById("adminLoginBtn");
+      // Buttons that show the forms
+      const studentLoginBtn = document.getElementById("studentLoginBtn");
+      const adminLoginBtn = document.getElementById("adminLoginBtn");
 
-  // Buttons inside the forms
-  const studentLogin = document.getElementById("studentLogin");
-  const adminLogin = document.getElementById("adminLogin");
+      // Buttons inside the forms
+      const studentLogin = document.getElementById("studentLogin");
+      const adminLogin = document.getElementById("adminLogin");
 
-  // Show STUDENT form, hide ADMIN
-  studentLoginBtn.addEventListener("click", function () {
-    studentSection.style.display = "block";
-    adminSection.style.display = "none";
-  });
-
-  // Show ADMIN form, hide STUDENT
-  adminLoginBtn.addEventListener("click", function () {
-    adminSection.style.display = "block";
-    studentSection.style.display = "none";
-  });
-
-  // ---------- STUDENT LOGIN ----------
-  studentLogin.addEventListener("click", function () {
-    const username = document.getElementById("studentUsername").value.trim();
-    const password = document.getElementById("studentPassword").value.trim();
-
-    if (!username && !password) {
-      alert("You must put a username and password");
-      return;
-    } else if (!username) {
-      alert("You must put a username");
-      return;
-    } else if (!password) {
-      alert("You must put a password");
-      return;
-    }
-
-    // Call backend /api/login with role "student"
-    fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        role: "student",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.success) {
-          alert(data.message || "Login failed");
-        } else {
-          localStorage.setItem("username", data.username);
-          alert("Login successful!");
-          location.href = "studentPage.html";
-        }
-      })
-      .catch((err) => {
-        console.error("Student login error:", err);
-        alert("Server error. Make sure node server.js is running.");
+      // Show STUDENT form, hide ADMIN
+      studentLoginBtn.addEventListener("click", function () {
+        studentSection.style.display = "block";
+        adminSection.style.display = "none";
       });
-  });
 
-  // ---------- ADMIN LOGIN ----------
-  adminLogin.addEventListener("click", function () {
-    const username = document.getElementById("adminUsername").value.trim();
-    const password = document.getElementById("adminPassword").value.trim();
-
-    if (!username && !password) {
-      alert("You must put a username and password");
-      return;
-    } else if (!username) {
-      alert("You must put a username");
-      return;
-    } else if (!password) {
-      alert("You must put a password");
-      return;
-    }
-
-    // Call backend /api/login with role "admin"
-    fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-        role: "admin",
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.success) {
-          alert(data.message || "Login failed");
-        } else {
-          localStorage.setItem("username", data.username);
-          alert("Login successful!");
-          location.href = "adminPage.html";
-        }
-      })
-      .catch((err) => {
-        console.error("Admin login error:", err);
-        alert("Server error. Make sure node server.js is running.");
+      // Show ADMIN form, hide STUDENT
+      adminLoginBtn.addEventListener("click", function () {
+        adminSection.style.display = "block";
+        studentSection.style.display = "none";
       });
-  });
 
-  // ---------- OTHER BUTTONS ----------
-  document
-    .getElementById("studentCreateAccount")
-    .addEventListener("click", function () {
-      location.href = "studentCreateAccount.html";
-    });
+      // ---------- STUDENT LOGIN ----------
+      studentLogin.addEventListener("click", function () {
+        const username = document
+          .getElementById("studentUsername")
+          .value.trim();
+        const password = document
+          .getElementById("studentPassword")
+          .value.trim();
 
-  document
-    .getElementById("forgotPassword")
-    .addEventListener("click", function () {
-      location.href = "forgotPassword.html";
-    });
+        if (!username && !password) {
+          alert("You must put a username and password");
+          return;
+        } else if (!username) {
+          alert("You must put a username");
+          return;
+        } else if (!password) {
+          alert("You must put a password");
+          return;
+        }
 
-  document
-    .getElementById("adminCreateAccount")
-    .addEventListener("click", function () {
-      location.href = "adminCreateAccount.html";
-    });
+        // Call backend /api/login with role "student"
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            role: "student",
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.success) {
+              alert(data.message || "Login failed");
+            } else {
+              localStorage.setItem("username", data.username);
+              alert("Login successful!");
+              location.href = "studentPage.html";
+            }
+          })
+          .catch((err) => {
+            console.error("Student login error:", err);
+            alert("Server error. Make sure node server.js is running.");
+          });
+      });
 
-  document
-    .getElementById("forgotPasswordAdmin")
-    .addEventListener("click", function () {
-      location.href = "forgotPassword.html";
-    });
-</script>
+      // ---------- ADMIN LOGIN ----------
+      adminLogin.addEventListener("click", function () {
+        const username = document.getElementById("adminUsername").value.trim();
+        const password = document.getElementById("adminPassword").value.trim();
+
+        if (!username && !password) {
+          alert("You must put a username and password");
+          return;
+        } else if (!username) {
+          alert("You must put a username");
+          return;
+        } else if (!password) {
+          alert("You must put a password");
+          return;
+        }
+
+        // Call backend /api/login with role "admin"
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            role: "admin",
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.success) {
+              alert(data.message || "Login failed");
+            } else {
+              localStorage.setItem("username", data.username);
+              alert("Login successful!");
+              location.href = "adminPage.html";
+            }
+          })
+          .catch((err) => {
+            console.error("Admin login error:", err);
+            alert("Server error. Make sure node server.js is running.");
+          });
+      });
+
+      // ---------- OTHER BUTTONS ----------
+      document
+        .getElementById("studentCreateAccount")
+        .addEventListener("click", function () {
+          location.href = "studentCreateAccount.html";
+        });
+
+      document
+        .getElementById("forgotPassword")
+        .addEventListener("click", function () {
+          location.href = "forgotPassword.html";
+        });
+
+      document
+        .getElementById("adminCreateAccount")
+        .addEventListener("click", function () {
+          location.href = "adminCreateAccount.html";
+        });
+
+      document
+        .getElementById("forgotPasswordAdmin")
+        .addEventListener("click", function () {
+          location.href = "forgotPassword.html";
+        });
+    </script>
+  </body>
+</html>
