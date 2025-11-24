@@ -408,6 +408,37 @@ app.post("/api/admin/deny/:id", (req, res) => {
   res.json({ success: true, booking: b });
 });
 
+// Forget password 
+
+
+app.post("/api/reset-password-simple", (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing email or new password." });
+  }
+
+  const user = users.find(
+    (u) => u.email.toLowerCase() === email.toLowerCase()
+  );
+
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No account found with that email." });
+  }
+
+  // Update password
+  user.password = newPassword;
+
+  console.log(`Password reset for ${user.username} (${user.email})`);
+
+  return res.json({ success: true });
+});
+
+
 // ===== Start =====
 
 app.listen(PORT, () => {
