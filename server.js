@@ -21,6 +21,10 @@ let nextResourceId = 1;
 let nextBookingId = 1;
 let nextBlackoutId = 1;
 
+// Special requests: { id, student, admin, message, hours, status }
+let specialRequests = [];
+let nextSpecialRequestId = 1;
+
 // ===== Helpers =====
 
 function isRoomBlackout(room, date) {
@@ -409,8 +413,6 @@ app.post("/api/admin/deny/:id", (req, res) => {
 });
 
 // Forget password 
-
-
 app.post("/api/reset-password-simple", (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -439,8 +441,100 @@ app.post("/api/reset-password-simple", (req, res) => {
 });
 
 
-// ===== Start =====
+// ===== SPECIAL REQUESTS =====
 
+// STUDENT SENDS SPECIAL REQUEST
+app.post("/api/special-request", (req, res) => {
+  const { student, admin, message, hours } = req.body;
+
+  if (!student || !admin || !message || !hours) {
+    return res.json({
+      success: false,
+      message: "Missing required fields.",
+    });
+  }
+
+  specialRequests.push({
+    id: nextSpecialRequestId++,
+    student,
+    admin,
+    message,
+    hours,
+    status: "pending",
+  });
+
+  console.log("New special request:", specialRequests);
+
+  return res.json({ success: true });
+});
+
+// ===ADMIN GETS ALL PENDING SPECIAL REQUESTS===
+app.get("/api/special-request/pending", (req, res) => {
+  const { admin } = req.query; // optional filter
+
+  let pending = specialRequests.filter((r) => r.status === "pending");
+
+  if (admin) {
+    pending = pending.filter(
+      (r) => r.admin.toLowerCase() === admin.toLowerCase()
+    );
+  }
+
+  return res.json({ success: true, requests: pending });
+});
+
+
+// ADMIN APPROVES SPECIAL REQUEST
+app.post("/api/special-request/approve", (req, res) => {
+  const { id } = req.body; // id of special request (number)
+
+  const request = specialRequests.find((r) => r.id === id);
+  if (!request) {
+    return res.json({ success: false, message: "Request not found." });
+  }
+
+  request.status = "approved";
+
+  // Turn special request into a booking
+  // bookings: { id, username, room, date, startTime, endTime, purpose, status }
+  const parts = request.hours.split("-");
+  const start = parts[0] ? parts[0].trim() : "";
+  const end = parts[1] ? parts[1].trim() : "";
+
+  bookings.push({
+    id: nextBookingId++,
+    username: request.student,
+    room: "Special Request", // or change this later
+    date: "N/A",
+    startTime: start,
+    endTime: end,
+    purpose: request.message,
+    status: "approved",
+  });
+
+  console.log("Created booking from special request:", bookings);
+
+  return res.json({ success: true });
+});
+
+// ADMIN DENIES SPECIAL REQUEST
+app.post("/api/special-request/deny", (req, res) => {
+  const { id } = req.body;
+
+  const request = specialRequests.find((r) => r.id === id);
+  if (!request) {
+    return res.json({ success: false, message: "Request not found." });
+  }
+
+  request.status = "denied";
+
+  return res.json({ success: true });
+});
+
+
+// ===== Start =====
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+

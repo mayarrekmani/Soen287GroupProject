@@ -168,15 +168,49 @@
     <!-- Footer -->
     <footer>© Concordia University · All rights reserved</footer>
 
-    <!-- Script -->
-    <script>
-      document.getElementById("submit").addEventListener("click", function () {
-        alert("Special Request Has Been Sent To Admin");
-        location.href = "studentPage.html";
+   <script>
+  document.getElementById("submit").addEventListener("click", function () {
+    const adminName = document.getElementById("adminName").value.trim();
+    const requestText = document.getElementById("userText").value.trim();
+    const hoursWanted = document.getElementById("hoursWanted").value.trim();
+    const student = localStorage.getItem("username"); // logged-in student
+
+    // ---- VALIDATION ----
+    if (!adminName || !requestText || !hoursWanted) {
+      alert("Please fill out all fields before submitting.");
+      return;
+    }
+
+    // ---- SEND SPECIAL REQUEST TO BACKEND ----
+    fetch("/api/special-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        student: student,
+        admin: adminName,
+        message: requestText,
+        hours: hoursWanted,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) {
+          alert(data.message || "There was an error sending the request.");
+        } else {
+          alert("Special Request Has Been Sent To Admin");
+          location.href = "studentPage.html";
+        }
+      })
+      .catch((err) => {
+        console.error("Error sending special request:", err);
+        alert("Server error. Make sure node server.js is running.");
       });
-      document.getElementById("goBack").addEventListener("click", function () {
-        location.href = "studentPage.html";
-      });
-    </script>
+  });
+
+  document.getElementById("goBack").addEventListener("click", function () {
+    location.href = "studentPage.html";
+  });
+</script>
+
   </body>
 </html>

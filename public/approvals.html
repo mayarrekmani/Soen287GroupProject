@@ -97,9 +97,13 @@
       <h2>Concordia University — Booking Approvals</h2>
     </header>
 
-    <h1>Pending Booking Requests</h1>
+        <h1>Pending Booking Requests</h1>
 
     <div id="pendingList"></div>
+
+    <!-- NEW: special requests section -->
+    <h1>Pending Special Requests</h1>
+    <div id="specialRequestsList"></div>
 
     <button id="goBack" class="primaryButton" type="button">
       Go Back To Dashboard
@@ -173,7 +177,87 @@
         }
       }
 
+      async function loadSpecialRequests() {
+        const list = document.getElementById("specialRequestsList");
+        list.innerHTML = "";
+
+        const adminUsername = localStorage.getItem("username") || "";
+
+        try {
+          const res = await fetch(
+            "/api/special-request/pending?admin=" +
+              encodeURIComponent(adminUsername)
+          );
+          const data = await res.json();
+
+          if (!data.success || !data.requests.length) {
+            list.innerHTML = "<p>No pending special requests.</p>";
+            return;
+          }
+
+          data.requests.forEach((r) => {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `
+              <strong>Student:</strong> ${r.student}<br/>
+              <strong>Admin:</strong> ${r.admin}<br/>
+              <strong>Request:</strong> ${r.message}<br/>
+              <strong>Hours:</strong> ${r.hours}<br/>
+            `;
+
+            const actions = document.createElement("div");
+            actions.className = "actions";
+
+            const approveReqBtn = document.createElement("button");
+            approveReqBtn.className = "approveBtn";
+            approveReqBtn.textContent = "Approve Request";
+            approveReqBtn.onclick = async () => {
+              const res = await fetch("/api/special-request/approve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: r.id }),
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error approving special request.");
+                return;
+              }
+              alert("Special request approved.");
+              loadSpecialRequests();
+            };
+
+            const denyReqBtn = document.createElement("button");
+            denyReqBtn.className = "denyBtn";
+            denyReqBtn.textContent = "Deny Request";
+            denyReqBtn.onclick = async () => {
+              const res = await fetch("/api/special-request/deny", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: r.id }),
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error denying special request.");
+                return;
+              }
+              alert("Special request denied.");
+              loadSpecialRequests();
+            };
+
+            actions.appendChild(approveReqBtn);
+            actions.appendChild(denyReqBtn);
+            div.appendChild(actions);
+            list.appendChild(div);
+          });
+        } catch (err) {
+          console.error(err);
+          list.innerHTML = "<p>Error loading special requests.</p>";
+        }
+      }
+
+      // Load both normal bookings and special requests on page load
       loadPending();
+      loadSpecialRequests();
     </script>
   </body>
 </html>
