@@ -135,6 +135,10 @@
       <button id="submit" type="button">Submit</button>
     </main>
 
+    <button id = "signOut" class = "button" type = "button">
+      Sign Out
+    </button>
+
     <!-- Footer -->
     <footer>© Concordia University · All rights reserved</footer>
 
@@ -176,6 +180,12 @@
             );
           });
       });
+
+      document
+        .getElementById("signOut")
+        .addEventListener("click", function(){
+          location.href = "index.html";
+        })
     </script>
   </body>
 </html>

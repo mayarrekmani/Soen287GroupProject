@@ -230,9 +230,9 @@
       <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
     </main>
 
-    <!-- <button class ="goBackButton" id = "signOut">
+    <button class ="goBackButton" id = "signOut">
       Sign Out
-    </button> -->
+    </button>
 
     <script>
       document
@@ -241,9 +241,11 @@
           location.href = "adminPage.html";
         });
 
-      //document.getElementById("signOut").onclick = () =>{
-        //ocation.href = "login2.html";
-      //}  
+      document
+      .getElementById("signOut")
+      .addEventListener("click", function (){
+        location.href = "index.html";
+      });
       
       async function getStats(){
         try{

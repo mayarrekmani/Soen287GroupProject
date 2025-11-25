@@ -60,6 +60,26 @@
       button:hover {
         background: #ddd;
       }
+
+      .goBackButton {
+        display: block;
+        background-color: #5e001f;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 40px auto 0;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+        transition: all 0.2s ease;
+      }
+
+      .goBackButton:hover {
+        background-color: #440017;
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      }
     </style>
   </head>
 
@@ -111,6 +131,15 @@
       </li>
     </ul>
 
+    <button id = "signOut" class = "goBackButton" type = "button">
+      Sign Out
+    </button>
+
+    <script>
+      document.getElementById("signOut").onclick = () =>{
+        location.href = "index.html";
+      }
+    </script>
     
   </body>
 </html>
