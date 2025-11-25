@@ -230,12 +230,20 @@
       <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
     </main>
 
+    <!-- <button class ="goBackButton" id = "signOut">
+      Sign Out
+    </button> -->
+
     <script>
       document
         .getElementById("goBackBtn")
         .addEventListener("click", function () {
           location.href = "adminPage.html";
         });
+
+      //document.getElementById("signOut").onclick = () =>{
+        //ocation.href = "login2.html";
+      //}  
       
       async function getStats(){
         try{

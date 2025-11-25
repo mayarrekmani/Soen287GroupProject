@@ -148,6 +148,26 @@
         font-size: 0.95rem;
         margin-top: 12px;
       }
+
+       .goBackButton {
+        display: block;
+        background-color: #5e001f;
+        color: #fff;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin: 40px auto 0;
+        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
+        transition: all 0.2s ease;
+      }
+
+      .goBackButton:hover {
+        background-color: #440017;
+        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      }
     </style>
   </head>
 
@@ -179,6 +199,10 @@
 
     <div id="upcomingList"></div>
 
+    <!-- <button id = "signOut" class = "goBackButton" type = "button">
+      Sign Out
+    </button> -->
+
     <script>
       const username = localStorage.getItem("username") || "student";
       document.getElementById("displayName").textContent = username;
@@ -203,6 +227,10 @@
         .addEventListener("click", function () {
           location.href = "pastAppointments.html";
         });
+
+      //document.getElementById("signOut").onclick = () =>{
+        //location.href = "login2.html";
+      //} 
 
       const upcomingListDiv = document.getElementById("upcomingList");
 

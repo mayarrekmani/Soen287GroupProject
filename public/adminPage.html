@@ -69,6 +69,12 @@
     </header>
 
     <h1>Welcome, <span id="displayName"></span>!</h1>
+    <script>
+      const username = localStorage.getItem("username");
+      if(username){
+        document.getElementById("displayName").textContent = username;
+      }
+    </script>
 
     <p>Choose what you want to manage:</p>
 
