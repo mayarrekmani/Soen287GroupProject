@@ -280,7 +280,8 @@
       <div class="firstsectionleft">
         <h1>Welcome, <span id="displayName"></span>!</h1>
         <script>
-          const username = localStorage.getItem("username");
+         const username = localStorage.getItem("studentUsername");
+
           if (username) {
             document.getElementById("displayName").textContent = username;
           }
@@ -346,7 +347,8 @@
       const body = document.getElementById("bookingBody");
       const dateInput = document.getElementById("dateInput");
       const scheduleMsg = document.getElementById("scheduleMessage");
-      const currentUser = localStorage.getItem("username") || "student";
+      const currentUser = localStorage.getItem("studentUsername") || "student";
+
 
       let currentTimes = [];
       let currentRooms = [];
