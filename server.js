@@ -384,6 +384,8 @@ app.get("/api/my-bookings", (req, res) => {
   res.json({ success: true, bookings: bookings.filter(b => b.username === username) });
 });
 
+
+
 // ===== Admin approvals =====
 
 app.get("/api/admin/pending-bookings", (req, res) => {
@@ -531,10 +533,49 @@ app.post("/api/special-request/deny", (req, res) => {
   return res.json({ success: true });
 });
 
+// === Admin Statistics Route === 
+app.get("/api/admin/stats", (req,res) => {
+  const total = bookings.length;
+
+  const pending = bookings.filter(b => b.status === "pending").length;
+  const approved = bookings.filter(b => b.status === "approved").length;
+  const denied = bookings.filter(b => b.status === "denied").length;
+
+  const perRoom = {};
+  bookings.forEach(b => {
+    if(!perRoom[b.room]) perRoom[b.room] = 0;
+    perRoom[b.room]++;
+  });
+
+  const perTime = {};
+  bookings.forEach(b => {
+    if(!perTime[b.startTime]) perTime[b.startTime] = 0;
+    perTime[b.startTime]++;
+  });
+
+  const today = new Date().toISOString().slice(0,10);
+  const todayTotal = bookings.filter(b => b.date === today).length;
+
+  return res.json({
+    success: true,
+    total,
+    pending,
+    approved,
+    denied,
+    perRoom,
+    perTime,
+    today,
+    todayTotal,
+  });
+
+
+});
 
 // ===== Start =====
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+
 
 

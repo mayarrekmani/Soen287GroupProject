@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Reports</title>
@@ -62,33 +65,6 @@
         row-gap: 6px;
       }
 
-<<<<<<< HEAD
-    .sectionup h2 {
-      margin: 0;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-dim);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
-
-
-    .sectionup h1 {
-      margin: 0;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-    }
-
-    .bottomRow {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-=======
       .sectionup h2 {
         margin: 0;
         font-size: 0.75rem;
@@ -126,7 +102,6 @@
         flex-direction: column;
         row-gap: 16px;
       }
->>>>>>> 50dc87eac51b36dcfc52e4cb027197f9d1b43ca0
 
       .typeOfReport {
         display: flex;
@@ -134,39 +109,6 @@
         row-gap: 4px;
       }
 
-<<<<<<< HEAD
-      display: flex;
-      flex-direction: column;
-      row-gap: 16px;
-    }
-    .typeOfReport {
-      display: flex;
-      flex-direction: column;
-      row-gap: 4px;
-    }
-
-    .typeOfReport h3 {
-      margin: 0;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-    }
-    .reportSubtext {
-      margin: 0;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      line-height: 1.4;
-    }
-
-    .chartImageWrapper {
-      background: var(--bg-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 12px;
-      min-height: 200px;
-=======
       .typeOfReport h3 {
         margin: 0;
         font-size: 0.9rem;
@@ -216,13 +158,14 @@
         box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
         transition: all 0.2s ease;
       }
->>>>>>> 50dc87eac51b36dcfc52e4cb027197f9d1b43ca0
 
       .goBackButton:hover {
         background-color: #440017;
         box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
       }
     </style>
+
+
   </head>
   <body>
     <!-- Concordia Header -->
@@ -236,17 +179,17 @@
       <div class="topRow">
         <section class="sectionup">
           <h2>Total Bookings for the Day</h2>
-          <h1>35</h1>
+          <h1 id = "totalBookings"></h1>
         </section>
 
         <section class="sectionup">
           <h2>Most Used Resource</h2>
-          <h1>Study Room D</h1>
+          <h1 id = "mostUsed"></h1>
         </section>
 
         <section class="sectionup">
           <h2>Peak Time</h2>
-          <h1>18:00-19:00</h1>
+          <h1 id = "peakTime"></h1>
         </section>
       </div>
 
@@ -259,7 +202,10 @@
           </div>
 
           <div class="chartImageWrapper">
-            <img src="StudyRoom_Bookings.png" alt="Bookings for Each Room" />
+            <!--<img src="StudyRoom_Bookings.png" alt="Bookings for Each Room" /> -->
+
+            <canvas id = "perRoomChart" width = "400" height = "300"></canvas>
+
           </div>
         </section>
 
@@ -270,10 +216,12 @@
           </div>
 
           <div class="chartImageWrapper">
-            <img
+            <!-- <img
               src="timeSlots_Bookings.png"
               alt="Popularity in each Time Block"
-            />
+            /> -->
+
+            <canvas id = "popularTimesChart" width = "400" height = "300"></canvas>
           </div>
         </section>
       </div>
@@ -282,46 +230,117 @@
       <button class="goBackButton" id="goBackBtn">Go Back to Dashboard</button>
     </main>
 
-<<<<<<< HEAD
-    <!-- charts / images -->
-    <div class="bottomRow">
-
-      <section class="sectiondown">
-        <div class="typeOfReport">
-          <h3>Bookings for Each Room</h3>
-          <p class="reportSubtext">How many bookings each room got today</p>
-        </div>
-
-        <div class="chartImageWrapper">
-          <img src="StudyRoom_Bookings.png" alt="Bookings for Each Room">
-        </div>
-      </section>
-
-      <section class="sectiondown">
-        <div class="typeOfReport">
-          <h3>Time Blocks: Popularity in Booking</h3>
-          <p class="reportSubtext">Which hours were the busiest</p>
-        </div>
-
-        <div class="chartImageWrapper">
-          <img src="timeSlots_Bookings.png" alt="Popularity in each Time Block">
-        </div>
-      </section>
-
-    </div>
-
-  </main>
-
-</body>
-=======
     <script>
       document
         .getElementById("goBackBtn")
         .addEventListener("click", function () {
           location.href = "adminPage.html";
         });
+      
+      async function getStats(){
+        try{
+          
+          const res = await fetch("/api/admin/stats");
+          const data = await res.json();
+          if(!data.success) return;
+
+          document.getElementById("totalBookings").innerHTML = data.total;
+
+          let topRoom = " ";
+          let maxRoom = 0;
+
+          for(const room in data.perRoom){
+            if(data.perRoom[room] > maxRoom){
+              maxRoom = data.perRoom[room];
+              topRoom = room;
+            }
+          }
+          document.getElementById("mostUsed").innerHTML = topRoom;
+
+          let peak_time = " ";
+          let timeSlot = 0;
+
+          for(const time in data.perTime){
+            if(data.perTime[time] > timeSlot){
+              timeSlot = data.perTime[time];
+              peak_time = time;
+
+            }
+          }
+
+          document.getElementById("peakTime").innerHTML = peak_time;
+
+        } catch(e){
+          console.error("Failure loadong statstics.", e);
+        }
+      }
+
+      getStats();
+
+
+      async function loadPerRoomChart(){
+        const res = await fetch("/api/admin/stats");
+        const data = await res.json();
+
+        const ctx = document.getElementById("perRoomChart").getContext("2d");
+
+
+        new Chart (ctx, {
+          type: 'bar',
+          data:{
+            labels: Object.keys(data.perRoom),
+            datasets: [{
+              label: 'Booking Counts Per Room', 
+              data: Object.values(data.perRoom),
+              backgroundColor: ' rgb(211, 211, 211)', 
+              borderColor: 'rgb(0,0,0)',
+              borderWidth: 1
+            }]
+
+          }, 
+          options: {
+            scales:{
+              y: {beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      loadPerRoomChart();
+
+      async function loadPerTimeChart(){
+        const res = await fetch("/api/admin/stats");
+        const data = await res.json();
+
+        const ctx = document.getElementById("popularTimesChart").getContext("2d");
+
+
+        new Chart (ctx, {
+          type: 'bar',
+          data:{
+            labels: Object.keys(data.perTime),
+            datasets: [{
+              label: 'Booking Counts Per Room', 
+              data: Object.values(data.perTime),
+              backgroundColor: ' rgb(211, 211, 211)', 
+              borderColor: 'rgb(0,0,0)',
+              borderWidth: 1
+            }]
+
+          }, 
+          options: {
+            scales:{
+              y: {beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      loadPerTimeChart();
+        
     </script>
+
+
   </body>
->>>>>>> 50dc87eac51b36dcfc52e4cb027197f9d1b43ca0
 </html>
-ß
+
