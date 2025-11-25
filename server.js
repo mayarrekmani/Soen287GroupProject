@@ -384,6 +384,24 @@ app.get("/api/my-bookings", (req, res) => {
   res.json({ success: true, bookings: bookings.filter(b => b.username === username) });
 });
 
+// ===== Cancel Bookings =====
+app.post("/api/bookings/:id/cancel", (req, res) => {
+  const id = Number(req.params.id);
+  const b = bookings.find(x => x.id === id);
+
+  if(!b) return res.json({success:false, message: "Booking not found."});
+
+  changeSlotStatus(b.date, b.room, b.startTime, "available");
+
+  const index = bookings.indexOf(b);
+  bookings.splice(index,1);
+
+  return res.json({success:true});
+
+});
+
+
+
 
 
 // ===== Admin approvals =====
@@ -570,6 +588,8 @@ app.get("/api/admin/stats", (req,res) => {
 
 
 });
+
+
 
 // ===== Start =====
 app.listen(PORT, () => {

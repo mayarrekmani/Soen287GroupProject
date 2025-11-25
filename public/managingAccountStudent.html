@@ -286,9 +286,35 @@
             resBtn.type = "button";
             resBtn.className = "reschedule";
             resBtn.textContent = "Reschedule";
-            resBtn.onclick = () => {
+            resBtn.onclick = async () => {
               // For now just go back to booking page
-              location.href = "studentPage.html";
+              //location.href = "studentPage.html";
+              if(!confirm("Would you like to reschedule your booking? Your original booking will be cancelled.")){
+                return;
+              }
+
+              try{
+                const res = await fetch(`/api/bookings/${b.id}/cancel`,{
+                  method:"POST"
+                });
+
+                const data = await res.json();
+
+                if(!data.success){
+                  alert(data.message || "Error cancelling booking.");
+                  return;
+                }
+
+                alert("Your booking has been cancelled. Please select a new time from those available.");
+
+                location.href = "studentPage.html"
+              }
+
+              catch(err){
+                console.error(err);
+                alert("Network error while cancelling booking.");
+              }
+
             };
 
             const cancelBtn = document.createElement("button");
