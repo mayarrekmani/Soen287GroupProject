@@ -200,6 +200,7 @@
     <div id="upcomingList"></div>
 
     <button id="signOut" class="goBackButton" type="button">Sign Out</button>
+    <button id = "backToBooking" class = "goBackButton" type = "button">Back to Booking Page</button>
 
     <script>
       const username = localStorage.getItem("username") || "student";
@@ -228,6 +229,10 @@
 
       document.getElementById("signOut").addEventListener("click", function () {
         location.href = "index.html";
+      });
+
+      document.getElementById("backToBooking").addEventListener("click", function(){
+        location.href = "studentPage.html";
       });
 
       const upcomingListDiv = document.getElementById("upcomingList");
