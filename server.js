@@ -143,8 +143,28 @@ app.post("/api/login", (req, res) => {
 
 // ===== Admin: Resources =====
 
-app.post("/api/admin/resources", (req, res) => {
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination:(req, file, cb) => {
+    cb(null, "uploads/resources");
+  },
+  filename:(req, file, cb) =>{
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, unique + "-" + file.originalname);
+    }
+});
+
+
+app.use("/uploads",express.static("uploads"));
+
+const upload = multer({storage});
+
+
+app.post("/api/admin/resources", upload.single("image"), (req, res) => {
   const { name, description, location, capacity } = req.body;
+
+  const imagePath = req.file? "/uploads/resources/" + req.file.filename: null;
 
   if (!name || !location || !capacity)
     return res.json({ success: false, message: "Missing fields" });
@@ -159,13 +179,15 @@ app.post("/api/admin/resources", (req, res) => {
     location,
     capacity: Number(capacity),
     isBlocked: false,
+    image: imagePath,
   };
 
   resources.push(resource);
   res.json({ success: true, resource });
 });
 
-app.post("/api/admin/resource/update", (req, res) => {
+
+app.post("/api/admin/resource/update", upload.single("image"), (req, res) => {
   const { oldName, name, description, location, capacity } = req.body;
 
   const r = resources.find((x) => x.name === oldName);
@@ -179,20 +201,20 @@ app.post("/api/admin/resource/update", (req, res) => {
   r.location = location;
   r.capacity = Number(capacity);
 
-  // schedule rename
+  if (req.file) {
+    r.image = "/uploads/resources/" + req.file.filename;
+  }
+
+  // rename in schedule, bookings, blackouts:
   for (const date in schedule) {
     if (schedule[date][oldName]) {
       schedule[date][name] = schedule[date][oldName];
       delete schedule[date][oldName];
     }
   }
-
-  // booking rename
   bookings.forEach((b) => {
     if (b.room === oldName) b.room = name;
   });
-
-  // blackout rename
   blackouts.forEach((b) => {
     if (b.room === oldName) b.room = name;
   });

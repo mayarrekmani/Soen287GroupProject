@@ -159,6 +159,11 @@
         <input id="resCapacity" type="number" min="1" />
       </div>
 
+      <div class="row">
+        <label>Image</label>
+        <input id="imageInput" type="file" accept="image/*" />
+     </div>
+
       <div class="actions">
         <button id="saveResource" class="secondaryButton" type="button">
           Save
@@ -217,8 +222,17 @@
           card.innerHTML = `
             <strong>${r.name}</strong> — Capacity ${r.capacity}<br/>
             <em>${r.location}</em><br/>
-            <small>Description: ${r.description || "—"}</small><br/><br/>
+            <small>Description: ${r.description || "—"}</small><br/>
+
+            ${
+            r.image
+              ? `<img src="${r.image}" style="width:160px; margin-top:10px; border-radius:8px; border:1px solid #ccc;">`
+              : `<div style="width:160px; height:100px; background:#eee; margin-top:10px; border-radius:8px;"></div>`
+            }
+
+            <br/>
           `;
+
 
           const editBtn = document.createElement("button");
           editBtn.className = "editBtn";
@@ -266,56 +280,54 @@
         const description = descInput.value.trim();
         const location = locInput.value.trim();
         const capacity = capInput.value.trim();
+        const imageFile = document.getElementById("imageInput").files[0];
 
         if (!name || !location || !capacity) {
           alert("Fill all required fields.");
           return;
         }
 
-        if (editingName) {
-          const res = await fetch("/api/admin/resource/update", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              oldName: editingName,
-              name,
-              description,
-              location,
-              capacity,
-            }),
-          });
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("location", location);
+        formData.append("capacity", capacity);
 
-          const out = await res.json();
-          if (!out.success) {
-            alert(out.message);
-            return;
-          }
-        } else {
-          const res = await fetch("/api/admin/resources", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name,
-              description,
-              location,
-              capacity,
-            }),
-          });
-
-          const out = await res.json();
-          if (!out.success) {
-            alert(out.message);
-            return;
-          }
+        if(imageFile){
+          formData.append("image", imageFile);
         }
+
+        let url;
+
+        if (editingName) {
+          url = "/api/admin/resource/update";
+          formData.append("oldName", editingName);
+        }
+        else{
+          url = "/api/admin/resources";
+        }
+
+        const res = await fetch(url,{
+          method:"POST",
+          body: formData
+        });
+        const out = await res.json();
+          if (!out.success) {
+            alert(out.message);
+            return;
+          }
+        
 
         editingName = null;
         nameInput.value = "";
         descInput.value = "";
         locInput.value = "";
         capInput.value = "";
+        document.getElementById("imageInput").value = "";
+
         loadResources();
       };
+
     </script>
   </body>
 </html>
