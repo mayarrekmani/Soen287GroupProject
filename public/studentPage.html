@@ -280,7 +280,8 @@
       <div class="firstsectionleft">
         <h1>Welcome, <span id="displayName"></span>!</h1>
         <script>
-         const username = localStorage.getItem("studentUsername");
+         const username = localStorage.getItem("studentUsername") || "student";
+
 
           if (username) {
             document.getElementById("displayName").textContent = username;
