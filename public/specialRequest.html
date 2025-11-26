@@ -113,6 +113,8 @@
         padding: 16px;
         margin-top: auto;
       }
+
+      
     </style>
   </head>
 
@@ -162,7 +164,7 @@
         type="button"
         style="float: right"
       >
-        Go Back To Dashboard
+        Back To Account Management
       </button>
     </main>
 
@@ -170,6 +172,11 @@
     <footer>© Concordia University · All rights reserved</footer>
 
     <script>
+
+      document.getElementById("goBack").addEventListener("click", function () {
+        location.href = "managingAccountStudent.html";
+      });
+
       document.getElementById("submit").addEventListener("click", function () {
         const roomWanted = document.getElementById("roomWanted").value.trim();
         const requestText = document.getElementById("userText").value.trim();
@@ -203,9 +210,7 @@
           });
       });
 
-      document.getElementById("goBack").addEventListener("click", function () {
-        location.href = "studentPage.html";
-      });
+      
     </script>
   </body>
 </html>

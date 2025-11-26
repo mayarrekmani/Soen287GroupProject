@@ -302,6 +302,7 @@
             </section>
           </div>
 
+<<<<<<< HEAD
           <div class="section-below">
             <!-- PENDING SPECIAL REQUESTS -->
             <section class="card hidden" id="pendingRequestsSection">
@@ -393,6 +394,10 @@
         </div>
       </main>
     </div>
+=======
+    <button id="signOut" class="goBackButton" type="button">Sign Out</button>
+    <button id = "backToBooking" class = "goBackButton" type = "button">Back to Booking Page</button>
+>>>>>>> 6431e5f5ef2022eb532a808dbc9f985ebae364f5
 
     <script>
       const username = localStorage.getItem("username") || "student";
@@ -430,6 +435,7 @@
         });
       });
 
+<<<<<<< HEAD
       // Go to bookings page (studentPage)
       document.getElementById("goBookings").onclick = () => {
         location.href = "studentPage.html";
@@ -505,6 +511,13 @@
       };
 
       /* ---------- LOAD BOOKINGS / REQUESTS ---------- */
+=======
+      document.getElementById("backToBooking").addEventListener("click", function(){
+        location.href = "studentPage.html";
+      });
+
+      const upcomingListDiv = document.getElementById("upcomingList");
+>>>>>>> 6431e5f5ef2022eb532a808dbc9f985ebae364f5
 
       function todayString() {
         return new Date().toISOString().slice(0, 10);

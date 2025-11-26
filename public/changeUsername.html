@@ -139,6 +139,8 @@
       Sign Out
     </button>
 
+    <button id = "backToMgmt" type = "button">Back to Account Management</button>
+
     <!-- Footer -->
     <footer>© Concordia University · All rights reserved</footer>
 
@@ -185,7 +187,11 @@
         .getElementById("signOut")
         .addEventListener("click", function(){
           location.href = "index.html";
-        })
+        });
+
+      document.getElementById("backToMgmt").addEventListener("click", function(){
+        location.href = "managingAccountStudent.html";
+      });
     </script>
   </body>
 </html>

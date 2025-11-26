@@ -43,7 +43,8 @@
         border-collapse: collapse;
         margin-top: 12px;
       }
-      th, td {
+      th,
+      td {
         border: 1px solid #ccc;
         padding: 8px;
       }
@@ -90,9 +91,12 @@
 
     <h1>Welcome, <span id="displayName"></span>!</h1>
     <script>
-      const username = localStorage.getItem("username");
-      if(username){
+      // FIX: use adminUsername instead of shared "username"
+      const username = localStorage.getItem("adminUsername");
+      if (username) {
         document.getElementById("displayName").textContent = username;
+      } else {
+        document.getElementById("displayName").textContent = "Admin";
       }
     </script>
 
@@ -131,15 +135,14 @@
       </li>
     </ul>
 
-    <button id = "signOut" class = "goBackButton" type = "button">
+    <button id="signOut" class="goBackButton" type="button">
       Sign Out
     </button>
 
     <script>
-      document.getElementById("signOut").onclick = () =>{
+      document.getElementById("signOut").onclick = () => {
         location.href = "index.html";
-      }
+      };
     </script>
-    
   </body>
 </html>
