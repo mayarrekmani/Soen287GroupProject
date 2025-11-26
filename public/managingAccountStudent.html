@@ -362,9 +362,9 @@
           </div>
 
           <div class="section-below">
-            <!-- PENDING SPECIAL REQUESTS -->
-            <section class="card hidden" id="pendingRequestsSection">
-              <h2>Pending Special Requests</h2>
+            <!-- SPECIAL REQUESTS TABLE -->
+            <section class="card hidden" id="specialRequestsSection">
+              <h2>Special Requests</h2>
               <div class="table-wrapper">
                 <table>
                   <thead>
@@ -373,9 +373,10 @@
                       <th>Date</th>
                       <th>Requested Time</th>
                       <th>Details</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
-                  <tbody id="pendingRequestsBody"></tbody>
+                  <tbody id="specialRequestsBody"></tbody>
                 </table>
               </div>
             </section>
@@ -558,11 +559,14 @@
 
         alert("Request sent!");
 
-        // === CLEAR FORM INPUTS AFTER SUBMIT ===
+        // CLEAR FORM INPUTS AFTER SUBMIT
         document.getElementById("srRoom").value = "";
         document.getElementById("srDate").value = "";
         document.getElementById("srMsg").value = "";
         document.getElementById("srHours").value = "";
+
+        // reload data so the new request shows in Special Requests table
+        loadAllData();
       };
 
       /* ---------- SIGN OUT ---------- */
@@ -585,11 +589,11 @@
         return `${hh}:${m} ${ampm}`;
       }
       function timeRange(b) {
-        if (!b.startTime || !b.endTime) return "-";
         return `${formatTime(b.startTime)} – ${formatTime(b.endTime)}`;
       }
 
       function loadAllData() {
+        // BOOKINGS for upcoming/past/cancelled
         fetch("/api/my-bookings?username=" + encodeURIComponent(username))
           .then((res) => res.json())
           .then((data) => {
@@ -615,13 +619,15 @@
             renderCancelled(cancelled);
           });
 
-        fetch("/api/special-request/pending")
+        // SPECIAL REQUESTS for this student (any status)
+        fetch(
+          "/api/special-request/for-student?student=" +
+            encodeURIComponent(username)
+        )
           .then((res) => res.json())
           .then((data) => {
-            const arr = (data.requests || []).filter(
-              (r) => r.student === username
-            );
-            renderPendingRequests(arr);
+            const arr = data.requests || [];
+            renderSpecialRequests(arr);
           });
       }
 
@@ -634,23 +640,18 @@
         }
         arr.forEach((b) => {
           const tr = document.createElement("tr");
-
-          const isSpecial = b.isSpecialRequest || b.room === "Special Request";
-
-          let actionsHtml = "";
-          // For SPECIAL REQUEST bookings: no reschedule / cancel buttons
-          if (!isSpecial) {
-            actionsHtml = `
-        <button class="action-btn" onclick="reschedule(${b.id})">Reschedule</button>
-        <button class="action-btn action-btn-danger" onclick="cancelBooking(${b.id})">Cancel</button>
-      `;
-          }
-
           tr.innerHTML = `
       <td>${b.date}</td>
       <td>${timeRange(b)}</td>
       <td>${b.room}</td>
-      <td>${actionsHtml}</td>`;
+      <td>
+        <button class="action-btn" onclick="reschedule(${
+          b.id
+        })">Reschedule</button>
+        <button class="action-btn action-btn-danger" onclick="cancelBooking(${
+          b.id
+        })">Cancel</button>
+      </td>`;
           tbody.appendChild(tr);
         });
       }
@@ -712,22 +713,24 @@
         });
       }
 
-      function renderPendingRequests(arr) {
-        const sec = document.getElementById("pendingRequestsSection");
-        const tbody = document.getElementById("pendingRequestsBody");
+      function renderSpecialRequests(arr) {
+        const sec = document.getElementById("specialRequestsSection");
+        const tbody = document.getElementById("specialRequestsBody");
         tbody.innerHTML = "";
         if (!arr.length) {
           sec.classList.add("hidden");
           return;
         }
         sec.classList.remove("hidden");
+
         arr.forEach((r) => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
-      <td>${r.room}</td>
-      <td>${r.date}</td>
-      <td>${r.hours}</td>
-      <td>${r.message}</td>`;
+      <td>${r.room || "-"}</td>
+      <td>${r.date || "-"}</td>
+      <td>${r.hours || "-"}</td>
+      <td>${r.message || "-"}</td>
+      <td>${r.status || "pending"}</td>`;
           tbody.appendChild(tr);
         });
       }

@@ -5,271 +5,348 @@
     <title>Student Home Page</title>
     <link rel="stylesheet" href="projectStyle.css" />
     <style>
-  :root {
-    --brand-dark: #5e001f;
-    --brand-dark-hover: #440017;
-    --brand-gold: #c9a646;
-    --text-main: #222;
-    --text-dim: #6b6b6b;
-    --bg-page: #f5f5f5;
-    --card-bg: #fff;
-    --card-border: #ddd;
-    --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+      :root {
+        --brand-dark: #5e001f;
+        --brand-dark-hover: #440017;
+        --brand-gold: #c9a646;
+        --text-main: #222;
+        --text-dim: #6b6b6b;
+        --bg-page: #f5f5f5;
+        --card-bg: #fff;
+        --card-border: #ddd;
+        --card-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
 
-    /* slot colors */
-    --slot-green: #86c99c;
-    --slot-green-border: #27ae60;
-    --slot-green-hover: #b5e6c7;
-    --slot-blue-hover: #cfe0ff;
-    --slot-blue-selected: #2563eb;
-  }
+        /* slot colors */
+        --slot-green: #86c99c;
+        --slot-green-border: #27ae60;
+        --slot-green-hover: #b5e6c7;
+        --slot-blue-hover: #cfe0ff;
+        --slot-blue-selected: #2563eb;
+      }
 
-  body {
-    background-color: var(--bg-page);
-    color: var(--text-main);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, sans-serif;
-    margin: 0;
-    padding: 30px;
-  }
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+      }
 
-  /* header */
-  .firstsection {
-    width: calc(100% + 60px);
-    margin: -30px 0 24px -30px;
-    padding: 16px 24px;
-    background-color: var(--brand-dark);
-    color: #fff;
-    border-bottom: 4px solid var(--brand-gold);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    row-gap: 12px;
-    column-gap: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  }
+      /* header */
+      .firstsection {
+        width: calc(100% + 60px);
+        margin: -30px 0 24px -30px;
+        padding: 16px 24px;
+        background-color: var(--brand-dark);
+        color: #fff;
+        border-bottom: 4px solid var(--brand-gold);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        row-gap: 12px;
+        column-gap: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
 
-  .firstsectionleft h1 {
-    font-weight: 600;
-    color: #fff;
-    font-size: 1.1rem;
-    line-height: 1.4;
-    margin: 0 0 6px 0;
-  }
+      .firstsectionleft h1 {
+        font-weight: 600;
+        color: #fff;
+        font-size: 1.1rem;
+        line-height: 1.4;
+        margin: 0 0 6px 0;
+      }
 
-  #displayName {
-    color: #fff;
-    font-weight: 600;
-  }
+      #displayName {
+        color: #fff;
+        font-weight: 600;
+      }
 
-  .dateBlock {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    margin-top: 4px;
-  }
+      .dateBlock {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-top: 4px;
+      }
 
-  .scheduleLabel {
-    margin: 0;
-    font-size: 0.8rem;
-    color: #fff;
-    line-height: 1.4;
-    font-weight: 600;
-  }
+      .scheduleLabel {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #fff;
+        line-height: 1.4;
+        font-weight: 600;
+      }
 
-  .dateInput {
-    background: #fff;
-    border: 1px solid #999;
-    border-radius: 6px;
-    padding: 6px 8px;
-    font-size: 0.8rem;
-    line-height: 1.2;
-    color: #222;
-    min-width: 135px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
+      .dateInput {
+        background: #fff;
+        border: 1px solid #999;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 0.8rem;
+        line-height: 1.2;
+        color: #222;
+        min-width: 135px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
 
-  .manageButton {
-    background-color: #fff;
-    color: var(--brand-dark);
-    border: 1px solid #fff;
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-    transition: all 0.15s ease;
-  }
+      .manageButton {
+        background-color: #fff;
+        color: var(--brand-dark);
+        border: 1px solid #fff;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+        transition: all 0.15s ease;
+      }
 
-  .manageButton:hover {
-    background-color: var(--brand-gold);
-    color: #1e1e1e;
-    box-shadow: 0 20px 36px rgba(0, 0, 0, 0.55);
-  }
+      .manageButton:hover {
+        background-color: var(--brand-gold);
+        color: #1e1e1e;
+        box-shadow: 0 20px 36px rgba(0, 0, 0, 0.55);
+      }
 
-  .roomsection {
-    max-width: 1200px;
-    margin: 0 auto 32px auto;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
-    padding: 24px 28px;
-  }
+      /* ===== top room presentation cards ===== */
 
-  .sectionheader {
-    margin-bottom: 20px;
-  }
+      .roomShowcase {
+        max-width: 1200px;
+        margin: 0 auto 24px auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
 
-  .tableTitle {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-main);
-  }
+      @media (max-width: 900px) {
+        .roomShowcase {
+          grid-template-columns: 1fr;
+        }
+      }
 
-  .description {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--text-dim);
-  }
+      .roomCard {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
 
-  .booking {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    background: #ffffff;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-  }
+      .roomCard img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+      }
 
-  .bookingtable {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    min-width: 800px;
-    font-size: 0.8rem;
-  }
+      .roomCardBody {
+        padding: 12px 16px 14px 16px;
+      }
 
-  .bookingtable thead th {
-    background: radial-gradient(circle at 0% 0%, #ffffff 0%, #dbdada 100%);
-    color: #2b2b2b;
-    font-weight: 600;
-    text-align: center;
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-    font-size: 0.7rem;
-    white-space: nowrap;
-  }
+      .roomCardTitle {
+        margin: 0 0 4px 0;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-main);
+      }
 
-  .bookingtable tbody td {
-    position: relative;
-    min-width: 80px;
-    height: 56px;
-    padding: 6px;
-    background: #fff;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
-    text-align: center;
-  }
+      .roomCardText {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-dim);
+        line-height: 1.5;
+      }
 
-  .roomName {
-    background: radial-gradient(circle at 0% 0%, #faf9fa 0%, #ffffff 70%);
-    color: #2b2b2b;
-    font-size: 0.8rem;
-    font-weight: 900;
-    text-align: left;
-    white-space: nowrap;
-  }
+      /* ===== main booking section ===== */
 
- 
-  .slotcheckbox {
-    position: absolute;
-    inset: 5px;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-  }
+      .roomsection {
+        max-width: 1200px;
+        margin: 0 auto 32px auto;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        padding: 24px 28px;
+      }
 
-  .slotvisual {
-    position: absolute;
-    inset: 6px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    display: block;
-    transition: all 0.15s ease;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    z-index: 1;
-  }
+      .sectionheader {
+        margin-bottom: 20px;
+      }
 
-  /* available:green */
-  .slotvisual_available {
-    background: var(--slot-green);
-    border-color: var(--slot-green-border);
-    box-shadow: 0 12px 24px rgba(98, 189, 136, 0.3);
-  }
+      .tableTitle {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-main);
+      }
 
-  /* hover: light blue*/
-  .slotcheckbox:not(:disabled):hover + .slotvisual_available {
-    background: var(--slot-blue-hover);
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
-  }
+      .description {
+        margin: 4px 0 0 0;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+      }
 
-  /* selected: dark blue */
-  .slotcheckbox:checked + .slotvisual_available {
-    background: var(--slot-blue-selected);
-    border-color: #1d4ed8;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.6);
-  }
+      .booking {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        background: #ffffff;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      }
 
-  /* unavailable: dashed grey */
-  .slotvisual_unavailable {
-    background: repeating-linear-gradient(
-      135deg,
-      #bcbcbc 0px,
-      #bcbcbc 6px,
-      #9a9a9a 6px,
-      #9a9a9a 12px
-    );
-    border: 2px solid #7a7a7a;
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
+      .bookingtable {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        min-width: 800px;
+        font-size: 0.8rem;
+      }
 
-  .bookButtonPrimary {
-    background-color: var(--brand-dark);
-    color: #fff;
-    border: 1px solid var(--brand-dark);
-    border-radius: 6px;
-    padding: 10px 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
+      .bookingtable thead th {
+        background: radial-gradient(circle at 0% 0%, #ffffff 0%, #dbdada 100%);
+        color: #2b2b2b;
+        font-weight: 600;
+        text-align: center;
+        padding: 12px 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+        font-size: 0.7rem;
+        white-space: nowrap;
+      }
 
-  .bookButtonPrimary:hover {
-    background-color: var(--brand-dark-hover);
-  }
+      .bookingtable tbody td {
+        position: relative;
+        min-width: 80px;
+        height: 56px;
+        padding: 6px;
+        background: #fff;
+        border-top: 1px solid rgba(0, 0, 0, 0.07);
+        text-align: center;
+      }
 
-  /* Center the "Book Selected Slots" button */
-.bookingfooter {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;   /* pushes button downward from table */
-  margin-bottom: 10px;
-}
+      .roomName {
+        background: radial-gradient(circle at 0% 0%, #faf9fa 0%, #ffffff 70%);
+        color: #2b2b2b;
+        font-size: 0.8rem;
+        font-weight: 900;
+        text-align: left;
+        white-space: nowrap;
+      }
 
-/* Make the button a little bigger + cleaner (optional, matches your style) */
-.bookButtonPrimary {
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
+      .roomNameInner {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
 
+      .roomTitleText {
+        font-weight: 700;
+      }
+
+      .roomMetaText {
+        font-size: 0.75rem;
+        color: var(--text-dim);
+      }
+
+      .slotcheckbox {
+        position: absolute;
+        inset: 5px;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      .slotvisual {
+        position: absolute;
+        inset: 6px;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        display: block;
+        transition: all 0.15s ease;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        z-index: 1;
+      }
+
+      /* available:green */
+      .slotvisual_available {
+        background: var(--slot-green);
+        border-color: var(--slot-green-border);
+        box-shadow: 0 12px 24px rgba(98, 189, 136, 0.3);
+      }
+
+      /* hover: light blue*/
+      .slotcheckbox:not(:disabled):hover + .slotvisual_available {
+        background: var(--slot-blue-hover);
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+      }
+
+      /* selected: dark blue */
+      .slotcheckbox:checked + .slotvisual_available {
+        background: var(--slot-blue-selected);
+        border-color: #1d4ed8;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.6);
+      }
+
+      /* unavailable: dashed grey */
+      .slotvisual_unavailable {
+        background: repeating-linear-gradient(
+          135deg,
+          #bcbcbc 0px,
+          #bcbcbc 6px,
+          #9a9a9a 6px,
+          #9a9a9a 12px
+        );
+        border: 2px solid #7a7a7a;
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .bookButtonPrimary {
+        background-color: var(--brand-dark);
+        color: #fff;
+        border: 1px solid var(--brand-dark);
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .bookButtonPrimary:hover {
+        background-color: var(--brand-dark-hover);
+      }
+
+      /* Center the "Book Selected Slots" button */
+      .bookingfooter {
+        display: flex;
+        justify-content: center;
+        margin-top: 24px;
+        margin-bottom: 10px;
+      }
+
+      /* Make the button a little bigger + cleaner */
+      .bookButtonPrimary {
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+
+      #scheduleMessage {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        color: var(--text-dim);
+      }
+
+      #signOut {
+        display: block;
+        margin: 0 auto 10px auto;
+      }
     </style>
   </head>
 
@@ -280,8 +357,7 @@
       <div class="firstsectionleft">
         <h1>Welcome, <span id="displayName"></span>!</h1>
         <script>
-         const username = localStorage.getItem("studentUsername") || "student";
-
+          const username = localStorage.getItem("studentUsername") || "student";
 
           if (username) {
             document.getElementById("displayName").textContent = username;
@@ -292,13 +368,9 @@
           <label class="scheduleLabel"
             ><strong>Booking Schedule for:</strong></label
           >
-          <input
-            type="date"
-            class="dateInput"
-            id="dateInput"
-            value="2025-10-19"
-          />
-      
+          <input type="date" class="dateInput" id="dateInput" value="today" />
+        </div>
+      </div>
 
       <!-- RIGHT SIDE -->
       <div class="bookButtonSpace">
@@ -308,12 +380,53 @@
       </div>
     </header>
 
+    <!-- ===== Room presentation cards (using your 3 images) ===== -->
+    <section class="roomShowcase">
+      <article class="roomCard">
+        <!-- GROUP STUDY ROOM IMAGE -->
+        <img src="studyroom.png" alt="Group study room" />
+        <div class="roomCardBody">
+          <h2 class="roomCardTitle">Study Room</h2>
+          <p class="roomCardText">
+            A calm, quiet space to study, review notes, and work on group
+            projects with classmates. Ideal for focused work and collaboration.
+          </p>
+        </div>
+      </article>
+
+      <article class="roomCard">
+        <!-- COMPUTER LAB IMAGE -->
+        <img src="computerLab.png" alt="Computer lab with workstations" />
+        <div class="roomCardBody">
+          <h2 class="roomCardTitle">Computer Lab</h2>
+          <p class="roomCardText">
+            Desktop workstations equipped with the software you need for coding,
+            design, data analysis, and course assignments.
+          </p>
+        </div>
+      </article>
+
+      <article class="roomCard">
+        <!-- CONFERENCE ROOM IMAGE -->
+        <img src="conference-room.png" alt="Conference room with long table" />
+        <div class="roomCardBody">
+          <h2 class="roomCardTitle">Conference Room</h2>
+          <p class="roomCardText">
+            A larger meeting space with a central table, perfect for
+            presentations, team meetings, and rehearsing talks.
+          </p>
+        </div>
+      </article>
+    </section>
+
     <!-- STUDY ROOMS SECTION -->
     <section class="roomsection">
       <div class="sectionheader">
         <h2 class="tableTitle">Available Rooms</h2>
         <p class="description">
-      
+          Select one or more available time slots (blue/green blocks) for a
+          single room, then click “Book Selected Slots”.
+        </p>
       </div>
 
       <div class="booking">
@@ -333,14 +446,13 @@
         </div>
       </div>
     </section>
-    
-   <button id = "signOut" class = "bookButtonPrimary" type = "button">
+
+    <button id="signOut" class="bookButtonPrimary" type="button">
       Sign Out
-    </button> 
+    </button>
 
     <script>
-
-      document.getElementById("signOut").onclick = () =>{
+      document.getElementById("signOut").onclick = () => {
         location.href = "index.html";
       };
 
@@ -350,17 +462,35 @@
       const scheduleMsg = document.getElementById("scheduleMessage");
       const currentUser = localStorage.getItem("studentUsername") || "student";
 
+      // if value is "today" or empty, set it to today's date
+      if (!dateInput.value || dateInput.value === "today") {
+        const today = new Date().toISOString().slice(0, 10);
+        dateInput.value = today;
+      }
 
       let currentTimes = [];
       let currentRooms = [];
+
+      // store room details so we can show location + capacity
+      const resourceDetailsByName = {};
 
       async function fetchResources() {
         try {
           const res = await fetch("/api/admin/resources");
           const data = await res.json();
           if (!data.success) return [];
-          
-          return data.resources.filter((r) => !r.isBlocked).map((r) => r.name);
+
+          const active = data.resources.filter((r) => !r.isBlocked);
+          // fill map for details
+          active.forEach((r) => {
+            resourceDetailsByName[r.name] = {
+              location: r.location || "",
+              capacity: r.capacity,
+              description: r.description || "",
+            };
+          });
+
+          return active.map((r) => r.name);
         } catch (err) {
           console.error(err);
           return [];
@@ -374,7 +504,7 @@
           );
           const data = await res.json();
           if (!data.success) return null;
-          return data; 
+          return data;
         } catch (err) {
           console.error(err);
           return null;
@@ -396,7 +526,7 @@
         body.innerHTML = "";
         if (!times.length || !activeRooms.length) {
           scheduleMsg.textContent =
-            "No schedule has been defined by the admin for this date yet.";
+            "No rooms are available for this date. Please try another day.";
           return;
         }
         scheduleMsg.textContent =
@@ -407,7 +537,25 @@
 
           const roomCell = document.createElement("td");
           roomCell.className = "roomName";
-          roomCell.textContent = roomName;
+
+          const detail = resourceDetailsByName[roomName] || {};
+          const locationText = detail.location
+            ? detail.location
+            : "Location N/A";
+          const capacityText =
+            detail.capacity != null && detail.capacity !== ""
+              ? `Capacity: ${detail.capacity}`
+              : "";
+
+          roomCell.innerHTML = `
+            <div class="roomNameInner">
+              <span class="roomTitleText">${roomName}</span>
+              <span class="roomMetaText">${locationText}${
+            capacityText ? " • " + capacityText : ""
+          }</span>
+            </div>
+          `;
+
           tr.appendChild(roomCell);
 
           const roomSlots = (scheduleObj[roomName] || []).reduce((acc, s) => {
@@ -544,7 +692,6 @@
           }
         });
 
-      
       refreshSchedule();
     </script>
   </body>

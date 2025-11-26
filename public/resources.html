@@ -2,332 +2,287 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Manage Resources</title>
+    <title>Resource Management</title>
     <link rel="stylesheet" href="projectStyle.css" />
+
     <style>
       body {
         background-color: #f5f5f5;
-        color: #222;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, sans-serif;
         margin: 0;
-        padding: 32px;
-        line-height: 1.4;
-      }
-
-      button {
-        cursor: pointer;
-        font-size: 0.9rem;
-        line-height: 1.2;
-        border-radius: 4px;
-        font-weight: 600;
-        border: none;
-        padding: 10px 16px;
-        margin-top: 6px;
-        transition: all 0.15s ease;
-      }
-
-      .primaryButton {
-        background-color: #5e001f;
-        color: #fff;
-        border: 1px solid #5e001f;
-      }
-
-      .primaryButton:hover {
-        background-color: #440017;
-        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
-      }
-
-      .secondaryButton {
-        background: #fff;
-        color: #5e001f;
-        border: 1px solid #5e001f;
-      }
-
-      .secondaryButton:hover {
-        background-color: #5e001f;
-        color: #fff;
-        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.25);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Arial, sans-serif;
+        color: #222;
+        padding: 20px;
       }
 
       .site-header {
         background-color: #5e001f;
-        color: #fff;
+        color: white;
         border-bottom: 4px solid #c9a646;
-        padding: 12px 24px;
+        padding: 14px 24px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        margin: -32px -32px 24px -32px;
+        gap: 14px;
+        margin: -20px -20px 20px -20px;
       }
+
       .site-header img {
         height: 48px;
       }
 
       h1 {
         color: #5e001f;
-        font-size: 1.6rem;
-        font-weight: 600;
         margin-bottom: 16px;
+        font-weight: 600;
       }
 
-      form,
-      .list {
-        background: #fff;
+      .formCard {
+        max-width: 450px;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
         border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 16px 20px;
-        max-width: 640px;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       }
 
-      .row {
-        display: grid;
-        grid-template-columns: 140px 1fr;
-        gap: 10px;
-        margin-bottom: 14px;
-        font-size: 0.95rem;
-      }
-
-      input,
-      textarea {
-        border-radius: 4px;
-        border: 1px solid #bbb;
+      .formCard input {
+        width: 100%;
+        margin-top: 6px;
         padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #bbb;
         font-size: 0.9rem;
       }
 
-      .editBtn,
-      .deleteBtn {
-        background-color: #fff;
-        color: #5e001f;
-        border: 1px solid #5e001f;
-        padding: 6px 12px;
-        margin-right: 6px;
-        border-radius: 4px;
+      .primaryBtn {
+        background-color: #5e001f;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        margin-top: 12px;
+        border-radius: 6px;
         cursor: pointer;
-      }
-      .editBtn:hover {
-        background-color: #e8e2e5;
-      }
-      .deleteBtn {
-        border-color: #b30000;
-        color: #b30000;
-      }
-      .deleteBtn:hover {
-        background-color: #ffe6e6;
+        font-weight: 600;
+        width: 100%;
       }
 
-      .card {
+      .primaryBtn:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
         border-radius: 8px;
-        border: 1px solid #ddd;
-        padding: 10px 12px;
-        margin-bottom: 10px;
-        background-color: #fff;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        font-size: 0.9rem;
+      }
+
+      th {
+        background-color: #eee;
+        font-weight: 600;
+      }
+
+      tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      .actionBtn {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-right: 4px;
+        color: white;
+      }
+
+      .editBtn {
+        background: #1e7b3a;
+      }
+      .editBtn:hover {
+        background: #165a2a;
+      }
+
+      .deleteBtn {
+        background: #b30000;
+      }
+      .deleteBtn:hover {
+        background: #800000;
+      }
+
+      .blockBtn {
+        background: #5e001f;
+      }
+      .blockBtn:hover {
+        background: #440017;
+      }
+
+      .navBtn {
+        margin-top: 16px;
+        background: #5e001f;
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        width: 200px;
+        font-weight: 600;
+      }
+      .navBtn:hover {
+        background-color: #440017;
       }
     </style>
   </head>
 
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
-      <h2>Concordia University — Manage Resources</h2>
+      <img src="concordiaEmblem.png" />
+      <h2>Concordia University — Resource Management</h2>
     </header>
 
-    <h1>Resources</h1>
+    <h1>Manage Resources</h1>
 
-    <h2>Add / Edit Resource</h2>
+    <!-- ADD RESOURCE FORM -->
+    <div class="formCard">
+      <h3>Add New Resource</h3>
+      <label>Name:</label>
+      <input id="rName" />
 
-    <form>
-      <div class="row">
-        <label>Name</label>
-        <input id="resName" type="text" />
-      </div>
+      <label>Description:</label>
+      <input id="rDesc" />
 
-      <div class="row">
-        <label>Description</label>
-        <textarea id="resDescription" rows="3"></textarea>
-      </div>
+      <label>Location:</label>
+      <input id="rLoc" />
 
-      <div class="row">
-        <label>Location</label>
-        <input id="resLocation" type="text" />
-      </div>
+      <label>Capacity:</label>
+      <input id="rCap" type="number" />
 
-      <div class="row">
-        <label>Capacity</label>
-        <input id="resCapacity" type="number" min="1" />
-      </div>
+      <button class="primaryBtn" id="addResource">Add Resource</button>
+    </div>
 
-      <div class="row">
-        <label>Image</label>
-        <input id="imageInput" type="file" accept="image/*" />
-     </div>
+    <!-- RESOURCE TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="resourceBody"></tbody>
+    </table>
 
-      <div class="actions">
-        <button id="saveResource" class="secondaryButton" type="button">
-          Save
-        </button>
-        <button id="clearResource" class="secondaryButton" type="button">
-          Clear
-        </button>
-      </div>
-    </form>
-
-    <h2 style="margin-top: 18px">Existing Resources</h2>
-    <div id="resourceList" class="list"></div>
-
-    <button id="goBack" class="primaryButton" type="button">
-      Go Back To Dashboard
+    <button class="navBtn" onclick="location.href='adminPage.html'">
+      Back to Dashboard
     </button>
 
-    <button id="signOut" class="primaryButton" type="button">Sign Out</button>
-
     <script>
-      document.getElementById("goBack").onclick = () => {
-        location.href = "adminPage.html";
-      };
-
-      document.getElementById("signOut").onclick = () => {
-        location.href = "index.html";
-      };
-
-      const nameInput = document.getElementById("resName");
-      const descInput = document.getElementById("resDescription");
-      const locInput = document.getElementById("resLocation");
-      const capInput = document.getElementById("resCapacity");
-      const listDiv = document.getElementById("resourceList");
-
-      let editingName = null;
-
-      document.getElementById("clearResource").onclick = () => {
-        editingName = null;
-        nameInput.value = "";
-        descInput.value = "";
-        locInput.value = "";
-        capInput.value = "";
-      };
-
       async function loadResources() {
-        listDiv.innerHTML = "";
-
         const res = await fetch("/api/admin/resources");
         const data = await res.json();
-        if (!data.success) return;
 
+        const tbody = document.getElementById("resourceBody");
+        tbody.innerHTML = "";
         data.resources.forEach((r) => {
-          const card = document.createElement("div");
-          card.className = "card";
-
-          card.innerHTML = `
-            <strong>${r.name}</strong> — Capacity ${r.capacity}<br/>
-            <em>${r.location}</em><br/>
-            <small>Description: ${r.description || "—"}</small><br/>
-
-            ${
-            r.image
-              ? `<img src="${r.image}" style="width:160px; margin-top:10px; border-radius:8px; border:1px solid #ccc;">`
-              : `<div style="width:160px; height:100px; background:#eee; margin-top:10px; border-radius:8px;"></div>`
-            }
-
-            <br/>
-          `;
-
-
-          const editBtn = document.createElement("button");
-          editBtn.className = "editBtn";
-          editBtn.textContent = "Edit";
-          editBtn.onclick = () => {
-            editingName = r.name;
-            nameInput.value = r.name;
-            descInput.value = r.description;
-            locInput.value = r.location;
-            capInput.value = r.capacity;
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          };
-
-          const deleteBtn = document.createElement("button");
-          deleteBtn.className = "deleteBtn";
-          deleteBtn.textContent = "Delete";
-          deleteBtn.onclick = async () => {
-            if (!confirm("Delete this resource?")) return;
-
-            const del = await fetch("/api/admin/resource/delete", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name: r.name }),
-            });
-
-            const out = await del.json();
-            if (!out.success) {
-              alert(out.message);
-              return;
-            }
-
-            loadResources();
-          };
-
-          card.appendChild(editBtn);
-          card.appendChild(deleteBtn);
-          listDiv.appendChild(card);
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+        <td>${r.name}</td>
+        <td>${r.description}</td>
+        <td>${r.location}</td>
+        <td>${r.capacity}</td>
+        <td>${r.isBlocked ? "Blocked" : "Active"}</td>
+        <td>
+          <button class="actionBtn editBtn" onclick="editResource('${
+            r.name
+          }')">Edit</button>
+          <button class="actionBtn deleteBtn" onclick="delResource('${
+            r.name
+          }')">Delete</button>
+          <button class="actionBtn blockBtn" onclick="toggleBlock('${r.name}')">
+            ${r.isBlocked ? "Unblock" : "Block"}
+          </button>
+        </td>
+      `;
+          tbody.appendChild(tr);
         });
       }
 
-      loadResources();
+      // Add Resource
+      document.getElementById("addResource").onclick = async () => {
+        const name = rName.value.trim();
+        const desc = rDesc.value.trim();
+        const loc = rLoc.value.trim();
+        const cap = rCap.value.trim();
 
-      document.getElementById("saveResource").onclick = async () => {
-        const name = nameInput.value.trim();
-        const description = descInput.value.trim();
-        const location = locInput.value.trim();
-        const capacity = capInput.value.trim();
-        const imageFile = document.getElementById("imageInput").files[0];
+        if (!name || !loc || !cap) return alert("Missing fields!");
 
-        if (!name || !location || !capacity) {
-          alert("Fill all required fields.");
-          return;
-        }
-
-        const formData = new FormData();
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("location", location);
-        formData.append("capacity", capacity);
-
-        if(imageFile){
-          formData.append("image", imageFile);
-        }
-
-        let url;
-
-        if (editingName) {
-          url = "/api/admin/resource/update";
-          formData.append("oldName", editingName);
-        }
-        else{
-          url = "/api/admin/resources";
-        }
-
-        const res = await fetch(url,{
-          method:"POST",
-          body: formData
+        const res = await fetch("/api/admin/resources", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            description: desc,
+            location: loc,
+            capacity: cap,
+          }),
         });
-        const out = await res.json();
-          if (!out.success) {
-            alert(out.message);
-            return;
-          }
-        
 
-        editingName = null;
-        nameInput.value = "";
-        descInput.value = "";
-        locInput.value = "";
-        capInput.value = "";
-        document.getElementById("imageInput").value = "";
+        const data = await res.json();
+        if (!data.success) return alert(data.message);
 
         loadResources();
       };
 
+      async function delResource(name) {
+        if (!confirm("Delete this resource?")) return;
+        const res = await fetch("/api/admin/resource/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        loadResources();
+      }
+
+      async function toggleBlock(name) {
+        const res = await fetch("/api/admin/toggle-block", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ room: name }),
+        });
+        loadResources();
+      }
+
+      function editResource(oldName) {
+        const newName = prompt("New Name:");
+        if (!newName) return;
+
+        fetch("/api/admin/resource/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            oldName,
+            name: newName,
+            description: "",
+            location: "",
+            capacity: 10,
+          }),
+        }).then(() => loadResources());
+      }
+
+      loadResources();
     </script>
   </body>
 </html>

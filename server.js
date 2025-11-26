@@ -18,7 +18,7 @@ let nextResourceId = 1;
 let nextBookingId = 1;
 let nextBlackoutId = 1;
 
-// Special requests: { id, student, message, hours, room, date, status }
+// Special requests: { id, student, room, date, message, hours, status }
 let specialRequests = [];
 let nextSpecialRequestId = 1;
 
@@ -143,28 +143,8 @@ app.post("/api/login", (req, res) => {
 
 // ===== Admin: Resources =====
 
-const multer = require("multer");
-
-const storage = multer.diskStorage({
-  destination:(req, file, cb) => {
-    cb(null, "uploads/resources");
-  },
-  filename:(req, file, cb) =>{
-    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, unique + "-" + file.originalname);
-    }
-});
-
-
-app.use("/uploads",express.static("uploads"));
-
-const upload = multer({storage});
-
-
-app.post("/api/admin/resources", upload.single("image"), (req, res) => {
+app.post("/api/admin/resources", (req, res) => {
   const { name, description, location, capacity } = req.body;
-
-  const imagePath = req.file? "/uploads/resources/" + req.file.filename: null;
 
   if (!name || !location || !capacity)
     return res.json({ success: false, message: "Missing fields" });
@@ -179,15 +159,13 @@ app.post("/api/admin/resources", upload.single("image"), (req, res) => {
     location,
     capacity: Number(capacity),
     isBlocked: false,
-    image: imagePath,
   };
 
   resources.push(resource);
   res.json({ success: true, resource });
 });
 
-
-app.post("/api/admin/resource/update", upload.single("image"), (req, res) => {
+app.post("/api/admin/resource/update", (req, res) => {
   const { oldName, name, description, location, capacity } = req.body;
 
   const r = resources.find((x) => x.name === oldName);
@@ -201,20 +179,20 @@ app.post("/api/admin/resource/update", upload.single("image"), (req, res) => {
   r.location = location;
   r.capacity = Number(capacity);
 
-  if (req.file) {
-    r.image = "/uploads/resources/" + req.file.filename;
-  }
-
-  // rename in schedule, bookings, blackouts:
+  // schedule rename
   for (const date in schedule) {
     if (schedule[date][oldName]) {
       schedule[date][name] = schedule[date][oldName];
       delete schedule[date][oldName];
     }
   }
+
+  // booking rename
   bookings.forEach((b) => {
     if (b.room === oldName) b.room = name;
   });
+
+  // blackout rename
   blackouts.forEach((b) => {
     if (b.room === oldName) b.room = name;
   });
@@ -496,7 +474,7 @@ app.post("/api/bookings/:id/cancel", (req, res) => {
   return res.json({ success: true });
 });
 
-// ===== Admin approvals (for normal bookings, now unused by approvals.html) =====
+// ===== Admin approvals (normal bookings are auto-handled now, but we keep these endpoints in case you still want them) =====
 
 app.get("/api/admin/pending-bookings", (req, res) => {
   res.json({
@@ -584,10 +562,20 @@ app.post("/api/special-request", (req, res) => {
   return res.json({ success: true });
 });
 
-// === ADMIN GETS ALL PENDING SPECIAL REQUESTS (any admin) ===
+// === ADMIN GETS ALL PENDING SPECIAL REQUESTS (for approvals page) ===
 app.get("/api/special-request/pending", (req, res) => {
   const pending = specialRequests.filter((r) => r.status === "pending");
   return res.json({ success: true, requests: pending });
+});
+
+// === STUDENT GETS ALL SPECIAL REQUESTS (any status) ===
+app.get("/api/special-request/for-student", (req, res) => {
+  const { student } = req.query;
+  if (!student) {
+    return res.json({ success: false, message: "student required" });
+  }
+  const list = specialRequests.filter((r) => r.student === student);
+  return res.json({ success: true, requests: list });
 });
 
 // ADMIN APPROVES SPECIAL REQUEST
@@ -599,27 +587,10 @@ app.post("/api/special-request/approve", (req, res) => {
     return res.json({ success: false, message: "Request not found." });
   }
 
+  // Just change status; do NOT create a booking.
   request.status = "approved";
 
-  const parts = (request.hours || "").split("-");
-  const start = parts[0] ? parts[0].trim() : "";
-  const end = parts[1] ? parts[1].trim() : "";
-
-  // Create a booking that will show in Upcoming Appointments,
-  // but be treated specially on the frontend (no reschedule/cancel).
-  bookings.push({
-    id: nextBookingId++,
-    username: request.student,
-    room: request.room || "Special Request",
-    date: request.date || todayString(),
-    startTime: start,
-    endTime: end,
-    purpose: request.message,
-    status: "approved",
-    isSpecialRequest: true,
-  });
-
-  console.log("Created booking from special request:", bookings);
+  console.log("Special request approved:", request);
 
   return res.json({ success: true });
 });
@@ -635,24 +606,7 @@ app.post("/api/special-request/deny", (req, res) => {
 
   request.status = "denied";
 
-  const parts = (request.hours || "").split("-");
-  const start = parts[0] ? parts[0].trim() : "";
-  const end = parts[1] ? parts[1].trim() : "";
-
-  // Create an entry in bookings so it appears in "Cancelled Bookings"
-  // with reason "Special request denied."
-  bookings.push({
-    id: nextBookingId++,
-    username: request.student,
-    room: request.room || "Special Request",
-    date: request.date || todayString(),
-    startTime: start,
-    endTime: end,
-    purpose: request.message,
-    status: "denied",
-    cancelReason: "Special request denied.",
-    isSpecialRequest: true,
-  });
+  console.log("Special request denied:", request);
 
   return res.json({ success: true });
 });

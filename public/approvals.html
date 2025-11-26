@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Approve / Reject Bookings</title>
+    <title>Approve / Reject Special Requests</title>
     <link rel="stylesheet" href="projectStyle.css" />
 
     <style>
@@ -97,7 +97,7 @@
   <body>
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
-      <h2>Concordia University — Booking Approvals</h2>
+      <h2>Concordia University — Special Request Approvals</h2>
     </header>
 
     <h1>Pending Special Requests</h1>
@@ -118,6 +118,7 @@
         list.innerHTML = "";
 
         try {
+          // All pending requests (any admin can see them)
           const res = await fetch("/api/special-request/pending");
           const data = await res.json();
 
@@ -130,12 +131,12 @@
             const div = document.createElement("div");
             div.className = "card";
             div.innerHTML = `
-          <strong>Student:</strong> ${r.student}<br/>
-          <strong>Room:</strong> ${r.room}<br/>
-          <strong>Date:</strong> ${r.date}<br/>
-          <strong>Message:</strong> ${r.message}<br/>
-          <strong>Hours:</strong> ${r.hours}<br/>
-        `;
+              <strong>Student:</strong> ${r.student}<br/>
+              <strong>Room:</strong> ${r.room || "-"}<br/>
+              <strong>Date:</strong> ${r.date || "-"}<br/>
+              <strong>Message:</strong> ${r.message}<br/>
+              <strong>Hours:</strong> ${r.hours}<br/>
+            `;
 
             const actions = document.createElement("div");
             actions.className = "actions";
@@ -184,7 +185,7 @@
         }
       }
 
-      // Load list
+      // Load the list on page load
       loadSpecialRequests();
     </script>
   </body>

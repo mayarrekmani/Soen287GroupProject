@@ -4,82 +4,385 @@
     <meta charset="UTF-8" />
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="projectStyle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+      :root {
+        --brand-dark: #5e001f;
+        --brand-dark-hover: #440017;
+        --brand-gold: #c9a646;
+        --text-main: #222;
+        --text-dim: #6b6b6b;
+        --bg-page: #f5f5f5;
+        --card-bg: #fff;
+        --card-border: #ddd;
+      }
+
       body {
-        font-family: Arial, sans-serif;
-        margin: 24px;
-      }
-      h1 {
-        margin-bottom: 8px;
-      }
-      h2 {
-        margin-top: 30px;
-      }
-      p {
-        color: #555;
-      }
-      ul {
-        list-style: none;
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
         padding: 0;
+        line-height: 1.4;
+      }
+
+      /* === Header === */
+      .site-header {
+        background-color: var(--brand-dark);
+        color: #fff;
+        border-bottom: 4px solid var(--brand-gold);
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px;
+      }
+
+      .site-header img {
+        height: 48px;
+        width: auto;
+      }
+
+      .site-header h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* === Layout === */
+      .layout {
         display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        min-height: calc(100vh - 72px);
+        background-color: var(--bg-page);
+      }
+
+      /* === Sidebar === */
+      .sidebar {
+        background-color: #faf7f8;
+        border-right: 1px solid #e0d5d8;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
-        max-width: 520px;
       }
-      a {
+
+      .sidebar-link {
         display: block;
-        padding: 12px 14px;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #5b3a44;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .sidebar-link:hover {
+        background-color: #f1e4e8;
+        border-color: #e0c3cf;
+      }
+
+      .sidebar-link.active {
+        background-color: var(--brand-dark);
+        color: #fff;
+        border-color: var(--brand-dark);
+        box-shadow: 0 4px 12px rgba(94, 0, 31, 0.3);
+      }
+
+      .sidebar-link-danger {
+        margin-top: 20px;
+        color: #fff;
+        background-color: var(--brand-dark);
+        border-color: var(--brand-dark);
+        font-weight: 600;
+      }
+
+      .sidebar-link-danger:hover {
+        background-color: var(--brand-dark-hover);
+        border-color: var(--brand-dark-hover);
+      }
+
+      /* === Main content === */
+      .content {
+        padding: 24px 28px 32px 28px;
+      }
+
+      h1 {
+        color: var(--brand-dark);
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin: 0 0 12px 0;
+      }
+
+      .content-subtitle {
+        margin: 0 0 18px 0;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+      }
+
+      /* Cards / sections */
+      .card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        padding: 16px 18px 14px 18px;
+        margin-bottom: 18px;
+      }
+
+      .card h2 {
+        font-size: 1.1rem;
+        margin: 0 0 10px 0;
+        color: #333;
+      }
+
+      .two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .two-column {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Form card (reused style from student manage account) */
+      .formCard {
+        max-width: 480px;
+        background: white;
+        padding: 22px;
+        border-radius: 12px;
         border: 1px solid #ddd;
-        border-radius: 10px;
-        text-decoration: none;
-        color: #111;
-        background: #fafafa;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+        margin-top: 10px;
       }
-      a:hover {
-        background: #f0f0f0;
+      .formCard h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: var(--brand-dark);
       }
+      .formCard label {
+        font-weight: 600;
+        margin-top: 10px;
+        display: block;
+        font-size: 0.9rem;
+      }
+      .formCard input {
+        width: 100%;
+        margin-top: 6px;
+        padding: 6px 8px;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+
+      .primaryBtn {
+        background: var(--brand-dark);
+        color: white;
+        padding: 10px 14px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        margin-top: 16px;
+        font-weight: 600;
+        width: 100%;
+        transition: 0.15s;
+      }
+      .primaryBtn:hover {
+        background: var(--brand-dark-hover);
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      /* Tables */
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 12px;
+        font-size: 0.85rem;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
       }
+
+      thead {
+        background: #f3f3f3;
+      }
+
       th,
       td {
-        border: 1px solid #ccc;
-        padding: 8px;
-      }
-      th {
-        background: #eee;
-      }
-      button {
-        padding: 6px 10px;
-        margin: 2px;
-        cursor: pointer;
-        border-radius: 4px;
-        border: 1px solid #aaa;
-      }
-      button:hover {
-        background: #ddd;
+        padding: 8px 10px;
+        border-bottom: 1px solid #eee;
+        text-align: left;
       }
 
-      .goBackButton {
-        display: block;
-        background-color: #5e001f;
+      th {
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: #444;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      .empty-row td {
+        text-align: center;
+        color: var(--text-dim);
+        font-style: italic;
+      }
+
+      /* Action buttons for resource / approvals */
+      .actionBtn {
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-right: 4px;
         color: #fff;
         font-weight: 600;
-        border: none;
-        border-radius: 6px;
-        padding: 12px 24px;
-        font-size: 1rem;
-        cursor: pointer;
-        margin: 40px auto 0;
-        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
-        transition: all 0.2s ease;
+      }
+      .editBtn {
+        background: #1e7b3a;
+      }
+      .editBtn:hover {
+        background: #165a2a;
+      }
+      .deleteBtn {
+        background: #b30000;
+      }
+      .deleteBtn:hover {
+        background: #800000;
+      }
+      .blockBtn {
+        background: #5e001f;
+      }
+      .blockBtn:hover {
+        background: #440017;
       }
 
-      .goBackButton:hover {
-        background-color: #440017;
-        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      /* Approvals cards */
+      .request-card {
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+        font-size: 0.92rem;
+      }
+
+      .request-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .approveBtn {
+        background-color: #1e7b3a;
+        color: #fff;
+        border-radius: 4px;
+        padding: 8px 14px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .approveBtn:hover {
+        background-color: #165a2a;
+        box-shadow: 0 4px 10px rgba(0, 80, 0, 0.25);
+      }
+
+      .denyBtn {
+        background-color: #b30000;
+        color: #fff;
+        border-radius: 4px;
+        padding: 8px 14px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .denyBtn:hover {
+        background-color: #800000;
+        box-shadow: 0 4px 10px rgba(80, 0, 0, 0.25);
+      }
+
+      /* Hidden helper */
+      .hidden {
+        display: none;
+      }
+
+      /* Stats section small cards */
+      .statsRow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+      .statCard {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.05);
+        padding: 12px 18px;
+        min-width: 220px;
+        flex: 1 1 220px;
+      }
+      .statCard h3 {
+        margin: 0;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-dim);
+      }
+      .statCard .statValue {
+        margin-top: 6px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-main);
+      }
+
+      .chartRow {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 18px;
+      }
+
+      @media (max-width: 900px) {
+        .chartRow {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .chartCard {
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.05);
+        padding: 16px 18px;
+      }
+      .chartCard h3 {
+        margin: 0 0 6px 0;
+        font-size: 0.95rem;
+      }
+      .chartCard p {
+        margin: 0 0 12px 0;
+        font-size: 0.8rem;
+        color: var(--text-dim);
+      }
+      .chartCard canvas {
+        max-width: 100%;
       }
     </style>
   </head>
@@ -87,62 +390,992 @@
   <body>
     <header class="site-header">
       <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <h2>Concordia University — Admin Dashboard</h2>
     </header>
 
-    <h1>Welcome, <span id="displayName"></span>!</h1>
-    <script>
-      // FIX: use adminUsername instead of shared "username"
-      const username = localStorage.getItem("adminUsername");
-      if (username) {
-        document.getElementById("displayName").textContent = username;
-      } else {
-        document.getElementById("displayName").textContent = "Admin";
-      }
-    </script>
-
-    <p>Choose what you want to manage:</p>
-
-    <ul>
-      <li>
-        <a href="resources.html">
-          Create / Edit / Remove Resources
-          <small>Names, descriptions, locations, capacities, images</small>
-        </a>
-      </li>
-      <li>
-        <a href="schedules.html">
-          Set Availability Schedules
-          <small>Working hours, exceptions, blackout dates</small>
-        </a>
-      </li>
-      <li>
-        <a href="approvals.html">
-          Approve / Reject Booking Requests
-          <small>Review pending requests</small>
-        </a>
-      </li>
-      <li>
-        <a href="blocks.html">
-          Block / Unblock Resources
-          <small>Maintenance or temporary holds</small>
-        </a>
-      </li>
-      <li>
-        <a href="statistic.html">
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <button class="sidebar-link active" data-section="resources">
+          Resources
+        </button>
+        <button class="sidebar-link" data-section="schedule">
+          Working Hours & Exceptions
+        </button>
+        <button class="sidebar-link" data-section="approvals">
+          Special Request Approvals
+        </button>
+        <button class="sidebar-link" data-section="stats">
           Statistics & Reports
-          <small>Popular resources, peak times</small>
-        </a>
-      </li>
-    </ul>
+        </button>
 
-    <button id="signOut" class="goBackButton" type="button">
-      Sign Out
-    </button>
+        <button
+          class="sidebar-link sidebar-link-danger"
+          id="adminSignOut"
+          type="button"
+        >
+          Sign Out
+        </button>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="content">
+        <h1>Welcome, <span id="displayName"></span></h1>
+        <p class="content-subtitle">
+          Use the menu on the left to manage resources, hours, special requests,
+          and reports.
+        </p>
+
+        <!-- ============== RESOURCES SECTION ============== -->
+        <section id="section-resources">
+          <div class="formCard">
+            <h3>Add New Resource</h3>
+            <label>Name:</label>
+            <input id="rName" />
+
+            <label>Description:</label>
+            <select id="rDesc">
+              <option value="">Select a type…</option>
+              <option
+                value="Study room with tables and whiteboards for small quiet group work."
+              >
+                Study room
+              </option>
+              <option
+                value="Computer lab equipped with workstations suitable for tutorials, labs, and software-based work."
+              >
+                Computer lab
+              </option>
+              <option
+                value="Conference room with a central table, presentation screen, and seating for meetings."
+              >
+                Conference room
+              </option>
+            </select>
+
+            <label>Location:</label>
+            <input id="rLoc" />
+
+            <label>Capacity:</label>
+            <input id="rCap" type="number" />
+
+            <button class="primaryBtn" id="addResource">Add Resource</button>
+          </div>
+
+          <div class="card" style="margin-top: 18px">
+            <h2>Existing Resources</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Location</th>
+                  <th>Capacity</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="resourceBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============== WORKING HOURS & EXCEPTIONS ============== -->
+        <section id="section-schedule" class="hidden">
+          <div class="card">
+            <h2>Working Hours (Next 4 Weeks)</h2>
+            <p class="content-subtitle">
+              Creates weekday slots from <strong>08:00 to 22:00</strong> for the
+              next 4 weeks for a specific room.
+            </p>
+
+            <label>Room</label>
+            <select id="roomSelectBase"></select>
+
+            <label>Week starting date</label>
+            <input id="weekStart" type="date" />
+
+            <button id="createWeek" class="primaryBtn" type="button">
+              Create Working Hours for 4 Weeks
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>Exceptions (Per Room & Date)</h2>
+            <p class="content-subtitle">
+              Override the schedule for a specific date. Click orange slots to
+              turn them green (available).
+            </p>
+
+            <label>Room</label>
+            <select id="roomSelectException"></select>
+
+            <label>Exception date</label>
+            <input id="exceptionDate" type="date" />
+
+            <button id="loadException" class="primaryBtn" type="button">
+              Load Slots
+            </button>
+
+            <div id="exceptionSlotsContainer" style="margin-top: 12px"></div>
+
+            <button
+              id="saveException"
+              class="primaryBtn"
+              type="button"
+              style="display: none; margin-top: 14px"
+            >
+              Save Exception for This Day
+            </button>
+          </div>
+
+          <div class="card">
+            <h2>Blackout Dates (Per Room)</h2>
+            <p class="content-subtitle">
+              Fully disable a room for a specific day. Any bookings on that day
+              are auto-cancelled.
+            </p>
+
+            <label>Room</label>
+            <select id="blackoutRoom"></select>
+
+            <label>Blackout date</label>
+            <input id="blackoutDate" type="date" />
+
+            <button id="addBlackoutBtn" class="primaryBtn" type="button">
+              Add Blackout Date
+            </button>
+
+            <h3 style="margin-top: 18px; font-size: 1rem">
+              Existing blackout dates
+            </h3>
+            <div id="blackoutList"></div>
+          </div>
+        </section>
+
+        <!-- ============== SPECIAL REQUEST APPROVALS ============== -->
+        <section id="section-approvals" class="hidden">
+          <div class="card">
+            <h2>Pending Special Requests</h2>
+            <div id="specialRequestsList"></div>
+          </div>
+        </section>
+
+        <!-- ============== STATISTICS & REPORTS ============== -->
+        <section id="section-stats" class="hidden">
+          <div class="card">
+            <h2>Statistics & Reports</h2>
+            <p class="content-subtitle">
+              Daily totals, most used rooms, and popular time slots for
+              bookings.
+            </p>
+
+            <div class="statsRow">
+              <div class="statCard">
+                <h3>Total Bookings</h3>
+                <div class="statValue" id="totalBookings">—</div>
+              </div>
+              <div class="statCard">
+                <h3>Most Used Resource</h3>
+                <div class="statValue" id="mostUsed">—</div>
+              </div>
+              <div class="statCard">
+                <h3>Peak Time</h3>
+                <div class="statValue" id="peakTime">—</div>
+              </div>
+            </div>
+
+            <div class="chartRow">
+              <div class="chartCard">
+                <h3>Bookings per Room</h3>
+                <p>How many bookings each room has.</p>
+                <canvas id="perRoomChart" width="400" height="250"></canvas>
+              </div>
+
+              <div class="chartCard">
+                <h3>Bookings per Time Slot</h3>
+                <p>Which hours are the busiest.</p>
+                <canvas
+                  id="popularTimesChart"
+                  width="400"
+                  height="250"
+                ></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script>
-      document.getElementById("signOut").onclick = () => {
+      // ====== ADMIN NAME DISPLAY ======
+      (function () {
+        const username = localStorage.getItem("adminUsername") || "Admin";
+        document.getElementById("displayName").textContent = username;
+      })();
+
+      // ====== SIDEBAR NAVIGATION ======
+      const sectionIds = ["resources", "schedule", "approvals", "stats"];
+
+      document
+        .querySelectorAll(".sidebar-link[data-section]")
+        .forEach((btn) => {
+          btn.addEventListener("click", () => {
+            // active styling
+            document
+              .querySelectorAll(".sidebar-link[data-section]")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            // show / hide sections
+            const target = btn.getAttribute("data-section");
+            sectionIds.forEach((id) => {
+              const el = document.getElementById("section-" + id);
+              if (!el) return;
+              if (id === target) el.classList.remove("hidden");
+              else el.classList.add("hidden");
+            });
+          });
+        });
+
+      // Sign out
+      document.getElementById("adminSignOut").onclick = () => {
         location.href = "index.html";
       };
+
+      // =========================================================
+      //                     RESOURCES SECTION
+      // =========================================================
+      async function loadResources() {
+        const res = await fetch("/api/admin/resources");
+        const data = await res.json();
+
+        const tbody = document.getElementById("resourceBody");
+        tbody.innerHTML = "";
+
+        if (!data.success || !data.resources.length) {
+          tbody.innerHTML =
+            '<tr class="empty-row"><td colspan="6">No resources created yet.</td></tr>';
+          return;
+        }
+
+        data.resources.forEach((r) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${r.name}</td>
+            <td>${r.description || ""}</td>
+            <td>${r.location}</td>
+            <td>${r.capacity}</td>
+            <td>${r.isBlocked ? "Blocked" : "Active"}</td>
+            <td></td>
+          `;
+
+          const actionsTd = tr.querySelector("td:last-child");
+
+          const editBtn = document.createElement("button");
+          editBtn.className = "actionBtn editBtn";
+          editBtn.textContent = "Edit";
+          editBtn.onclick = () => editResource(r);
+
+          const deleteBtn = document.createElement("button");
+          deleteBtn.className = "actionBtn deleteBtn";
+          deleteBtn.textContent = "Delete";
+          deleteBtn.onclick = () => delResource(r.name);
+
+          const blockBtn = document.createElement("button");
+          blockBtn.className = "actionBtn blockBtn";
+          blockBtn.textContent = r.isBlocked ? "Unblock" : "Block";
+          blockBtn.onclick = () => toggleBlock(r.name);
+
+          actionsTd.appendChild(editBtn);
+          actionsTd.appendChild(deleteBtn);
+          actionsTd.appendChild(blockBtn);
+
+          tbody.appendChild(tr);
+        });
+      }
+
+      // Add resource
+      document.getElementById("addResource").onclick = async () => {
+        const name = document.getElementById("rName").value.trim();
+        const desc = document.getElementById("rDesc").value.trim();
+        const loc = document.getElementById("rLoc").value.trim();
+        const cap = document.getElementById("rCap").value.trim();
+
+        if (!name || !loc || !cap) {
+          alert("Please fill in name, location, and capacity.");
+          return;
+        }
+
+        const res = await fetch("/api/admin/resources", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            description: desc,
+            location: loc,
+            capacity: cap,
+          }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          alert(data.message || "Error adding resource.");
+          return;
+        }
+
+        // clear inputs
+        document.getElementById("rName").value = "";
+        document.getElementById("rDesc").value = "";
+        document.getElementById("rLoc").value = "";
+        document.getElementById("rCap").value = "";
+
+        loadResources();
+      };
+
+      async function delResource(name) {
+        if (
+          !confirm("Delete this resource? Future bookings will be cancelled.")
+        )
+          return;
+
+        await fetch("/api/admin/resource/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+
+        loadResources();
+      }
+
+      async function toggleBlock(name) {
+        const res = await fetch("/api/admin/toggle-block", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ room: name }),
+        });
+        const data = await res.json();
+        if (!data.success) {
+          alert(data.message || "Error toggling block status.");
+          return;
+        }
+        loadResources();
+      }
+
+      // EDIT RESOURCE: name, description, location, capacity
+      async function editResource(resource) {
+        const oldName = resource.name;
+
+        const newName = prompt("New name:", resource.name);
+        if (newName === null) return;
+
+        const newDesc = prompt("New description:", resource.description || "");
+        if (newDesc === null) return;
+
+        const newLoc = prompt("New location:", resource.location || "");
+        if (newLoc === null) return;
+
+        const newCapStr = prompt(
+          "New capacity:",
+          resource.capacity != null ? String(resource.capacity) : ""
+        );
+        if (newCapStr === null) return;
+        const newCap = newCapStr.trim();
+
+        if (!newName.trim() || !newLoc.trim() || !newCap) {
+          alert("Name, location, and capacity are required.");
+          return;
+        }
+
+        const res = await fetch("/api/admin/resource/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            oldName,
+            name: newName.trim(),
+            description: newDesc.trim(),
+            location: newLoc.trim(),
+            capacity: newCap,
+          }),
+        });
+
+        const data = await res.json();
+        if (!data.success) {
+          alert(data.message || "Error updating resource.");
+          return;
+        }
+
+        loadResources();
+      }
+
+      // =========================================================
+      //               WORKING HOURS / EXCEPTIONS / BLACKOUTS
+      // =========================================================
+      const roomSelectBase = document.getElementById("roomSelectBase");
+      const roomSelectException = document.getElementById(
+        "roomSelectException"
+      );
+      const weekStartInput = document.getElementById("weekStart");
+      const exceptionDateInput = document.getElementById("exceptionDate");
+      const exceptionSlotsContainer = document.getElementById(
+        "exceptionSlotsContainer"
+      );
+      const saveExceptionBtn = document.getElementById("saveException");
+
+      const blackoutRoomSelect = document.getElementById("blackoutRoom");
+      const blackoutDateInput = document.getElementById("blackoutDate");
+      const blackoutListDiv = document.getElementById("blackoutList");
+
+      async function loadRoomsIntoSelects() {
+        try {
+          const res = await fetch("/api/admin/resources");
+          const data = await res.json();
+
+          [roomSelectBase, roomSelectException, blackoutRoomSelect].forEach(
+            (sel) => {
+              sel.innerHTML = "";
+            }
+          );
+
+          if (!data.success || !data.resources.length) {
+            const opt = document.createElement("option");
+            opt.textContent = "No resources yet";
+            opt.disabled = true;
+            opt.selected = true;
+
+            roomSelectBase.appendChild(opt.cloneNode(true));
+            roomSelectException.appendChild(opt.cloneNode(true));
+            blackoutRoomSelect.appendChild(opt);
+            return;
+          }
+
+          data.resources.forEach((r) => {
+            const text = r.name + (r.isBlocked ? " (BLOCKED)" : "");
+
+            const opt1 = document.createElement("option");
+            opt1.value = r.name;
+            opt1.textContent = text;
+
+            const opt2 = opt1.cloneNode(true);
+            const opt3 = opt1.cloneNode(true);
+
+            roomSelectBase.appendChild(opt1);
+            roomSelectException.appendChild(opt2);
+            blackoutRoomSelect.appendChild(opt3);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function generateTimes() {
+        const times = [];
+        for (let h = 8; h <= 21; h++) {
+          const hh = h.toString().padStart(2, "0");
+          times.push(`${hh}:00`);
+        }
+        return times;
+      }
+
+      function formatDate(d) {
+        const year = d.getFullYear();
+        const month = (d.getMonth() + 1).toString().padStart(2, "0");
+        const day = d.getDate().toString().padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      document
+        .getElementById("createWeek")
+        .addEventListener("click", async () => {
+          const room = roomSelectBase.value;
+          const weekStart = weekStartInput.value;
+
+          if (!room || room === "No resources yet") {
+            alert("Please choose a room.");
+            return;
+          }
+          if (!weekStart) {
+            alert("Please choose a week starting date.");
+            return;
+          }
+
+          const base = new Date(weekStart);
+          if (isNaN(base.getTime())) {
+            alert("Invalid week start date.");
+            return;
+          }
+
+          const times = generateTimes();
+
+          try {
+            // 4 weeks * 5 days
+            for (let w = 0; w < 4; w++) {
+              for (let d = 0; d < 5; d++) {
+                const current = new Date(base);
+                current.setDate(base.getDate() + w * 7 + d);
+                const dateString = formatDate(current);
+
+                const res = await fetch("/api/admin/set-availability", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    date: dateString,
+                    room,
+                    times,
+                  }),
+                });
+
+                const data = await res.json();
+                if (!data.success) {
+                  console.error("Error for date", dateString, data);
+                  alert(
+                    "Error setting availability for " +
+                      dateString +
+                      ": " +
+                      (data.message || "")
+                  );
+                  return;
+                }
+              }
+            }
+
+            alert(
+              "Working hours created for room " +
+                room +
+                " for 4 weeks (weekdays, 08:00–22:00)."
+            );
+          } catch (err) {
+            console.error(err);
+            alert("Network error while creating schedule.");
+          }
+        });
+
+      function buildExceptionRow(times, selectedTimes) {
+        exceptionSlotsContainer.innerHTML = "";
+        if (!times || !times.length) {
+          exceptionSlotsContainer.textContent =
+            "No working hours defined. Use the 'Working Hours' tool first.";
+          saveExceptionBtn.style.display = "none";
+          return;
+        }
+
+        const row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.flexWrap = "wrap";
+        row.style.gap = "4px";
+
+        times.forEach((t) => {
+          const div = document.createElement("div");
+          div.className = "exSlot";
+          div.textContent = t.split(":")[0];
+          div.dataset.time = t;
+
+          // default style = orange
+          div.style.width = "30px";
+          div.style.height = "24px";
+          div.style.borderRadius = "4px";
+          div.style.backgroundColor = "#ffe0b2";
+          div.style.border = "1px solid #f57c00";
+          div.style.cursor = "pointer";
+          div.style.fontSize = "0.7rem";
+          div.style.display = "flex";
+          div.style.alignItems = "center";
+          div.style.justifyContent = "center";
+          div.style.color = "#6b3b00";
+          div.style.userSelect = "none";
+
+          if (selectedTimes.includes(t)) {
+            div.classList.add("selected");
+            div.style.backgroundColor = "#2e7d32";
+            div.style.borderColor = "#1b5e20";
+            div.style.color = "#fff";
+          }
+
+          div.addEventListener("click", () => {
+            if (div.classList.contains("selected")) {
+              // turn OFF (orange)
+              div.classList.remove("selected");
+              div.style.backgroundColor = "#ffe0b2";
+              div.style.borderColor = "#f57c00";
+              div.style.color = "#6b3b00";
+            } else {
+              // turn ON (green)
+              div.classList.add("selected");
+              div.style.backgroundColor = "#2e7d32";
+              div.style.borderColor = "#1b5e20";
+              div.style.color = "#fff";
+            }
+          });
+
+          row.appendChild(div);
+        });
+
+        exceptionSlotsContainer.appendChild(row);
+        saveExceptionBtn.style.display = "inline-block";
+      }
+
+      document
+        .getElementById("loadException")
+        .addEventListener("click", async () => {
+          const room = roomSelectException.value;
+          const date = exceptionDateInput.value;
+
+          if (!room || room === "No resources yet") {
+            alert("Please choose a room.");
+            return;
+          }
+          if (!date) {
+            alert("Please choose a date.");
+            return;
+          }
+
+          try {
+            const res = await fetch(
+              `/api/admin/day-schedule?room=${encodeURIComponent(
+                room
+              )}&date=${encodeURIComponent(date)}`
+            );
+            const data = await res.json();
+            if (!data.success) {
+              alert(data.message || "Error loading day schedule.");
+              return;
+            }
+
+            const times = data.times || [];
+            const selectedTimes = data.availableTimes || [];
+            buildExceptionRow(times, selectedTimes);
+          } catch (err) {
+            console.error(err);
+            alert("Network error while loading exception view.");
+          }
+        });
+
+      saveExceptionBtn.addEventListener("click", async () => {
+        const room = roomSelectException.value;
+        const date = exceptionDateInput.value;
+
+        if (!room || room === "No resources yet") {
+          alert("Please choose a room.");
+          return;
+        }
+        if (!date) {
+          alert("Please choose a date.");
+          return;
+        }
+
+        const selectedTimes = [];
+        exceptionSlotsContainer
+          .querySelectorAll(".exSlot.selected")
+          .forEach((slot) => {
+            selectedTimes.push(slot.dataset.time);
+          });
+
+        try {
+          const res = await fetch("/api/admin/set-exception", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              room,
+              date,
+              availableTimes: selectedTimes,
+            }),
+          });
+          const data = await res.json();
+          if (!data.success) {
+            alert(data.message || "Error saving exception.");
+            return;
+          }
+          alert("Exception saved for " + room + " on " + date + ".");
+        } catch (err) {
+          console.error(err);
+          alert("Network error while saving exception.");
+        }
+      });
+
+      async function loadBlackouts() {
+        blackoutListDiv.innerHTML = "Loading...";
+
+        try {
+          const res = await fetch("/api/admin/blackouts");
+          const data = await res.json();
+
+          if (!data.success || !data.blackouts.length) {
+            blackoutListDiv.innerHTML = "<p>No blackout dates set.</p>";
+            return;
+          }
+
+          blackoutListDiv.innerHTML = "";
+
+          data.blackouts.forEach((b) => {
+            const row = document.createElement("div");
+            row.className = "blackoutItem";
+            row.style.display = "flex";
+            row.style.justifyContent = "space-between";
+            row.style.alignItems = "center";
+            row.style.background = "#fafafa";
+            row.style.border = "1px solid #eee";
+            row.style.borderRadius = "6px";
+            row.style.padding = "6px 10px";
+            row.style.margin = "4px 0";
+            row.style.fontSize = "0.85rem";
+
+            row.innerHTML = `
+              <span><strong>${b.room}</strong> — ${b.date}</span>
+              <button class="secondaryButton" data-id="${b.id}" type="button">
+                Remove
+              </button>
+            `;
+            blackoutListDiv.appendChild(row);
+          });
+
+          blackoutListDiv
+            .querySelectorAll("button.secondaryButton")
+            .forEach((btn) => {
+              btn.onclick = async () => {
+                const id = btn.getAttribute("data-id");
+
+                const del = await fetch("/api/admin/blackouts/remove", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ id }),
+                });
+
+                const out = await del.json();
+                if (!out.success) {
+                  alert(out.message || "Error removing blackout date.");
+                  return;
+                }
+                loadBlackouts();
+              };
+            });
+        } catch (err) {
+          console.error(err);
+          blackoutListDiv.innerHTML =
+            "<p>Error loading blackout dates from server.</p>";
+        }
+      }
+
+      document.getElementById("addBlackoutBtn").onclick = async () => {
+        const room = blackoutRoomSelect.value;
+        const date = blackoutDateInput.value;
+
+        if (!room || !date) {
+          alert("Please choose a room and a date.");
+          return;
+        }
+
+        try {
+          const res = await fetch("/api/admin/blackouts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ room, date }),
+          });
+          const data = await res.json();
+          if (!data.success) {
+            alert(data.message || "Error creating blackout date.");
+            return;
+          }
+          blackoutDateInput.value = "";
+          loadBlackouts();
+        } catch (err) {
+          console.error(err);
+          alert("Network error while creating blackout date.");
+        }
+      };
+
+      // =========================================================
+      //                      SPECIAL REQUESTS
+      // =========================================================
+      async function loadSpecialRequestsAdmin() {
+        const list = document.getElementById("specialRequestsList");
+        list.innerHTML = "";
+
+        try {
+          // no specific admin filter → any admin can see all pending
+          const res = await fetch("/api/special-request/pending");
+          const data = await res.json();
+
+          if (!data.success || !data.requests.length) {
+            list.innerHTML = "<p>No pending special requests.</p>";
+            return;
+          }
+
+          data.requests.forEach((r) => {
+            const div = document.createElement("div");
+            div.className = "request-card";
+            div.innerHTML = `
+              <strong>Student:</strong> ${r.student}<br/>
+              <strong>Room:</strong> ${r.room || "-"}<br/>
+              <strong>Date:</strong> ${r.date || "-"}<br/>
+              <strong>Hours:</strong> ${r.hours || "-"}<br/>
+              <strong>Request:</strong> ${r.message || "-"}<br/>
+            `;
+
+            const actions = document.createElement("div");
+            actions.className = "request-actions";
+
+            const approveReqBtn = document.createElement("button");
+            approveReqBtn.className = "approveBtn";
+            approveReqBtn.textContent = "Approve";
+            approveReqBtn.onclick = async () => {
+              const res = await fetch("/api/special-request/approve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: r.id }),
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error approving special request.");
+                return;
+              }
+              alert("Special request approved.");
+              loadSpecialRequestsAdmin();
+            };
+
+            const denyReqBtn = document.createElement("button");
+            denyReqBtn.className = "denyBtn";
+            denyReqBtn.textContent = "Deny";
+            denyReqBtn.onclick = async () => {
+              const res = await fetch("/api/special-request/deny", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: r.id }),
+              });
+              const d = await res.json();
+              if (!d.success) {
+                alert(d.message || "Error denying special request.");
+                return;
+              }
+              alert("Special request denied.");
+              loadSpecialRequestsAdmin();
+            };
+
+            actions.appendChild(approveReqBtn);
+            actions.appendChild(denyReqBtn);
+            div.appendChild(actions);
+
+            list.appendChild(div);
+          });
+        } catch (err) {
+          console.error(err);
+          list.innerHTML = "<p>Error loading special requests.</p>";
+        }
+      }
+
+      // =========================================================
+      //                      STATS & CHARTS
+      // =========================================================
+      async function getStatsAndFill() {
+        try {
+          const res = await fetch("/api/admin/stats");
+          const data = await res.json();
+          if (!data.success) return;
+
+          document.getElementById("totalBookings").textContent = data.total;
+
+          // most used room
+          let topRoom = "—";
+          let maxRoomCount = 0;
+          for (const room in data.perRoom) {
+            if (data.perRoom[room] > maxRoomCount) {
+              maxRoomCount = data.perRoom[room];
+              topRoom = room;
+            }
+          }
+          document.getElementById("mostUsed").textContent = topRoom || "None";
+
+          // peak time
+          let peakTime = "—";
+          let maxTimeCount = 0;
+          for (const time in data.perTime) {
+            if (data.perTime[time] > maxTimeCount) {
+              maxTimeCount = data.perTime[time];
+              peakTime = time;
+            }
+          }
+          document.getElementById("peakTime").textContent = peakTime || "None";
+
+          // build blue charts
+          buildPerRoomChart(data.perRoom);
+          buildPerTimeChart(data.perTime);
+        } catch (e) {
+          console.error("Failed loading statistics.", e);
+        }
+      }
+
+      let perRoomChartInstance = null;
+      let perTimeChartInstance = null;
+
+      function buildPerRoomChart(perRoom) {
+        const ctx = document.getElementById("perRoomChart").getContext("2d");
+        if (perRoomChartInstance) {
+          perRoomChartInstance.destroy();
+        }
+
+        perRoomChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: Object.keys(perRoom),
+            datasets: [
+              {
+                label: "Bookings per room",
+                data: Object.values(perRoom),
+                backgroundColor: "rgba(144, 202, 249, 0.7)", // soft blue
+                borderColor: "rgba(25, 118, 210, 1)", // darker blue
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: { beginAtZero: true },
+            },
+            plugins: {
+              legend: { display: false },
+            },
+          },
+        });
+      }
+
+      function buildPerTimeChart(perTime) {
+        const ctx = document
+          .getElementById("popularTimesChart")
+          .getContext("2d");
+        if (perTimeChartInstance) {
+          perTimeChartInstance.destroy();
+        }
+
+        perTimeChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: Object.keys(perTime),
+            datasets: [
+              {
+                label: "Bookings per time slot",
+                data: Object.values(perTime),
+                backgroundColor: "rgba(187, 222, 251, 0.85)", // another soft blue
+                borderColor: "rgba(21, 101, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: { beginAtZero: true },
+            },
+            plugins: {
+              legend: { display: false },
+            },
+          },
+        });
+      }
+
+      // ===== INITIAL LOADS =====
+      loadResources();
+      loadRoomsIntoSelects();
+      loadBlackouts();
+      loadSpecialRequestsAdmin();
+      getStatsAndFill();
     </script>
   </body>
 </html>
