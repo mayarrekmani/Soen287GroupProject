@@ -113,8 +113,6 @@
         padding: 16px;
         margin-top: auto;
       }
-
-      
     </style>
   </head>
 
@@ -172,7 +170,6 @@
     <footer>© Concordia University · All rights reserved</footer>
 
     <script>
-
       document.getElementById("goBack").addEventListener("click", function () {
         location.href = "managingAccountStudent.html";
       });
@@ -182,7 +179,7 @@
         const requestText = document.getElementById("userText").value.trim();
         const hoursWanted = document.getElementById("hoursWanted").value.trim();
         const requestDate = document.getElementById("requestDate").value.trim();
-        const student = localStorage.getItem("username");
+        const student = localStorage.getItem("studentUsername");
 
         fetch("/api/special-request", {
           method: "POST",
@@ -209,8 +206,6 @@
             alert("Server error. Make sure node server.js is running.");
           });
       });
-
-      
     </script>
   </body>
 </html>

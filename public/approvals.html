@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Approve / Reject Bookings</title>
     <link rel="stylesheet" href="projectStyle.css" />
+
     <style>
       body {
         background-color: #f5f5f5;
@@ -32,23 +33,23 @@
         color: #5e001f;
         font-size: 1.6rem;
         font-weight: 600;
-        margin-bottom: 16px;
+        margin: 20px 0 14px;
       }
 
       .card {
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 12px 16px;
-        margin-bottom: 10px;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
         font-size: 0.95rem;
       }
 
       .actions {
-        margin-top: 8px;
+        margin-top: 10px;
         display: flex;
-        gap: 8px;
+        gap: 10px;
       }
 
       button {
@@ -68,6 +69,7 @@
       }
       .approveBtn:hover {
         background-color: #165a2a;
+        box-shadow: 0 4px 10px rgba(0, 80, 0, 0.25);
       }
 
       .denyBtn {
@@ -76,13 +78,14 @@
       }
       .denyBtn:hover {
         background-color: #800000;
+        box-shadow: 0 4px 10px rgba(80, 0, 0, 0.25);
       }
 
       .primaryButton {
         background-color: #5e001f;
         color: #fff;
         border: 1px solid #5e001f;
-        margin-top: 16px;
+        margin-top: 20px;
       }
       .primaryButton:hover {
         background-color: #440017;
@@ -97,11 +100,6 @@
       <h2>Concordia University — Booking Approvals</h2>
     </header>
 
-    <h1>Pending Booking Requests</h1>
-
-    <div id="pendingList"></div>
-
-    <!-- NEW: special requests section -->
     <h1>Pending Special Requests</h1>
     <div id="specialRequestsList"></div>
 
@@ -114,80 +112,13 @@
         location.href = "adminPage.html";
       };
 
-      async function loadPending() {
-        const list = document.getElementById("pendingList");
-        list.innerHTML = "";
-        try {
-          const res = await fetch("/api/admin/pending-bookings");
-          const data = await res.json();
-          if (!data.success || !data.bookings.length) {
-            list.innerHTML = "<p>No pending bookings.</p>";
-            return;
-          }
-          data.bookings.forEach((b) => {
-            const div = document.createElement("div");
-            div.className = "card";
-            div.innerHTML = `
-              <strong>Student:</strong> ${b.username}<br/>
-              <strong>Room:</strong> ${b.room}<br/>
-              <strong>Date:</strong> ${b.date}<br/>
-              <strong>Time:</strong> ${b.startTime} - ${b.endTime}<br/>
-            `;
-            const actions = document.createElement("div");
-            actions.className = "actions";
-
-            const approveBtn = document.createElement("button");
-            approveBtn.className = "approveBtn";
-            approveBtn.textContent = "Approve";
-            approveBtn.onclick = async () => {
-              const res = await fetch("/api/admin/approve/" + b.id, {
-                method: "POST",
-              });
-              const d = await res.json();
-              if (!d.success) {
-                alert(d.message || "Error approving.");
-                return;
-              }
-              loadPending();
-            };
-
-            const denyBtn = document.createElement("button");
-            denyBtn.className = "denyBtn";
-            denyBtn.textContent = "Deny";
-            denyBtn.onclick = async () => {
-              const res = await fetch("/api/admin/deny/" + b.id, {
-                method: "POST",
-              });
-              const d = await res.json();
-              if (!d.success) {
-                alert(d.message || "Error denying.");
-                return;
-              }
-              loadPending();
-            };
-
-            actions.appendChild(approveBtn);
-            actions.appendChild(denyBtn);
-            div.appendChild(actions);
-            list.appendChild(div);
-          });
-        } catch (err) {
-          console.error(err);
-          list.innerHTML = "<p>Error loading pending bookings.</p>";
-        }
-      }
-
+      // ---------- LOAD SPECIAL REQUESTS ONLY ----------
       async function loadSpecialRequests() {
         const list = document.getElementById("specialRequestsList");
         list.innerHTML = "";
 
-        const adminUsername = localStorage.getItem("username") || "";
-
         try {
-          const res = await fetch(
-            "/api/special-request/pending?admin=" +
-              encodeURIComponent(adminUsername)
-          );
+          const res = await fetch("/api/special-request/pending");
           const data = await res.json();
 
           if (!data.success || !data.requests.length) {
@@ -199,11 +130,12 @@
             const div = document.createElement("div");
             div.className = "card";
             div.innerHTML = `
-              <strong>Student:</strong> ${r.student}<br/>
-              <strong>Admin:</strong> ${r.admin}<br/>
-              <strong>Request:</strong> ${r.message}<br/>
-              <strong>Hours:</strong> ${r.hours}<br/>
-            `;
+          <strong>Student:</strong> ${r.student}<br/>
+          <strong>Room:</strong> ${r.room}<br/>
+          <strong>Date:</strong> ${r.date}<br/>
+          <strong>Message:</strong> ${r.message}<br/>
+          <strong>Hours:</strong> ${r.hours}<br/>
+        `;
 
             const actions = document.createElement("div");
             actions.className = "actions";
@@ -218,10 +150,8 @@
                 body: JSON.stringify({ id: r.id }),
               });
               const d = await res.json();
-              if (!d.success) {
-                alert(d.message || "Error approving special request.");
-                return;
-              }
+              if (!d.success)
+                return alert(d.message || "Error approving request.");
               alert("Special request approved.");
               loadSpecialRequests();
             };
@@ -236,10 +166,8 @@
                 body: JSON.stringify({ id: r.id }),
               });
               const d = await res.json();
-              if (!d.success) {
-                alert(d.message || "Error denying special request.");
-                return;
-              }
+              if (!d.success)
+                return alert(d.message || "Error denying request.");
               alert("Special request denied.");
               loadSpecialRequests();
             };
@@ -247,6 +175,7 @@
             actions.appendChild(approveReqBtn);
             actions.appendChild(denyReqBtn);
             div.appendChild(actions);
+
             list.appendChild(div);
           });
         } catch (err) {
@@ -255,8 +184,7 @@
         }
       }
 
-      // Load both normal bookings and special requests on page load
-      loadPending();
+      // Load list
       loadSpecialRequests();
     </script>
   </body>

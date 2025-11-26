@@ -1,5 +1,4 @@
 // server.js
-
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -10,27 +9,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ===== In-memory "DB" =====
-
 const users = [];        // { username, password, email, role }
 const resources = [];    // { id, name, description, location, capacity, isBlocked }
-const schedule = {};     // schedule[date][room] = [{ time, status }]
+const schedule = {};     // schedule[date][room] = [ { time, status } ]
 const bookings = [];     // { id, username, room, date, startTime, endTime, status, cancelReason? }
 const blackouts = [];    // { id, room, date }
-
 let nextResourceId = 1;
 let nextBookingId = 1;
 let nextBlackoutId = 1;
 
-// Special requests
-let specialRequests = []; // shape depends on your UI usage
+// Special requests: { id, student, message, hours, room, date, status }
+let specialRequests = [];
 let nextSpecialRequestId = 1;
 
 // ===== Helpers =====
 
+// today as "YYYY-MM-DD"
+function todayString() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// unified admin cancel reason
+function adminCancelReason() {
+  return "Time slot is no longer available for administrative reasons.";
+}
+
+// check if a room is blacked out on a date
 function isRoomBlackout(room, date) {
   return blackouts.some((b) => b.room === room && b.date === date);
 }
 
+// default times 08:00–21:00
 function defaultTimes() {
   const arr = [];
   for (let h = 8; h <= 21; h++) {
@@ -40,6 +49,7 @@ function defaultTimes() {
   return arr;
 }
 
+// change slot status in schedule
 function changeSlotStatus(date, room, time, status) {
   if (!schedule[date] || !schedule[date][room]) return;
   const slot = schedule[date][room].find((s) => s.time === time);
@@ -52,12 +62,58 @@ function nextHour(timeStr) {
   return `${nh}:${m.toString().padStart(2, "0")}`;
 }
 
-function todayString() {
-  return new Date().toISOString().slice(0, 10);
+/** ADMIN CANCELLATION HELPERS (future bookings only) **/
+
+// cancel all *future or today* bookings for a room (used for delete + block)
+function cancelFutureBookingsForRoom(roomName, statusLabel) {
+  const today = todayString();
+  bookings.forEach((b) => {
+    if (
+      b.room === roomName &&
+      b.date >= today &&
+      (b.status === "pending" || b.status === "approved")
+    ) {
+      b.status = statusLabel || "cancelled_by_admin";
+      b.cancelReason = adminCancelReason();
+    }
+  });
 }
 
-const ADMIN_REASON =
-  "Time slot is no longer available for administrative reasons.";
+// cancel all *future or today* bookings on a specific room+date (used for blackout)
+function cancelFutureBookingsForRoomDate(room, date, statusLabel) {
+  const today = todayString();
+  if (date < today) return; // don't touch past
+
+  bookings.forEach((b) => {
+    if (
+      b.room === room &&
+      b.date === date &&
+      (b.status === "pending" || b.status === "approved")
+    ) {
+      b.status = statusLabel || "cancelled_by_admin";
+      b.cancelReason = adminCancelReason();
+    }
+  });
+}
+
+// cancel all *future or today* bookings whose startTime is NOT in allowedTimes (used for exceptions)
+function cancelFutureBookingsOutsideTimes(room, date, allowedTimes) {
+  const today = todayString();
+  if (date < today) return; // don't touch past
+
+  const allowed = new Set(allowedTimes || []);
+  bookings.forEach((b) => {
+    if (
+      b.room === room &&
+      b.date === date &&
+      (b.status === "pending" || b.status === "approved") &&
+      !allowed.has(b.startTime)
+    ) {
+      b.status = "cancelled_by_exception";
+      b.cancelReason = adminCancelReason();
+    }
+  });
+}
 
 // ===== Accounts =====
 
@@ -75,6 +131,7 @@ app.post("/api/register", (req, res) => {
 
 app.post("/api/login", (req, res) => {
   const { username, password, role } = req.body;
+
   const user = users.find(
     (u) => u.username === username && u.password === password && u.role === role
   );
@@ -145,36 +202,27 @@ app.post("/api/admin/resource/update", (req, res) => {
 
 app.post("/api/admin/resource/delete", (req, res) => {
   const { name } = req.body;
-  const index = resources.findIndex((r) => r.name === name);
 
+  const index = resources.findIndex((r) => r.name === name);
   if (index === -1)
     return res.json({ success: false, message: "Not found" });
 
   resources.splice(index, 1);
 
-  // Remove schedule for that room
+  // remove from schedule
   for (const date in schedule) {
     if (schedule[date][name]) {
       delete schedule[date][name];
     }
   }
 
-  // Cancel ONLY future (or today) bookings for this room
-  const today = todayString();
-  bookings.forEach((b) => {
-    if (
-      b.room === name &&
-      b.date >= today &&
-      (b.status === "pending" || b.status === "approved")
-    ) {
-      b.status = "cancelled_resource_deleted";
-      b.cancelReason = ADMIN_REASON;
-    }
-  });
+  // cancel *future* bookings for this resource
+  cancelFutureBookingsForRoom(name, "cancelled_resource_deleted");
 
-  // Remove blackouts for that room
-  for (let i = blackouts.length - 1; i >= 0; i--)
+  // remove blackouts for this room
+  for (let i = blackouts.length - 1; i >= 0; i--) {
     if (blackouts[i].room === name) blackouts.splice(i, 1);
+  }
 
   res.json({ success: true });
 });
@@ -189,24 +237,12 @@ app.post("/api/admin/toggle-block", (req, res) => {
 
   if (!r) return res.json({ success: false, message: "Room not found" });
 
-  // flip the blocked flag
+  const wasBlocked = r.isBlocked;
   r.isBlocked = !r.isBlocked;
 
-  // If we just BLOCKED the room, cancel only future bookings
-  if (r.isBlocked) {
-    const today = todayString();
-    bookings.forEach((b) => {
-      if (
-        b.room === room &&
-        b.date >= today &&
-        (b.status === "pending" || b.status === "approved")
-      ) {
-        b.status = "cancelled_by_block";
-        b.cancelReason = ADMIN_REASON;
-        // free the slot in schedule
-        changeSlotStatus(b.date, b.room, b.startTime, "available");
-      }
-    });
+  // If we just blocked the room → cancel *future* bookings
+  if (!wasBlocked && r.isBlocked) {
+    cancelFutureBookingsForRoom(room, "cancelled_by_block");
   }
 
   res.json({ success: true, resource: r });
@@ -230,7 +266,6 @@ app.post("/api/admin/set-availability", (req, res) => {
 //   EXCEPTIONS SECTION
 // ======================================================
 
-// GET exception day view
 app.get("/api/admin/day-schedule", (req, res) => {
   const { room, date } = req.query;
 
@@ -247,7 +282,6 @@ app.get("/api/admin/day-schedule", (req, res) => {
       .filter((s) => s.status === "available")
       .map((s) => s.time);
   } else {
-    // no schedule → default times
     times = defaultTimes();
     availableTimes = [];
   }
@@ -257,7 +291,6 @@ app.get("/api/admin/day-schedule", (req, res) => {
   res.json({ success: true, times, availableTimes });
 });
 
-// SAVE EXCEPTION OVERRIDES
 app.post("/api/admin/set-exception", (req, res) => {
   const { room, date, availableTimes } = req.body;
 
@@ -280,20 +313,8 @@ app.post("/api/admin/set-exception", (req, res) => {
     status: availableTimes.includes(t) ? "available" : "unavailable",
   }));
 
-  // cancel ONLY future bookings that become unavailable
-  const today = todayString();
-  bookings.forEach((b) => {
-    if (
-      b.room === room &&
-      b.date === date &&
-      b.date >= today &&
-      (b.status === "pending" || b.status === "approved") &&
-      !availableTimes.includes(b.startTime)
-    ) {
-      b.status = "cancelled_by_exception";
-      b.cancelReason = ADMIN_REASON;
-    }
-  });
+  // cancel *future/today* bookings that are now outside allowed times
+  cancelFutureBookingsOutsideTimes(room, date, availableTimes);
 
   res.json({ success: true });
 });
@@ -315,27 +336,17 @@ app.post("/api/admin/blackouts", (req, res) => {
   const blackout = { id: nextBlackoutId++, room, date };
   blackouts.push(blackout);
 
-  // cancel ONLY future bookings on that day
-  const today = todayString();
-  bookings.forEach((b) => {
-    if (
-      b.room === room &&
-      b.date === date &&
-      b.date >= today &&
-      (b.status === "pending" || b.status === "approved")
-    ) {
-      b.status = "cancelled_by_blackout";
-      b.cancelReason = ADMIN_REASON;
-    }
-  });
+  cancelFutureBookingsForRoomDate(room, date, "cancelled_by_blackout");
 
   res.json({ success: true, blackout });
 });
 
 app.get("/api/admin/blackouts", (req, res) => {
   const { room } = req.query;
+
   let list = blackouts;
   if (room) list = list.filter((b) => b.room === room);
+
   res.json({ success: true, blackouts: list });
 });
 
@@ -347,6 +358,7 @@ app.post("/api/admin/blackouts/remove", (req, res) => {
     return res.json({ success: false, message: "Not found" });
 
   const removed = blackouts.splice(index, 1)[0];
+
   res.json({ success: true, blackout: removed });
 });
 
@@ -431,29 +443,38 @@ app.post("/api/bookings", (req, res) => {
 
 app.get("/api/my-bookings", (req, res) => {
   const { username } = req.query;
+
   if (!username) return res.json({ success: false });
+
   res.json({
     success: true,
     bookings: bookings.filter((b) => b.username === username),
   });
 });
 
-// ===== Cancel Bookings (by student) =====
+// ===== Cancel Bookings (student) =====
+
 app.post("/api/bookings/:id/cancel", (req, res) => {
   const id = Number(req.params.id);
   const b = bookings.find((x) => x.id === id);
 
   if (!b) return res.json({ success: false, message: "Booking not found." });
 
-  changeSlotStatus(b.date, b.room, b.startTime, "available");
+  if (b.status !== "pending" && b.status !== "approved") {
+    return res.json({
+      success: false,
+      message: "This booking can no longer be cancelled.",
+    });
+  }
 
-  const index = bookings.indexOf(b);
-  bookings.splice(index, 1);
+  changeSlotStatus(b.date, b.room, b.startTime, "available");
+  b.status = "cancelled_by_student";
+  b.cancelReason = "Cancelled by student.";
 
   return res.json({ success: true });
 });
 
-// ===== Admin approvals =====
+// ===== Admin approvals (for normal bookings, now unused by approvals.html) =====
 
 app.get("/api/admin/pending-bookings", (req, res) => {
   res.json({
@@ -467,7 +488,9 @@ app.post("/api/admin/approve/:id", (req, res) => {
   const b = bookings.find((x) => x.id === id);
 
   if (!b) return res.json({ success: false });
+
   b.status = "approved";
+
   res.json({ success: true, booking: b });
 });
 
@@ -476,12 +499,15 @@ app.post("/api/admin/deny/:id", (req, res) => {
   const b = bookings.find((x) => x.id === id);
 
   if (!b) return res.json({ success: false });
+
   b.status = "denied";
   changeSlotStatus(b.date, b.room, b.startTime, "available");
+
   res.json({ success: true, booking: b });
 });
 
 // Forget password
+
 app.post("/api/reset-password-simple", (req, res) => {
   const { email, newPassword } = req.body;
 
@@ -512,9 +538,9 @@ app.post("/api/reset-password-simple", (req, res) => {
 
 // STUDENT SENDS SPECIAL REQUEST
 app.post("/api/special-request", (req, res) => {
-  const { student, admin, message, hours } = req.body;
+  const { student, message, hours, room, date } = req.body;
 
-  if (!student || !admin || !message || !hours) {
+  if (!student || !message || !hours) {
     return res.json({
       success: false,
       message: "Missing required fields.",
@@ -524,7 +550,8 @@ app.post("/api/special-request", (req, res) => {
   specialRequests.push({
     id: nextSpecialRequestId++,
     student,
-    admin,
+    room,
+    date,
     message,
     hours,
     status: "pending",
@@ -535,24 +562,15 @@ app.post("/api/special-request", (req, res) => {
   return res.json({ success: true });
 });
 
-// ===ADMIN GETS ALL PENDING SPECIAL REQUESTS===
+// === ADMIN GETS ALL PENDING SPECIAL REQUESTS (any admin) ===
 app.get("/api/special-request/pending", (req, res) => {
-  const { admin } = req.query; // optional filter
-
-  let pending = specialRequests.filter((r) => r.status === "pending");
-
-  if (admin) {
-    pending = pending.filter(
-      (r) => r.admin.toLowerCase() === admin.toLowerCase()
-    );
-  }
-
+  const pending = specialRequests.filter((r) => r.status === "pending");
   return res.json({ success: true, requests: pending });
 });
 
 // ADMIN APPROVES SPECIAL REQUEST
 app.post("/api/special-request/approve", (req, res) => {
-  const { id } = req.body; // id of special request (number)
+  const { id } = req.body;
 
   const request = specialRequests.find((r) => r.id === id);
   if (!request) {
@@ -561,19 +579,22 @@ app.post("/api/special-request/approve", (req, res) => {
 
   request.status = "approved";
 
-  const parts = request.hours.split("-");
+  const parts = (request.hours || "").split("-");
   const start = parts[0] ? parts[0].trim() : "";
   const end = parts[1] ? parts[1].trim() : "";
 
+  // Create a booking that will show in Upcoming Appointments,
+  // but be treated specially on the frontend (no reschedule/cancel).
   bookings.push({
     id: nextBookingId++,
     username: request.student,
-    room: "Special Request",
-    date: "N/A",
+    room: request.room || "Special Request",
+    date: request.date || todayString(),
     startTime: start,
     endTime: end,
     purpose: request.message,
     status: "approved",
+    isSpecialRequest: true,
   });
 
   console.log("Created booking from special request:", bookings);
@@ -592,10 +613,30 @@ app.post("/api/special-request/deny", (req, res) => {
 
   request.status = "denied";
 
+  const parts = (request.hours || "").split("-");
+  const start = parts[0] ? parts[0].trim() : "";
+  const end = parts[1] ? parts[1].trim() : "";
+
+  // Create an entry in bookings so it appears in "Cancelled Bookings"
+  // with reason "Special request denied."
+  bookings.push({
+    id: nextBookingId++,
+    username: request.student,
+    room: request.room || "Special Request",
+    date: request.date || todayString(),
+    startTime: start,
+    endTime: end,
+    purpose: request.message,
+    status: "denied",
+    cancelReason: "Special request denied.",
+    isSpecialRequest: true,
+  });
+
   return res.json({ success: true });
 });
 
 // === Admin Statistics Route ===
+
 app.get("/api/admin/stats", (req, res) => {
   const total = bookings.length;
 
@@ -615,7 +656,7 @@ app.get("/api/admin/stats", (req, res) => {
     perTime[b.startTime]++;
   });
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayString();
   const todayTotal = bookings.filter((b) => b.date === today).length;
 
   return res.json({
@@ -632,6 +673,7 @@ app.get("/api/admin/stats", (req, res) => {
 });
 
 // ===== Start =====
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });

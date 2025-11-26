@@ -555,7 +555,14 @@
 
         const data = await res.json();
         if (!data.success) return alert(data.message || "Error sending.");
+
         alert("Request sent!");
+
+        // === CLEAR FORM INPUTS AFTER SUBMIT ===
+        document.getElementById("srRoom").value = "";
+        document.getElementById("srDate").value = "";
+        document.getElementById("srMsg").value = "";
+        document.getElementById("srHours").value = "";
       };
 
       /* ---------- SIGN OUT ---------- */
@@ -578,6 +585,7 @@
         return `${hh}:${m} ${ampm}`;
       }
       function timeRange(b) {
+        if (!b.startTime || !b.endTime) return "-";
         return `${formatTime(b.startTime)} – ${formatTime(b.endTime)}`;
       }
 
@@ -626,18 +634,23 @@
         }
         arr.forEach((b) => {
           const tr = document.createElement("tr");
+
+          const isSpecial = b.isSpecialRequest || b.room === "Special Request";
+
+          let actionsHtml = "";
+          // For SPECIAL REQUEST bookings: no reschedule / cancel buttons
+          if (!isSpecial) {
+            actionsHtml = `
+        <button class="action-btn" onclick="reschedule(${b.id})">Reschedule</button>
+        <button class="action-btn action-btn-danger" onclick="cancelBooking(${b.id})">Cancel</button>
+      `;
+          }
+
           tr.innerHTML = `
       <td>${b.date}</td>
       <td>${timeRange(b)}</td>
       <td>${b.room}</td>
-      <td>
-        <button class="action-btn" onclick="reschedule(${
-          b.id
-        })">Reschedule</button>
-        <button class="action-btn action-btn-danger" onclick="cancelBooking(${
-          b.id
-        })">Cancel</button>
-      </td>`;
+      <td>${actionsHtml}</td>`;
           tbody.appendChild(tr);
         });
       }
