@@ -33,6 +33,23 @@
         border: 1px solid #5e001f;
       }
 
+      .primaryButton:hover {
+        background-color: #440017;
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      .secondaryButton {
+        background: #fff;
+        color: #5e001f;
+        border: 1px solid #5e001f;
+      }
+
+      .secondaryButton:hover {
+        background-color: #5e001f;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(94, 0, 31, 0.25);
+      }
+
       .site-header {
         background-color: #5e001f;
         color: #fff;
@@ -72,6 +89,14 @@
         font-size: 0.95rem;
       }
 
+      input,
+      textarea {
+        border-radius: 4px;
+        border: 1px solid #bbb;
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+
       .editBtn,
       .deleteBtn {
         background-color: #fff;
@@ -91,6 +116,14 @@
       }
       .deleteBtn:hover {
         background-color: #ffe6e6;
+      }
+
+      .card {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        background-color: #fff;
       }
     </style>
   </head>
@@ -143,9 +176,7 @@
       Go Back To Dashboard
     </button>
 
-   <button id = "signOut" class = "primaryButton" type = "button">
-      Sign Out
-    </button>
+    <button id="signOut" class="primaryButton" type="button">Sign Out</button>
 
     <script>
       document.getElementById("goBack").onclick = () => {
@@ -186,8 +217,7 @@
           card.innerHTML = `
             <strong>${r.name}</strong> — Capacity ${r.capacity}<br/>
             <em>${r.location}</em><br/>
-            <small>Description: ${r.description || "—"}</small><br/>
-            <br/>
+            <small>Description: ${r.description || "—"}</small><br/><br/>
           `;
 
           const editBtn = document.createElement("button");

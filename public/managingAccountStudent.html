@@ -1,388 +1,670 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Account Management Page</title>
     <link rel="stylesheet" href="projectStyle.css" />
     <style>
-      /* === Concordia Header === */
-      .site-header {
-        background-color: #5e001f; /* Burgundy */
-        color: #fff;
-        border-bottom: 4px solid #c9a646; /* Gold accent */
-        padding: 12px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 12px;
-        margin: -8px -8px 24px -8px;
-      }
-
-      .site-header img {
-        height: 48px;
-        width: auto;
+      :root {
+        --brand-dark: #5e001f;
+        --brand-dark-hover: #440017;
+        --brand-gold: #c9a646;
+        --text-main: #222;
+        --text-dim: #6b6b6b;
+        --bg-page: #f5f5f5;
+        --card-bg: #fff;
+        --card-border: #ddd;
       }
 
       body {
-        background-color: #f5f5f5;
-        color: #222;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        font-family: system-ui, sans-serif;
         margin: 0;
-        padding: 32px;
+        padding: 0;
         line-height: 1.4;
       }
 
-      h1 {
-        color: #5e001f;
-        font-size: 1.6rem;
-        font-weight: 600;
-        text-align: center;
-        margin-bottom: 24px;
-      }
-
-      h2 {
-        color: #333;
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-top: 40px;
-        text-align: center;
-      }
-
-      /* === Big menu buttons === */
-      .largeButton {
-        display: block;
-        margin: 10px auto;
-        background-color: #fff;
-        color: #5e001f;
-        border: 2px solid #5e001f;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-weight: 600;
-        padding: 14px 28px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        width: 250px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .largeButton:hover {
-        background-color: #5e001f;
+      /* HEADER */
+      .site-header {
+        background-color: var(--brand-dark);
         color: #fff;
-        box-shadow: 0 6px 12px rgba(94, 0, 31, 0.3);
+        border-bottom: 4px solid var(--brand-gold);
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .site-header img {
+        height: 48px;
       }
 
-      /* === Appointment cards (dynamic) === */
-      .appointmentCard {
-        display: block;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 12px 16px;
-        margin: 12px auto;
-        max-width: 700px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
-        font-size: 0.95rem;
+      .layout {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        min-height: calc(100vh - 72px);
       }
 
-      .appointmentMeta {
-        display: inline-block;
-        margin-right: 12px;
+      /* SIDEBAR */
+      .sidebar {
+        background-color: #faf7f8;
+        border-right: 1px solid #e0d5d8;
+        padding: 20px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
-
-      .appointmentActions {
-        float: right;
-      }
-
-      /* Buttons inside appointment cards */
-      .reschedule,
-      .cancel {
-        margin-left: 8px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        padding: 6px 12px;
-        border-radius: 4px;
-        border: 1px solid #5e001f;
+      .sidebar-link {
+        padding: 9px 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        background: transparent;
         cursor: pointer;
+        text-align: left;
+        color: #4c2c34;
+        font-size: 0.9rem;
+        transition: 0.15s;
+      }
+      .sidebar-link:hover {
+        background-color: #e8d8dd;
+      }
+      .sidebar-link.active {
+        background-color: var(--brand-dark);
+        color: white;
+        border-color: var(--brand-dark);
+        box-shadow: 0 4px 12px rgba(94, 0, 31, 0.3);
+      }
+      .sidebar-link-danger {
+        margin-top: 14px;
+        background-color: var(--brand-dark);
+        color: white;
+      }
+      .sidebar-link-danger:hover {
+        background-color: var(--brand-dark-hover);
+      }
+
+      /* CONTENT AREA */
+      .content {
+        padding: 28px;
+      }
+
+      h1 {
+        color: var(--brand-dark);
+        margin: 0 0 18px 0;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+      }
+
+      .card h2 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      .table-wrapper {
+        max-height: 260px;
+        overflow: auto;
+        border-radius: 6px;
+        border: 1px solid #e2e2e2;
+        background: #fff;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+      }
+      th,
+      td {
+        padding: 8px 10px;
+        white-space: nowrap;
+        border-bottom: 1px solid #eee;
+      }
+      thead {
+        background: #f3f3f3;
+        position: sticky;
+        top: 0;
+      }
+
+      .empty-row td {
+        text-align: center;
+        color: var(--text-dim);
+      }
+
+      /* ACTION BUTTONS */
+      .action-btn {
+        border: 1px solid var(--brand-dark);
+        background: #fff;
+        color: var(--brand-dark);
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-right: 4px;
         transition: all 0.15s ease;
       }
-
-      .reschedule {
-        background-color: #fff;
-        color: #5e001f;
-      }
-
-      .reschedule:hover {
-        background-color: #5e001f;
+      .action-btn:hover {
+        background-color: var(--brand-dark);
         color: #fff;
-        box-shadow: 0 3px 8px rgba(94, 0, 31, 0.3);
+        box-shadow: 0 3px 8px rgba(94, 0, 31, 0.25);
+      }
+      .action-btn-danger {
+        background: var(--brand-dark);
+        color: white;
+      }
+      .action-btn-danger:hover {
+        background-color: var(--brand-dark-hover);
       }
 
-      .cancel {
-        background-color: #5e001f;
-        color: #fff;
-        border: 1px solid #5e001f;
+      /* HIDDEN SECTIONS */
+      .hidden {
+        display: none;
       }
 
-      .cancel:hover {
-        background-color: #7a0b2b;
-        box-shadow: 0 3px 8px rgba(94, 0, 31, 0.3);
+      .section-below {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
 
-      /* Cancelled by admin style */
-      .appointmentCard.cancelledAdmin {
-        background-color: #f0f0f0;
-        border-style: dashed;
-        border-color: #b0b0b0;
-        color: #777;
+      /* ===== FORM CARDS (RESET PASSWORD, CHANGE USERNAME, SPECIAL REQUESTS) ===== */
+      .formCard {
+        max-width: 450px;
+        background: white;
+        padding: 22px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+        margin-top: 10px;
       }
-
-      .appointmentCard.cancelledAdmin .appointmentActions {
-        display: none; /* no reschedule/cancel buttons */
+      .formCard h2 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        color: var(--brand-dark);
       }
-
-      .emptyMessage {
-        text-align: center;
-        color: #666;
-        font-size: 0.95rem;
-        margin-top: 12px;
-      }
-
-      .goBackButton {
-        display: block;
-        background-color: #5e001f;
-        color: #fff;
+      .formCard label {
         font-weight: 600;
-        border: none;
-        border-radius: 6px;
-        padding: 12px 24px;
-        font-size: 1rem;
-        cursor: pointer;
-        margin: 40px auto 0;
-        box-shadow: 0 8px 20px rgba(94, 0, 31, 0.25);
-        transition: all 0.2s ease;
+        margin-top: 14px;
+        display: block;
       }
-
-      .goBackButton:hover {
-        background-color: #440017;
-        box-shadow: 0 10px 24px rgba(94, 0, 31, 0.4);
+      .formCard input,
+      .formCard textarea {
+        width: 100%;
+        margin-top: 6px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+      .primaryBtn {
+        background: var(--brand-dark);
+        color: white;
+        padding: 10px 14px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        margin-top: 16px;
+        font-weight: 600;
+        width: 100%;
+        transition: 0.15s;
+      }
+      .primaryBtn:hover {
+        background: var(--brand-dark-hover);
+        box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
       }
     </style>
   </head>
 
   <body>
     <header class="site-header">
-      <img src="concordiaEmblem.png" alt="Concordia Emblem" />
+      <img src="concordiaEmblem.png" />
       <h2>Concordia University — Account Management</h2>
     </header>
 
-    <h1>
-      Welcome, <span id="displayName"></span> please choose which option
-      pertains to you.
-    </h1>
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <button class="sidebar-link active" data-nav="overview">
+          Bookings Overview & Requests
+        </button>
+        <button class="sidebar-link" data-nav="reset">Reset Password</button>
+        <button class="sidebar-link" data-nav="changeUser">
+          Change Username
+        </button>
+        <button class="sidebar-link" data-nav="specialReq">
+          Special Booking Requests
+        </button>
+        <button class="sidebar-link" id="goBookings">
+          Go to Bookings Page
+        </button>
+        <button class="sidebar-link sidebar-link" id="signOut">Sign Out</button>
+      </aside>
 
-    <button id="changePassword" class="largeButton" type="button">
-      Reset Password
-    </button>
-    <button id="changeUsername" class="largeButton" type="button">
-      Reset Username
-    </button>
-    <button id="specialRequest" class="largeButton" type="button">
-      Special Booking Requests
-    </button>
-    <button id="pastAppointments" class="largeButton" type="button">
-      Past Appointments
-    </button>
+      <!-- MAIN CONTENT -->
+      <main class="content">
+        <h1>Welcome, <span id="displayName"></span></h1>
 
-    <h2>Upcoming Appointments:</h2>
+        <!-- ===================== OVERVIEW SECTION ===================== -->
+        <div id="section-overview">
+          <div class="cards-grid">
+            <!-- UPCOMING -->
+            <section class="card">
+              <h2>Upcoming Appointments</h2>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Room</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="upcomingBody"></tbody>
+                </table>
+              </div>
+            </section>
 
-    <div id="upcomingList"></div>
+            <!-- PAST -->
+            <section class="card">
+              <h2>Past Appointments</h2>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Room</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pastBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
 
-    <button id="signOut" class="goBackButton" type="button">Sign Out</button>
+          <div class="section-below">
+            <!-- PENDING SPECIAL REQUESTS -->
+            <section class="card hidden" id="pendingRequestsSection">
+              <h2>Pending Special Requests</h2>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Room</th>
+                      <th>Date</th>
+                      <th>Requested Time</th>
+                      <th>Details</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pendingRequestsBody"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- CANCELLED BOOKINGS -->
+            <section class="card hidden" id="cancelledSection">
+              <h2>Cancelled Bookings</h2>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Room</th>
+                      <th>Reason</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cancelledBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- ===================== RESET PASSWORD SECTION ===================== -->
+        <div id="section-reset" class="hidden">
+          <div class="formCard">
+            <h2>Reset Password</h2>
+
+            <label>Email:</label>
+            <input type="text" id="resetEmail" placeholder="Enter email" />
+
+            <label>New Password:</label>
+            <input type="password" id="resetNewPass" />
+
+            <label>Confirm Password:</label>
+            <input type="password" id="resetConfirmPass" />
+
+            <button class="primaryBtn" id="resetSubmit">Submit</button>
+          </div>
+        </div>
+
+        <!-- ===================== CHANGE USERNAME SECTION ===================== -->
+        <div id="section-changeUser" class="hidden">
+          <div class="formCard">
+            <h2>Change Username</h2>
+
+            <label>New Username:</label>
+            <input type="text" id="newUsername" />
+
+            <button class="primaryBtn" id="changeUserSubmit">Submit</button>
+          </div>
+        </div>
+
+        <!-- ===================== SPECIAL REQUEST FORM ===================== -->
+        <div id="section-specialReq" class="hidden">
+          <div class="formCard">
+            <h2>Special Booking Request</h2>
+
+            <label>Room you want:</label>
+            <input id="srRoom" placeholder="Enter room" />
+
+            <label>Date requested:</label>
+            <input type="date" id="srDate" />
+
+            <label>Explain your request:</label>
+            <textarea id="srMsg" rows="4"></textarea>
+
+            <label>Hours requested:</label>
+            <input id="srHours" placeholder="ex. 10:00 - 11:00" />
+
+            <button class="primaryBtn" id="srSubmit">Submit Request</button>
+          </div>
+        </div>
+      </main>
+    </div>
 
     <script>
       const username = localStorage.getItem("username") || "student";
       document.getElementById("displayName").textContent = username;
 
-      document
-        .getElementById("changePassword")
-        .addEventListener("click", function () {
-          location.href = "forgotPassword.html";
-        });
-      document
-        .getElementById("changeUsername")
-        .addEventListener("click", function () {
-          location.href = "changeUsername.html";
-        });
-      document
-        .getElementById("specialRequest")
-        .addEventListener("click", function () {
-          location.href = "specialRequest.html";
-        });
-      document
-        .getElementById("pastAppointments")
-        .addEventListener("click", function () {
-          location.href = "pastAppointments.html";
-        });
+      /* ---------- SIDEBAR NAVIGATION ---------- */
+      document.querySelectorAll(".sidebar-link[data-nav]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".sidebar-link")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
 
-      document.getElementById("signOut").addEventListener("click", function () {
-        location.href = "index.html";
+          const target = btn.getAttribute("data-nav");
+
+          document.getElementById("section-overview").classList.add("hidden");
+          document.getElementById("section-reset").classList.add("hidden");
+          document.getElementById("section-changeUser").classList.add("hidden");
+          document.getElementById("section-specialReq").classList.add("hidden");
+
+          if (target === "overview")
+            document
+              .getElementById("section-overview")
+              .classList.remove("hidden");
+          if (target === "reset")
+            document.getElementById("section-reset").classList.remove("hidden");
+          if (target === "changeUser")
+            document
+              .getElementById("section-changeUser")
+              .classList.remove("hidden");
+          if (target === "specialReq")
+            document
+              .getElementById("section-specialReq")
+              .classList.remove("hidden");
+        });
       });
 
-      const upcomingListDiv = document.getElementById("upcomingList");
+      // Go to bookings page (studentPage)
+      document.getElementById("goBookings").onclick = () => {
+        location.href = "studentPage.html";
+      };
+
+      /* ---------- RESET PASSWORD FORM ---------- */
+      document.getElementById("resetSubmit").onclick = async () => {
+        const email = document.getElementById("resetEmail").value.trim();
+        const newPass = document.getElementById("resetNewPass").value.trim();
+        const confirm = document
+          .getElementById("resetConfirmPass")
+          .value.trim();
+
+        if (!email || !newPass || !confirm) return alert("All fields required");
+        if (newPass !== confirm) return alert("Passwords do not match");
+
+        const res = await fetch("/api/reset-password-simple", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, newPassword: newPass }),
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message || "Could not reset.");
+        alert("Password updated!");
+      };
+
+      /* ---------- CHANGE USERNAME FORM ---------- */
+      document.getElementById("changeUserSubmit").onclick = async () => {
+        const nu = document.getElementById("newUsername").value.trim();
+        if (!nu) return alert("Enter a new username");
+
+        const oldUsername = localStorage.getItem("username");
+
+        const res = await fetch("/api/change-username", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ oldUsername, newUsername: nu }),
+        });
+        const data = await res.json();
+        if (!data.success) return alert(data.message || "Error updating.");
+
+        alert("Username updated!");
+        localStorage.setItem("username", nu);
+      };
+
+      /* ---------- SPECIAL REQUEST FORM ---------- */
+      document.getElementById("srSubmit").onclick = async () => {
+        const room = document.getElementById("srRoom").value.trim();
+        const date = document.getElementById("srDate").value.trim();
+        const msg = document.getElementById("srMsg").value.trim();
+        const hrs = document.getElementById("srHours").value.trim();
+
+        const res = await fetch("/api/special-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            student: username,
+            room,
+            date,
+            message: msg,
+            hours: hrs,
+          }),
+        });
+
+        const data = await res.json();
+        if (!data.success) return alert(data.message || "Error sending.");
+        alert("Request sent!");
+      };
+
+      /* ---------- SIGN OUT ---------- */
+      document.getElementById("signOut").onclick = () => {
+        location.href = "index.html";
+      };
+
+      /* ---------- LOAD BOOKINGS / REQUESTS ---------- */
 
       function todayString() {
-        return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        return new Date().toISOString().slice(0, 10);
       }
 
       function formatTime(t) {
-        // t is "13:00" -> "1:00 pm"
-        const [hStr, mStr] = t.split(":");
-        let h = parseInt(hStr, 10);
-        const ampm = h >= 12 ? "pm" : "am";
-        if (h === 0) h = 12;
-        else if (h > 12) h -= 12;
-        return `${h}:${mStr} ${ampm}`;
+        const [h, m] = t.split(":");
+        let hh = parseInt(h, 10);
+        const ampm = hh >= 12 ? "pm" : "am";
+        if (hh === 0) hh = 12;
+        else if (hh > 12) hh -= 12;
+        return `${hh}:${m} ${ampm}`;
+      }
+      function timeRange(b) {
+        return `${formatTime(b.startTime)} – ${formatTime(b.endTime)}`;
       }
 
-      function formatBookingText(b) {
-        const start = formatTime(b.startTime);
-        const end = formatTime(b.endTime);
-        return `Time = ${start} - ${end} ${b.date} Room = ${b.room}`;
-      }
+      function loadAllData() {
+        fetch("/api/my-bookings?username=" + encodeURIComponent(username))
+          .then((res) => res.json())
+          .then((data) => {
+            const today = todayString();
+            const bookings = data.bookings || [];
 
-      async function loadUpcoming() {
-        upcomingListDiv.innerHTML = "";
+            const upcoming = [];
+            const past = [];
+            const cancelled = [];
 
-        try {
-          const res = await fetch(
-            "/api/my-bookings?username=" + encodeURIComponent(username)
-          );
-          const data = await res.json();
-          if (!data.success) {
-            upcomingListDiv.innerHTML =
-              "<p class='emptyMessage'>Could not load bookings.</p>";
-            return;
-          }
-
-          const today = todayString();
-          const upcoming = data.bookings
-            .filter((b) => b.date >= today)
-            .sort((a, b) => {
-              // sort by date then startTime
-              if (a.date !== b.date) return a.date.localeCompare(b.date);
-              return a.startTime.localeCompare(b.startTime);
+            bookings.forEach((b) => {
+              if (b.status?.startsWith("cancelled") || b.status === "denied") {
+                cancelled.push(b);
+              } else if (b.date >= today) {
+                upcoming.push(b);
+              } else {
+                past.push(b);
+              }
             });
 
-          if (!upcoming.length) {
-            upcomingListDiv.innerHTML =
-              "<p class='emptyMessage'>You currently have no upcoming appointments.</p>";
-            return;
-          }
-
-          upcoming.forEach((b) => {
-            const card = document.createElement("div");
-            card.className = "appointmentCard";
-
-            const metaSpan = document.createElement("span");
-            metaSpan.className = "appointmentMeta";
-            metaSpan.textContent = formatBookingText(b);
-
-            const actionsDiv = document.createElement("span");
-            actionsDiv.className = "appointmentActions";
-
-            // Cancelled because room removed
-            if (b.status === "cancelled_by_admin") {
-              card.classList.add("cancelledAdmin");
-              const note = document.createElement("div");
-              note.style.marginTop = "4px";
-              note.style.fontSize = "0.85rem";
-              note.textContent =
-                b.cancelReason ||
-                "This booking was cancelled because the resource was removed.";
-              card.appendChild(metaSpan);
-              card.appendChild(note);
-              upcomingListDiv.appendChild(card);
-              return;
-            }
-
-            // Normal / pending / approved bookings → show buttons
-            const resBtn = document.createElement("button");
-            resBtn.type = "button";
-            resBtn.className = "reschedule";
-            resBtn.textContent = "Reschedule";
-            resBtn.onclick = async () => {
-              // For now just go back to booking page
-              //location.href = "studentPage.html";
-              if (
-                !confirm(
-                  "Would you like to reschedule your booking? Your original booking will be cancelled."
-                )
-              ) {
-                return;
-              }
-
-              try {
-                const res = await fetch(`/api/bookings/${b.id}/cancel`, {
-                  method: "POST",
-                });
-
-                const data = await res.json();
-
-                if (!data.success) {
-                  alert(data.message || "Error cancelling booking.");
-                  return;
-                }
-
-                alert(
-                  "Your booking has been cancelled. Please select a new time from those available."
-                );
-
-                location.href = "studentPage.html";
-              } catch (err) {
-                console.error(err);
-                alert("Network error while cancelling booking.");
-              }
-            };
-
-            const cancelBtn = document.createElement("button");
-            cancelBtn.type = "button";
-            cancelBtn.className = "cancel";
-            cancelBtn.textContent = "Cancel";
-            cancelBtn.onclick = async () => {
-              if (!confirm("Cancel this appointment?")) return;
-              try {
-                const res = await fetch("/api/bookings/" + b.id + "/cancel", {
-                  method: "POST",
-                });
-                const d = await res.json();
-                if (!d.success) {
-                  alert(d.message || "Error cancelling booking.");
-                  return;
-                }
-                loadUpcoming();
-              } catch (err) {
-                console.error(err);
-                alert("Network error while cancelling.");
-              }
-            };
-
-            actionsDiv.appendChild(resBtn);
-            actionsDiv.appendChild(cancelBtn);
-
-            card.appendChild(metaSpan);
-            card.appendChild(actionsDiv);
-            upcomingListDiv.appendChild(card);
+            renderUpcoming(upcoming);
+            renderPast(past);
+            renderCancelled(cancelled);
           });
-        } catch (err) {
-          console.error(err);
-          upcomingListDiv.innerHTML =
-            "<p class='emptyMessage'>Network error while loading bookings.</p>";
-        }
+
+        fetch("/api/special-request/pending")
+          .then((res) => res.json())
+          .then((data) => {
+            const arr = (data.requests || []).filter(
+              (r) => r.student === username
+            );
+            renderPendingRequests(arr);
+          });
       }
 
-      loadUpcoming();
+      function renderUpcoming(arr) {
+        const tbody = document.getElementById("upcomingBody");
+        tbody.innerHTML = "";
+        if (!arr.length) {
+          tbody.innerHTML = `<tr class="empty-row"><td colspan="4">You currently have no upcoming appointments.</td></tr>`;
+          return;
+        }
+        arr.forEach((b) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${b.date}</td>
+      <td>${timeRange(b)}</td>
+      <td>${b.room}</td>
+      <td>
+        <button class="action-btn" onclick="reschedule(${
+          b.id
+        })">Reschedule</button>
+        <button class="action-btn action-btn-danger" onclick="cancelBooking(${
+          b.id
+        })">Cancel</button>
+      </td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function reschedule(id) {
+        if (
+          !confirm(
+            "Would you like to reschedule your booking? Your original booking will be cancelled."
+          )
+        )
+          return;
+        await fetch(`/api/bookings/${id}/cancel`, { method: "POST" });
+        alert("Your booking has been cancelled. Please select a new time.");
+        location.href = "studentPage.html";
+      }
+      async function cancelBooking(id) {
+        if (!confirm("Cancel this appointment?")) return;
+        await fetch(`/api/bookings/${id}/cancel`, { method: "POST" });
+        loadAllData();
+      }
+
+      function renderPast(arr) {
+        const tbody = document.getElementById("pastBody");
+        tbody.innerHTML = "";
+        if (!arr.length) {
+          tbody.innerHTML = `<tr class="empty-row"><td colspan="3">You have no past appointments yet.</td></tr>`;
+          return;
+        }
+        arr.forEach((b) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${b.date}</td><td>${timeRange(b)}</td><td>${
+            b.room
+          }</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderCancelled(arr) {
+        const sec = document.getElementById("cancelledSection");
+        const tbody = document.getElementById("cancelledBody");
+        tbody.innerHTML = "";
+        if (!arr.length) {
+          sec.classList.add("hidden");
+          return;
+        }
+        sec.classList.remove("hidden");
+
+        arr.forEach((b) => {
+          const reason =
+            b.cancelReason ||
+            "Time slot is no longer available for administrative reasons.";
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${b.date}</td>
+      <td>${timeRange(b)}</td>
+      <td>${b.room}</td>
+      <td>${reason}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function renderPendingRequests(arr) {
+        const sec = document.getElementById("pendingRequestsSection");
+        const tbody = document.getElementById("pendingRequestsBody");
+        tbody.innerHTML = "";
+        if (!arr.length) {
+          sec.classList.add("hidden");
+          return;
+        }
+        sec.classList.remove("hidden");
+        arr.forEach((r) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+      <td>${r.room}</td>
+      <td>${r.date}</td>
+      <td>${r.hours}</td>
+      <td>${r.message}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // expose for inline onclick
+      window.reschedule = reschedule;
+      window.cancelBooking = cancelBooking;
+
+      loadAllData();
     </script>
   </body>
 </html>
