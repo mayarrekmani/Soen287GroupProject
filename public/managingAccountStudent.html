@@ -208,6 +208,7 @@
         color: var(--text-dim);
         font-style: italic;
       }
+
       /* ACTION BUTTONS */
       .action-btn {
         border: 1px solid var(--brand-dark);
@@ -245,7 +246,7 @@
         gap: 16px;
       }
 
-      /* ===== FORM CARDS (RESET PASSWORD, CHANGE USERNAME, SPECIAL REQUESTS) ===== */
+      /* ===== FORM CARDS (CHANGE USERNAME, SPECIAL REQUESTS) ===== */
       .formCard {
         max-width: 450px;
         background: white;
@@ -305,7 +306,7 @@
         <button class="sidebar-link active" data-nav="overview">
           Bookings Overview & Requests
         </button>
-        <button class="sidebar-link" data-nav="reset">Reset Password</button>
+        <!-- Reset Password REMOVED -->
         <button class="sidebar-link" data-nav="changeUser">
           Change Username
         </button>
@@ -315,7 +316,9 @@
         <button class="sidebar-link" id="goBookings">
           Go to Bookings Page
         </button>
-        <button class="sidebar-link sidebar-link" id="signOut">Sign Out</button>
+        <button class="sidebar-link sidebar-link-danger" id="signOut">
+          Sign Out
+        </button>
       </aside>
 
       <!-- MAIN CONTENT -->
@@ -401,24 +404,6 @@
           </div>
         </div>
 
-        <!-- ===================== RESET PASSWORD SECTION ===================== -->
-        <div id="section-reset" class="hidden">
-          <div class="formCard">
-            <h2>Reset Password</h2>
-
-            <label>Email:</label>
-            <input type="text" id="resetEmail" placeholder="Enter email" />
-
-            <label>New Password:</label>
-            <input type="password" id="resetNewPass" />
-
-            <label>Confirm Password:</label>
-            <input type="password" id="resetConfirmPass" />
-
-            <button class="primaryBtn" id="resetSubmit">Submit</button>
-          </div>
-        </div>
-
         <!-- ===================== CHANGE USERNAME SECTION ===================== -->
         <div id="section-changeUser" class="hidden">
           <div class="formCard">
@@ -455,21 +440,21 @@
     </div>
 
     <script>
-      const username = localStorage.getItem("username") || "student";
+      // IMPORTANT: use the SAME key as studentPage
+      let username = localStorage.getItem("studentUsername") || "student";
       document.getElementById("displayName").textContent = username;
 
       /* ---------- SIDEBAR NAVIGATION ---------- */
       document.querySelectorAll(".sidebar-link[data-nav]").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
-            .querySelectorAll(".sidebar-link")
+            .querySelectorAll(".sidebar-link[data-nav]")
             .forEach((b) => b.classList.remove("active"));
           btn.classList.add("active");
 
           const target = btn.getAttribute("data-nav");
 
           document.getElementById("section-overview").classList.add("hidden");
-          document.getElementById("section-reset").classList.add("hidden");
           document.getElementById("section-changeUser").classList.add("hidden");
           document.getElementById("section-specialReq").classList.add("hidden");
 
@@ -477,8 +462,6 @@
             document
               .getElementById("section-overview")
               .classList.remove("hidden");
-          if (target === "reset")
-            document.getElementById("section-reset").classList.remove("hidden");
           if (target === "changeUser")
             document
               .getElementById("section-changeUser")
@@ -487,6 +470,9 @@
             document
               .getElementById("section-specialReq")
               .classList.remove("hidden");
+
+          // reload data every time you switch tabs so it's always fresh
+          loadAllData();
         });
       });
 
@@ -495,33 +481,12 @@
         location.href = "studentPage.html";
       };
 
-      /* ---------- RESET PASSWORD FORM ---------- */
-      document.getElementById("resetSubmit").onclick = async () => {
-        const email = document.getElementById("resetEmail").value.trim();
-        const newPass = document.getElementById("resetNewPass").value.trim();
-        const confirm = document
-          .getElementById("resetConfirmPass")
-          .value.trim();
-
-        if (!email || !newPass || !confirm) return alert("All fields required");
-        if (newPass !== confirm) return alert("Passwords do not match");
-
-        const res = await fetch("/api/reset-password-simple", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, newPassword: newPass }),
-        });
-        const data = await res.json();
-        if (!data.success) return alert(data.message || "Could not reset.");
-        alert("Password updated!");
-      };
-
       /* ---------- CHANGE USERNAME FORM ---------- */
       document.getElementById("changeUserSubmit").onclick = async () => {
         const nu = document.getElementById("newUsername").value.trim();
         if (!nu) return alert("Enter a new username");
 
-        const oldUsername = localStorage.getItem("username");
+        const oldUsername = username;
 
         const res = await fetch("/api/change-username", {
           method: "POST",
@@ -532,7 +497,17 @@
         if (!data.success) return alert(data.message || "Error updating.");
 
         alert("Username updated!");
+        document.getElementById("newUsername").value = "";
+
+        // update local and UI
+        username = nu;
+        localStorage.setItem("studentUsername", nu);
+        // if you ever stored 'username' elsewhere, keep it in sync too:
         localStorage.setItem("username", nu);
+        document.getElementById("displayName").textContent = nu;
+
+        // reload bookings / requests under new name
+        loadAllData();
       };
 
       /* ---------- SPECIAL REQUEST FORM ---------- */
@@ -739,6 +714,7 @@
       window.reschedule = reschedule;
       window.cancelBooking = cancelBooking;
 
+      // initial load
       loadAllData();
     </script>
   </body>

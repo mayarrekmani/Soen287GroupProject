@@ -647,6 +647,59 @@ app.get("/api/admin/stats", (req, res) => {
     todayTotal,
   });
 });
+app.post("/api/change-username", (req, res) => {
+  const { oldUsername, newUsername } = req.body;
+
+  if (!oldUsername || !newUsername) {
+    return res.json({
+      success: false,
+      message: "Old and new username are required.",
+    });
+  }
+
+  if (oldUsername === newUsername) {
+    return res.json({
+      success: false,
+      message: "New username must be different.",
+    });
+  }
+
+  // Check if new username already exists
+  if (users.find((u) => u.username === newUsername)) {
+    return res.json({
+      success: false,
+      message: "That username is already taken.",
+    });
+  }
+
+  const user = users.find((u) => u.username === oldUsername);
+  if (!user) {
+    return res.json({
+      success: false,
+      message: "Original user not found.",
+    });
+  }
+
+  // Update user
+  user.username = newUsername;
+
+  // Update all bookings under that username
+  bookings.forEach((b) => {
+    if (b.username === oldUsername) {
+      b.username = newUsername;
+    }
+  });
+
+  // Update all special requests under that username
+  specialRequests.forEach((r) => {
+    if (r.student === oldUsername) {
+      r.student = newUsername;
+    }
+  });
+
+  return res.json({ success: true });
+});
+
 
 // ===== Start =====
 

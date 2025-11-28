@@ -178,7 +178,8 @@
         display: block;
         font-size: 0.9rem;
       }
-      .formCard input {
+      .formCard input,
+      .formCard select {
         width: 100%;
         margin-top: 6px;
         padding: 6px 8px;
@@ -202,6 +203,13 @@
       .primaryBtn:hover {
         background: var(--brand-dark-hover);
         box-shadow: 0 4px 10px rgba(68, 0, 23, 0.4);
+      }
+
+      /* smaller inline buttons for schedule area */
+      .primaryBtn-small {
+        width: auto;
+        padding-inline: 16px;
+        display: inline-block;
       }
 
       /* Tables */
@@ -384,6 +392,26 @@
       .chartCard canvas {
         max-width: 100%;
       }
+
+      /* Make Working Hours / Exceptions more vertical & narrower */
+      #section-schedule .card {
+        max-width: 640px;
+      }
+      #section-schedule .card label {
+        display: block;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      #section-schedule .card select,
+      #section-schedule .card input[type="date"] {
+        margin-top: 6px;
+        max-width: 260px;
+        width: 100%;
+        padding: 6px 8px;
+        border-radius: 6px;
+        border: 1px solid #bbb;
+        font-size: 0.9rem;
+      }
     </style>
   </head>
 
@@ -400,13 +428,13 @@
           Resources
         </button>
         <button class="sidebar-link" data-section="schedule">
-          Working Hours & Exceptions
+          Working Hours &amp; Exceptions
         </button>
         <button class="sidebar-link" data-section="approvals">
           Special Request Approvals
         </button>
         <button class="sidebar-link" data-section="stats">
-          Statistics & Reports
+          Statistics &amp; Reports
         </button>
 
         <button
@@ -430,28 +458,19 @@
         <section id="section-resources">
           <div class="formCard">
             <h3>Add New Resource</h3>
-            <label>Name:</label>
-            <input id="rName" />
 
-            <label>Description:</label>
-            <select id="rDesc">
+            <!-- ROOM TYPE (replaces Description selector) -->
+            <label>Room type:</label>
+            <select id="roomType">
               <option value="">Select a type…</option>
-              <option
-                value="Study room with tables and whiteboards for small quiet group work."
-              >
-                Study room
-              </option>
-              <option
-                value="Computer lab equipped with workstations suitable for tutorials, labs, and software-based work."
-              >
-                Computer lab
-              </option>
-              <option
-                value="Conference room with a central table, presentation screen, and seating for meetings."
-              >
-                Conference room
-              </option>
+              <option value="study">Study room</option>
+              <option value="lab">Computer lab</option>
+              <option value="conference">Conference room</option>
             </select>
+
+            <!-- LABEL WILL BE APPENDED TO TYPE, e.g. "Study Room A" -->
+            <label>Room label (e.g., A, B, 101):</label>
+            <input id="rLabel" />
 
             <label>Location:</label>
             <input id="rLoc" />
@@ -495,13 +514,13 @@
             <label>Week starting date</label>
             <input id="weekStart" type="date" />
 
-            <button id="createWeek" class="primaryBtn" type="button">
+            <button id="createWeek" class="primaryBtn inline" type="button">
               Create Working Hours for 4 Weeks
             </button>
           </div>
 
           <div class="card">
-            <h2>Exceptions (Per Room & Date)</h2>
+            <h2>Exceptions (Per Room &amp; Date)</h2>
             <p class="content-subtitle">
               Override the schedule for a specific date. Click orange slots to
               turn them green (available).
@@ -513,7 +532,7 @@
             <label>Exception date</label>
             <input id="exceptionDate" type="date" />
 
-            <button id="loadException" class="primaryBtn" type="button">
+            <button id="loadException" class="primaryBtn inline" type="button">
               Load Slots
             </button>
 
@@ -521,7 +540,7 @@
 
             <button
               id="saveException"
-              class="primaryBtn"
+              class="primaryBtn inline"
               type="button"
               style="display: none; margin-top: 14px"
             >
@@ -542,7 +561,7 @@
             <label>Blackout date</label>
             <input id="blackoutDate" type="date" />
 
-            <button id="addBlackoutBtn" class="primaryBtn" type="button">
+            <button id="addBlackoutBtn" class="primaryBtn inline" type="button">
               Add Blackout Date
             </button>
 
@@ -564,7 +583,7 @@
         <!-- ============== STATISTICS & REPORTS ============== -->
         <section id="section-stats" class="hidden">
           <div class="card">
-            <h2>Statistics & Reports</h2>
+            <h2>Statistics &amp; Reports</h2>
             <p class="content-subtitle">
               Daily totals, most used rooms, and popular time slots for
               bookings.
@@ -614,6 +633,21 @@
         document.getElementById("displayName").textContent = username;
       })();
 
+      // ====== ROOM TYPE → NAME + DESCRIPTION HELPERS ======
+      const ROOM_TYPE_PREFIX = {
+        study: "Study Room",
+        lab: "Computer Lab",
+        conference: "Conference Room",
+      };
+
+      const ROOM_TYPE_DESCRIPTION = {
+        study:
+          "Study room with tables and whiteboards for small quiet group work.",
+        lab: "Computer lab equipped with workstations suitable for tutorials, labs, and software-based work.",
+        conference:
+          "Conference room with a central table, presentation screen, and seating for meetings.",
+      };
+
       // ====== SIDEBAR NAVIGATION ======
       const sectionIds = ["resources", "schedule", "approvals", "stats"];
 
@@ -635,6 +669,19 @@
               if (id === target) el.classList.remove("hidden");
               else el.classList.add("hidden");
             });
+
+            // refresh data when switching sections so it's always up to date
+            if (target === "resources") {
+              loadResources();
+              loadRoomsIntoSelects();
+            } else if (target === "schedule") {
+              loadRoomsIntoSelects();
+              loadBlackouts();
+            } else if (target === "approvals") {
+              loadSpecialRequestsAdmin();
+            } else if (target === "stats") {
+              getStatsAndFill();
+            }
           });
         });
 
@@ -697,15 +744,21 @@
 
       // Add resource
       document.getElementById("addResource").onclick = async () => {
-        const name = document.getElementById("rName").value.trim();
-        const desc = document.getElementById("rDesc").value.trim();
+        const type = document.getElementById("roomType").value;
+        const label = document.getElementById("rLabel").value.trim();
         const loc = document.getElementById("rLoc").value.trim();
         const cap = document.getElementById("rCap").value.trim();
 
-        if (!name || !loc || !cap) {
-          alert("Please fill in name, location, and capacity.");
+        if (!type || !label || !loc || !cap) {
+          alert(
+            "Please pick a room type, enter a label, location, and capacity."
+          );
           return;
         }
+
+        const prefix = ROOM_TYPE_PREFIX[type];
+        const desc = ROOM_TYPE_DESCRIPTION[type] || "";
+        const name = prefix + " " + label; // e.g. "Study Room A"
 
         const res = await fetch("/api/admin/resources", {
           method: "POST",
@@ -725,12 +778,13 @@
         }
 
         // clear inputs
-        document.getElementById("rName").value = "";
-        document.getElementById("rDesc").value = "";
+        document.getElementById("roomType").value = "";
+        document.getElementById("rLabel").value = "";
         document.getElementById("rLoc").value = "";
         document.getElementById("rCap").value = "";
 
         loadResources();
+        loadRoomsIntoSelects();
       };
 
       async function delResource(name) {
@@ -746,6 +800,7 @@
         });
 
         loadResources();
+        loadRoomsIntoSelects();
       }
 
       async function toggleBlock(name) {
@@ -760,6 +815,7 @@
           return;
         }
         loadResources();
+        loadRoomsIntoSelects();
       }
 
       // EDIT RESOURCE: name, description, location, capacity
@@ -806,10 +862,11 @@
         }
 
         loadResources();
+        loadRoomsIntoSelects();
       }
 
       // =========================================================
-      //               WORKING HOURS / EXCEPTIONS / BLACKOUTS
+      //          WORKING HOURS / EXCEPTIONS / BLACKOUTS
       // =========================================================
       const roomSelectBase = document.getElementById("roomSelectBase");
       const roomSelectException = document.getElementById(
@@ -1011,7 +1068,7 @@
         });
 
         exceptionSlotsContainer.appendChild(row);
-        saveExceptionBtn.style.display = "inline-block";
+        saveExceptionBtn.style.display = "inline-flex";
       }
 
       document
@@ -1191,7 +1248,6 @@
         list.innerHTML = "";
 
         try {
-          // no specific admin filter → any admin can see all pending
           const res = await fetch("/api/special-request/pending");
           const data = await res.json();
 
